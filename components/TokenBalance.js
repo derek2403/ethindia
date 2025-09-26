@@ -42,10 +42,7 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts 
     });
   
     const handleSliderChange = (tokenSymbol, value) => {
-      setTransferAmounts(prev => ({
-        ...prev,
-        [tokenSymbol]: value
-      }));
+      setTransferAmounts(prev => ({ ...prev, [tokenSymbol]: value }));
     };
   
     const formatBalance = (balance, decimals) => {
@@ -58,6 +55,7 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts 
     return (
       <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold mb-6 text-gray-800">Token Balances & Transfer</h2>
+        
         <div className="space-y-6">
           {TOKENS.map(token => {
             const balance = balances[token.symbol];
@@ -68,12 +66,8 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts 
             return (
               <div key={token.symbol} className="border border-gray-200 rounded-lg p-4">
                 <div className="flex justify-between items-center mb-3">
-                  <label className="text-sm font-medium text-gray-700">
-                    Transfer Amount
-                  </label>
-                  <span className="text-sm text-gray-600">
-                    {transferAmount.toFixed(4)} {token.symbol}
-                  </span>
+                  <label>Transfer Amount</label>
+                  <span>{transferAmount.toFixed(4)} {token.symbol}</span>
                 </div>
                 <input
                   type="range"
@@ -85,9 +79,47 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts 
                   disabled={balanceNum === 0}
                   className="w-full"
                 />
+                <div className="flex gap-2 mt-2">
+                  {[25, 50, 75, 100].map(p => (
+                    <button
+                      key={p}
+                      onClick={() => handleSliderChange(token.symbol, (balanceNum * p) / 100)}
+                      disabled={balanceNum === 0}
+                      className="px-3 py-1 text-xs bg-gray-100 rounded"
+                    >
+                      {p}%
+                    </button>
+                  ))}
+                </div>
+                {transferAmount > 0 && (
+                  <div className="mt-2 text-sm text-blue-600">
+                    Selected: {transferAmount.toFixed(4)} {token.symbol} 
+                    ({((transferAmount / balanceNum) * 100).toFixed(1)}%)
+                  </div>
+                )}
               </div>
             );
           })}
+        </div>
+  
+        {/* Transfer Summary */}
+        <div className="mt-8 p-4 bg-gray-50 rounded-lg">
+          <h3 className="font-semibold mb-3">Transfer Summary</h3>
+          <div className="space-y-2">
+            {Object.entries(transferAmounts).map(([symbol, amount]) =>
+              amount > 0 ? (
+                <div key={symbol} className="flex justify-between text-sm">
+                  <span>{symbol}:</span>
+                  <span className="font-medium">{amount.toFixed(4)}</span>
+                </div>
+              ) : null
+            )}
+            {Object.values(transferAmounts).every(amount => !amount || amount === 0) && (
+              <p className="text-gray-500 text-sm text-center">
+                No tokens selected for transfer
+              </p>
+            )}
+          </div>
         </div>
       </div>
     );
