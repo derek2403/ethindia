@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { useSendCalls, useAccount, useBalance } from 'wagmi';
+import { useCapabilities, useSendCalls, useAccount, useBalance } from 'wagmi';
 import { parseEther } from 'viem';
 
 export default function AtomicTransfer() {
   const { address, isConnected } = useAccount();
   const { data: balance } = useBalance({ address });
+  const { data: capabilities } = useCapabilities();
   const { sendCalls, isPending, error } = useSendCalls();
 
   const [txResult, setTxResult] = useState(null);
@@ -45,7 +46,28 @@ export default function AtomicTransfer() {
         },
       ];
 
-      const result = await sendCalls({ calls });
+      // Capabilities check
+      let callCapabilities = {};
+      if (capabilities) {
+        const hasAtomicSupport = Object.values(capabilities).some(
+          (chainCaps) =>
+            chainCaps.atomic === true ||
+            (typeof chainCaps.atomic === 'object' &&
+              chainCaps.atomic.supported)
+        );
+        if (hasAtomicSupport) {
+          callCapabilities.atomic = { required: true };
+        }
+      }
+
+      const result = await sendCalls({
+        calls,
+        capabilities:
+          Object.keys(callCapabilities).length > 0
+            ? callCapabilities
+            : undefined,
+      });
+
       setTxResult({ success: true, id: result });
     } catch (err) {
       console.error('Transfer failed:', err);
@@ -80,15 +102,28 @@ export default function AtomicTransfer() {
         </p>
       </div>
 
-      {/* Transfer button */}
+      {/* EIP-5792 Support Status */}
+      <div className="mb-4 p-3 rounded-lg text-sm">
+        {capabilities && Object.keys(capabilities).length > 0 ? (
+          <div className="bg-green-50 text-green-700">
+            ✅ EIP-5792 capabilities detected - Atomic transfers supported
+          </div>
+        ) : (
+          <div className="bg-yellow-50 text-yellow-700">
+            ⚠️ No EIP-5792 capabilities detected - Will attempt regular batch
+            transfer
+          </div>
+        )}
+      </div>
+
       <button
         onClick={handleTransfer}
         disabled={isLoading || isPending}
         className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium rounded-lg transition-colors duration-200"
       >
         {isLoading || isPending
-          ? 'Sending Transfer...'
-          : 'Send ETH + ERC20 Transfer'}
+          ? 'Sending Atomic Transfer...'
+          : 'Send Atomic Transfer'}
       </button>
 
       {error && (
