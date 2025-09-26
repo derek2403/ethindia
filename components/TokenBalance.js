@@ -32,65 +32,63 @@ const TOKENS = [
   }
 ];
 
-export default function TokenBalance() {
-  const { address, isConnected } = useAccount();
-
-  // Fetch balances
-  const balances = {};
-  TOKENS.forEach(token => {
-    const { data: balance } = useBalance({
-      address,
-      token: token.address,
+export default function TokenBalance({ transferAmounts = {}, setTransferAmounts }) {
+    const { address, isConnected } = useAccount();
+  
+    const balances = {};
+    TOKENS.forEach(token => {
+      const { data: balance } = useBalance({ address, token: token.address });
+      balances[token.symbol] = balance;
     });
-    balances[token.symbol] = balance;
-  });
-
-  const formatBalance = (balance, decimals) => {
-    if (!balance) return '0.00';
-    const formatted = formatUnits(balance.value, decimals);
-    return parseFloat(formatted).toFixed(4);
-  };
-
-  if (!isConnected) {
+  
+    const handleSliderChange = (tokenSymbol, value) => {
+      setTransferAmounts(prev => ({
+        ...prev,
+        [tokenSymbol]: value
+      }));
+    };
+  
+    const formatBalance = (balance, decimals) => {
+      if (!balance) return '0.00';
+      return parseFloat(formatUnits(balance.value, decimals)).toFixed(4);
+    };
+  
+    if (!isConnected) return <p>Please connect your wallet</p>;
+  
     return (
-      <div className="p-6 max-w-2xl mx-auto bg-yellow-50 rounded-lg border border-yellow-200">
-        <p className="text-yellow-800 text-center">
-          Please connect your wallet to view token balances
-        </p>
+      <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">Token Balances & Transfer</h2>
+        <div className="space-y-6">
+          {TOKENS.map(token => {
+            const balance = balances[token.symbol];
+            const balanceFormatted = formatBalance(balance, token.decimals);
+            const balanceNum = parseFloat(balanceFormatted);
+            const transferAmount = transferAmounts[token.symbol] || 0;
+  
+            return (
+              <div key={token.symbol} className="border border-gray-200 rounded-lg p-4">
+                <div className="flex justify-between items-center mb-3">
+                  <label className="text-sm font-medium text-gray-700">
+                    Transfer Amount
+                  </label>
+                  <span className="text-sm text-gray-600">
+                    {transferAmount.toFixed(4)} {token.symbol}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max={balanceNum}
+                  step={balanceNum / 1000}
+                  value={transferAmount}
+                  onChange={(e) => handleSliderChange(token.symbol, parseFloat(e.target.value))}
+                  disabled={balanceNum === 0}
+                  className="w-full"
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }
-
-  return (
-    <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Token Balances & Transfer</h2>
-      
-      <div className="space-y-6">
-        {TOKENS.map(token => {
-          const balance = balances[token.symbol];
-          const balanceFormatted = formatBalance(balance, token.decimals);
-
-          return (
-            <div key={token.symbol} className="border border-gray-200 rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <img src={token.logo} alt={token.name} className="w-10 h-10 rounded-full" />
-                  <div>
-                    <h3 className="font-semibold text-lg">{token.name}</h3>
-                    <p className="text-sm text-gray-600">{token.symbol}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-lg font-semibold">
-                    {balanceFormatted} {token.symbol}
-                  </p>
-                  <p className="text-sm text-gray-600">Available Balance</p>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
