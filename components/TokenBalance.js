@@ -1,11 +1,11 @@
-import { useAccount } from 'wagmi';
+import { useAccount, useBalance } from 'wagmi';
+import { formatUnits } from 'viem';
 
-// Token configurations for Sepolia testnet
 const TOKENS = [
   {
     symbol: 'ETH',
     name: 'Ethereum',
-    address: null, // Native ETH
+    address: null,
     decimals: 18,
     logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png'
   },
@@ -35,6 +35,22 @@ const TOKENS = [
 export default function TokenBalance() {
   const { address, isConnected } = useAccount();
 
+  // Fetch balances
+  const balances = {};
+  TOKENS.forEach(token => {
+    const { data: balance } = useBalance({
+      address,
+      token: token.address,
+    });
+    balances[token.symbol] = balance;
+  });
+
+  const formatBalance = (balance, decimals) => {
+    if (!balance) return '0.00';
+    const formatted = formatUnits(balance.value, decimals);
+    return parseFloat(formatted).toFixed(4);
+  };
+
   if (!isConnected) {
     return (
       <div className="p-6 max-w-2xl mx-auto bg-yellow-50 rounded-lg border border-yellow-200">
@@ -50,21 +66,30 @@ export default function TokenBalance() {
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Token Balances & Transfer</h2>
       
       <div className="space-y-6">
-        {TOKENS.map(token => (
-          <div key={token.symbol} className="border border-gray-200 rounded-lg p-4">
-            <div className="flex items-center gap-3">
-              <img 
-                src={token.logo} 
-                alt={token.name}
-                className="w-10 h-10 rounded-full"
-              />
-              <div>
-                <h3 className="font-semibold text-lg">{token.name}</h3>
-                <p className="text-sm text-gray-600">{token.symbol}</p>
+        {TOKENS.map(token => {
+          const balance = balances[token.symbol];
+          const balanceFormatted = formatBalance(balance, token.decimals);
+
+          return (
+            <div key={token.symbol} className="border border-gray-200 rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <img src={token.logo} alt={token.name} className="w-10 h-10 rounded-full" />
+                  <div>
+                    <h3 className="font-semibold text-lg">{token.name}</h3>
+                    <p className="text-sm text-gray-600">{token.symbol}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-semibold">
+                    {balanceFormatted} {token.symbol}
+                  </p>
+                  <p className="text-sm text-gray-600">Available Balance</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
