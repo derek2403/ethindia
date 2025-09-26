@@ -120,8 +120,12 @@ export default function AtomicTransfer({ transferAmounts = {} }) {
     );
   }
 
+  // Calculate total tokens to transfer
+  const tokensToTransfer = Object.entries(transferAmounts).filter(([symbol, amount]) => amount > 0);
+  const hasTokensSelected = tokensToTransfer.length > 0;
+
   return (
-    <div className="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-lg">
+    <div className="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-lg mt-6">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Atomic Transfer</h2>
 
       <div className="mb-6 p-4 bg-gray-50 rounded-lg">
@@ -133,6 +137,28 @@ export default function AtomicTransfer({ transferAmounts = {} }) {
             ? `${parseFloat(balance.formatted).toFixed(4)} ${balance.symbol}`
             : 'Loading...'}
         </p>
+      </div>
+
+      {/* Transfer Summary */}
+      <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+        <h3 className="text-lg font-semibold mb-3 text-blue-800">Transfer Summary</h3>
+        {hasTokensSelected ? (
+          <div className="space-y-2">
+            {tokensToTransfer.map(([symbol, amount]) => (
+              <div key={symbol} className="flex justify-between text-sm">
+                <span className="text-blue-700">{symbol}:</span>
+                <span className="font-medium text-blue-800">{amount.toFixed(4)}</span>
+              </div>
+            ))}
+            <div className="pt-2 border-t border-blue-300">
+              <p className="text-xs text-blue-600">
+                Recipient: 0x3C1e...1Cf0A
+              </p>
+            </div>
+          </div>
+        ) : (
+          <p className="text-blue-600 text-sm">No tokens selected for transfer. Use the sliders above to choose amounts.</p>
+        )}
       </div>
 
       {/* EIP-5792 Support Status */}
