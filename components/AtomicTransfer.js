@@ -177,12 +177,14 @@ export default function AtomicTransfer({ transferAmounts = {} }) {
 
       <button
         onClick={handleTransfer}
-        disabled={isLoading || isPending}
+        disabled={isLoading || isPending || !hasTokensSelected}
         className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium rounded-lg transition-colors duration-200"
       >
         {isLoading || isPending
           ? 'Sending Atomic Transfer...'
-          : 'Send Atomic Transfer'}
+          : !hasTokensSelected
+          ? 'Select tokens to transfer'
+          : `Send Atomic Transfer (${tokensToTransfer.length} token${tokensToTransfer.length !== 1 ? 's' : ''})`}
       </button>
 
       {error && (
