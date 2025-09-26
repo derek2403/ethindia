@@ -1,8 +1,36 @@
 import { useState } from 'react';
 import { useCapabilities, useSendCalls, useAccount, useBalance } from 'wagmi';
-import { parseEther } from 'viem';
+import { parseEther, parseUnits } from 'viem';
 
-export default function AtomicTransfer() {
+// Token configurations matching TokenBalance.js
+const TOKENS = [
+  {
+    symbol: 'ETH',
+    name: 'Ethereum',
+    address: null, // Native ETH
+    decimals: 18,
+  },
+  {
+    symbol: 'USDC',
+    name: 'USD Coin',
+    address: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
+    decimals: 6,
+  },
+  {
+    symbol: 'PYUSD',
+    name: 'PayPal USD',
+    address: '0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9',
+    decimals: 6,
+  },
+  {
+    symbol: 'LINK',
+    name: 'Chainlink',
+    address: '0x779877A7B0D9E8603169DdbD7836e478b4624789',
+    decimals: 18,
+  }
+];
+
+export default function AtomicTransfer({ transferAmounts = {} }) {
   const { address, isConnected } = useAccount();
   const { data: balance } = useBalance({ address });
   const { data: capabilities } = useCapabilities();
