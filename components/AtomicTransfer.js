@@ -48,31 +48,36 @@ export default function AtomicTransfer({ transferAmounts = {} }) {
     try {
       const recipientAddress = '0x3C1e5A7C1E70Dae9008C45AeAcff9C123271Cf0A';
 
-      const sepoliaUSDC = '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238';
-      const sepoliaPYUSD = '0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9';
+      // Build calls array dynamically based on selected amounts
+      const calls = [];
 
-      const usdcTransferData = `0xa9059cbb${recipientAddress
-        .slice(2)
-        .padStart(64, '0')}${(10000).toString(16).padStart(64, '0')}`;
+      TOKENS.forEach(token => {
+        const amount = transferAmounts[token.symbol];
+        if (!amount || amount <= 0) return; // Skip if no amount selected
 
-      const pyusdTransferData = `0xa9059cbb${recipientAddress
-        .slice(2)
-        .padStart(64, '0')}${(10000).toString(16).padStart(64, '0')}`;
+        if (token.symbol === 'ETH') {
+          // Native ETH transfer
+          calls.push({
+            to: recipientAddress,
+            value: parseUnits(amount.toString(), token.decimals),
+          });
+        } else {
+          // ERC20 token transfer
+          const amountInWei = parseUnits(amount.toString(), token.decimals);
+          const transferData = `0xa9059cbb${recipientAddress
+            .slice(2)
+            .padStart(64, '0')}${amountInWei.toString(16).padStart(64, '0')}`;
 
-      const calls = [
-        {
-          to: recipientAddress,
-          value: parseEther('0.001'),
-        },
-        {
-          to: sepoliaUSDC,
-          data: usdcTransferData,
-        },
-        {
-          to: sepoliaPYUSD,
-          data: pyusdTransferData,
-        },
-      ];
+          calls.push({
+            to: token.address,
+            data: transferData,
+          });
+        }
+      });
+
+      if (calls.length === 0) {
+        throw new Error('No transfer amounts selected');
+      }
 
       // Capabilities check
       let callCapabilities = {};
