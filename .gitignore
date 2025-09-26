@@ -42,3 +42,5 @@ next-env.d.ts
 
 # mcp server
 .cursor
+
+package-lock.json
