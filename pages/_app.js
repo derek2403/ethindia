@@ -12,6 +12,7 @@ import {
   optimism,
   arbitrum,
   base,
+  sepolia,
 } from 'wagmi/chains';
 import {
   QueryClientProvider,
@@ -20,7 +21,7 @@ import {
 
 const config = getDefaultConfig({
   appName: 'ethindia',
-  projectId: '',
+  projectId: '1',
   chains: [mainnet, polygon, optimism, arbitrum, base, sepolia],
   ssr: true,
 });
