@@ -71,37 +71,31 @@ const QRDisplay = ({
                 </div>
                 <h3 className="font-semibold text-base text-white/90">Portfolio Summary</h3>
               </div>
-              <div className="space-y-3 mb-3">
-                {Object.entries(selectedChains).map(([chain, tokens]) => {
-                  const chainInfo = chains.find(c => c.id === chain)
-                  const tokenCount = Object.keys(tokens).length
-                  
-                  return (
-                    <div 
-                      key={chain} 
-                      className="bg-white/5 border border-white/20 p-2.5 rounded-lg backdrop-blur-sm transition-all duration-200 inline-block"
-                    >
-                      <div className="flex gap-2.5">
-                        {Object.entries(tokens).map(([token, allocation]) => {
-                          const tokenInfo = tokensByChain[chain]?.find(t => t.name === token)
-                          return (
-                            <div key={token} className="relative flex flex-col items-center">
-                              <TokenWithChain 
-                                tokenSrc={tokenInfo?.icon || '/icons/ethereum-eth-logo.svg'}
-                                chainSrc={chainInfo?.icon || '/icons/ethereum-eth-logo.svg'}
-                                tokenAlt={`${token} ${allocation}%`}
-                                chainAlt={chainInfo?.name || chain}
-                              />
-                              <div className="mt-1 bg-black/80 rounded-full px-1.5 py-0.5 border border-white/20">
-                                <span className="text-white text-[10px] font-medium">{allocation}%</span>
-                              </div>
+              <div className="mb-3">
+                <div className="bg-white/5 border border-white/20 p-2.5 rounded-lg backdrop-blur-sm">
+                  <div className="flex flex-wrap gap-2.5 justify-center">
+                    {Object.entries(selectedChains).map(([chain, tokens]) => {
+                      const chainInfo = chains.find(c => c.id === chain)
+                      
+                      return Object.entries(tokens).map(([token, allocation]) => {
+                        const tokenInfo = tokensByChain[chain]?.find(t => t.name === token)
+                        return (
+                          <div key={`${chain}-${token}`} className="relative flex flex-col items-center">
+                            <TokenWithChain 
+                              tokenSrc={tokenInfo?.icon || '/icons/ethereum-eth-logo.svg'}
+                              chainSrc={chainInfo?.icon || '/icons/ethereum-eth-logo.svg'}
+                              tokenAlt={`${token} ${allocation}%`}
+                              chainAlt={chainInfo?.name || chain}
+                            />
+                            <div className="mt-1 bg-black/80 rounded-full px-1.5 py-0.5 border border-white/20">
+                              <span className="text-white text-[10px] font-medium">{allocation}%</span>
                             </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  )
-                })}
+                          </div>
+                        )
+                      })
+                    }).flat()}
+                  </div>
+                </div>
               </div>
               <div className="flex justify-between items-center pt-3 border-t border-white/20">
                 <span className="font-semibold text-white/90 text-sm">Total Allocation:</span>
