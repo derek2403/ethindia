@@ -1,296 +1,62 @@
-import { useState, useEffect } from 'react';
-import { useAccount, useWriteContract, useReadContract, useChainId, useSwitchChain } from 'wagmi';
-import { parseEther, parseUnits, formatEther, isAddress, maxUint256 } from 'viem';
+import { useState } from 'react';
+import { useAccount } from 'wagmi';
+import { formatEther } from 'viem';
 import { Header } from '../components/Header';
-import ABI from '../lib/ABI.json';
-import { CHAIN_CONFIGS, getChainConfig, getAllTokensForChain } from '../lib/chainConfigs';
+import { CHAIN_CONFIGS } from '../lib/chainConfigs';
+import { useChainManager } from '../hooks/useChainManager';
+import { useEscrowView } from '../hooks/useEscrowView';
+import { useEscrowDeposit } from '../hooks/useEscrowDeposit';
+import { useEscrowWithdraw } from '../hooks/useEscrowWithdraw';
 
 const ETH_ADDRESS = '0x0000000000000000000000000000000000000000';
 
-// Extended ERC20 ABI with decimals
-const ERC20_ABI = [
-  {
-    "inputs": [
-      {"internalType": "address", "name": "spender", "type": "address"},
-      {"internalType": "uint256", "name": "amount", "type": "uint256"}
-    ],
-    "name": "approve",
-    "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "decimals",
-    "outputs": [{"internalType": "uint8", "name": "", "type": "uint8"}],
-    "stateMutability": "view",
-    "type": "function"
-  }
-];
-
 export default function Escrow() {
   const { address, isConnected } = useAccount();
-  const currentChainId = useChainId();
-  const { switchChain } = useSwitchChain();
-  const [selectedChainId, setSelectedChainId] = useState(11155111); // Default to Ethereum Sepolia
-  const [merchantAddress, setMerchantAddress] = useState('');
-  const [viewAddress, setViewAddress] = useState('');
   const [activeTab, setActiveTab] = useState('deposit');
   
-  // Get current chain config and contract address
-  const selectedChainConfig = getChainConfig(selectedChainId);
-  const contractAddress = selectedChainConfig?.escrowAddress;
-  const availableTokens = getAllTokensForChain(selectedChainId);
-  
-  // Multi-token deposit state
-  const [tokenSelections, setTokenSelections] = useState([
-    { 
-      id: 1, 
-      tokenAddress: ETH_ADDRESS, 
-      amount: '', 
-      customTokenAddress: '', 
-      tokenDecimals: 18 
-    }
-  ]);
+  // Chain management hook
+  const {
+    currentChainId,
+    selectedChainId,
+    selectedChainConfig,
+    contractAddress,
+    availableTokens,
+    handleChainSwitch,
+    isChainMismatch
+  } = useChainManager();
 
-  // Update selected chain when wallet chain changes
-  useEffect(() => {
-    if (currentChainId && CHAIN_CONFIGS.find(c => c.chainId === currentChainId)) {
-      setSelectedChainId(currentChainId);
-    }
-  }, [currentChainId]);
+  // View escrow hook
+  const {
+    viewAddress,
+    setViewAddress,
+    escrowData,
+    refetchEscrow,
+    isLoading: isViewLoading,
+    hasBalances
+  } = useEscrowView(contractAddress);
 
-  // Reset token selections when chain changes
-  useEffect(() => {
-    const nativeToken = availableTokens.find(t => t.isNative);
-    setTokenSelections([
-      { 
-        id: 1, 
-        tokenAddress: nativeToken?.address || ETH_ADDRESS, 
-        amount: '', 
-        customTokenAddress: '', 
-        tokenDecimals: nativeToken?.decimals || 18 
-      }
-    ]);
-  }, [selectedChainId]);
+  // Deposit hook
+  const {
+    merchantAddress,
+    setMerchantAddress,
+    tokenSelections,
+    addTokenSelection,
+    removeTokenSelection,
+    updateTokenSelection,
+    getCurrentTokenAddress,
+    handleDeposit,
+    handleApprove,
+    handleApproveAll,
+    isTransactionLoading: isDepositLoading
+  } = useEscrowDeposit(contractAddress, availableTokens, refetchEscrow);
 
-  // Helper functions for token selections
-  const addTokenSelection = () => {
-    const newId = Math.max(...tokenSelections.map(t => t.id)) + 1;
-    setTokenSelections([...tokenSelections, {
-      id: newId,
-      tokenAddress: ETH_ADDRESS,
-      amount: '',
-      customTokenAddress: '',
-      tokenDecimals: 18
-    }]);
-  };
+  // Withdraw hook
+  const {
+    handleWithdraw,
+    isTransactionLoading: isWithdrawLoading
+  } = useEscrowWithdraw(contractAddress, refetchEscrow);
 
-  const removeTokenSelection = (id) => {
-    if (tokenSelections.length > 1) {
-      setTokenSelections(tokenSelections.filter(t => t.id !== id));
-    }
-  };
-
-  const updateTokenSelection = (id, field, value) => {
-    setTokenSelections(tokenSelections.map(token => 
-      token.id === id ? { ...token, [field]: value } : token
-    ));
-  };
-
-  const getCurrentTokenAddress = (selection) => {
-    return selection.tokenAddress === 'other' ? selection.customTokenAddress : selection.tokenAddress;
-  };
-
-  // Known token decimals
-  const getKnownDecimals = (tokenAddress) => {
-    const token = availableTokens.find(t => t.address === tokenAddress);
-    return token ? token.decimals : 18; // Default for unknown tokens
-  };
-
-  // Update decimals when token selections change
-  useEffect(() => {
-    tokenSelections.forEach(selection => {
-      const currentTokenAddress = getCurrentTokenAddress(selection);
-      const knownDecimals = getKnownDecimals(currentTokenAddress);
-      
-      if (selection.tokenDecimals !== knownDecimals) {
-        updateTokenSelection(selection.id, 'tokenDecimals', knownDecimals);
-      }
-    });
-  }, [tokenSelections.map(s => getCurrentTokenAddress(s)).join(',')]);
-
-  // Read decimals for custom tokens only
-  const customTokenAddresses = tokenSelections
-    .filter(s => s.tokenAddress === 'other' && isAddress(s.customTokenAddress))
-    .map(s => s.customTokenAddress);
-
-  // Only read decimals for the first custom token to avoid multiple hooks
-  const { data: customTokenDecimals } = useReadContract({
-    address: customTokenAddresses[0] || undefined,
-    abi: ERC20_ABI,
-    functionName: 'decimals',
-    query: {
-      enabled: customTokenAddresses.length > 0
-    }
-  });
-
-  // Update custom token decimals
-  useEffect(() => {
-    if (customTokenDecimals && customTokenAddresses[0]) {
-      const customTokenSelection = tokenSelections.find(s => 
-        s.tokenAddress === 'other' && s.customTokenAddress === customTokenAddresses[0]
-      );
-      if (customTokenSelection) {
-        updateTokenSelection(customTokenSelection.id, 'tokenDecimals', Number(customTokenDecimals));
-      }
-    }
-  }, [customTokenDecimals, customTokenAddresses[0]]);
-
-  // View escrow data
-  const { data: escrowData, refetch: refetchEscrow } = useReadContract({
-    address: contractAddress,
-    abi: ABI,
-    functionName: 'viewEscrow',
-    args: [viewAddress || address],
-    query: {
-      enabled: (!!viewAddress || !!address) && !!contractAddress,
-    }
-  });
-
-  // Write contract hook
-  const { writeContract, isPending: isTransactionLoading } = useWriteContract({
-    mutation: {
-      onSuccess: (data, variables) => {
-        if (variables.functionName === 'deposit') {
-          alert('Multi-token deposit successful!');
-          setMerchantAddress('');
-          // Reset token selections to single ETH
-          setTokenSelections([
-            { 
-              id: 1, 
-              tokenAddress: ETH_ADDRESS, 
-              amount: '', 
-              customTokenAddress: '', 
-              tokenDecimals: 18 
-            }
-          ]);
-        } else if (variables.functionName === 'withdraw') {
-          alert('Withdrawal successful!');
-        }
-        refetchEscrow();
-      },
-      onError: (error) => {
-        alert('Transaction failed: ' + error.message);
-      },
-    },
-  });
-
-  const handleDeposit = () => {
-    if (!merchantAddress) {
-      alert('Please enter merchant address');
-      return;
-    }
-    if (!isAddress(merchantAddress)) {
-      alert('Invalid merchant address');
-      return;
-    }
-
-    // Validate all token selections
-    for (const selection of tokenSelections) {
-      if (!selection.amount) {
-        alert('Please enter amounts for all tokens');
-        return;
-      }
-      const currentTokenAddress = getCurrentTokenAddress(selection);
-      if (currentTokenAddress !== ETH_ADDRESS && !isAddress(currentTokenAddress)) {
-        alert('Please enter valid token addresses');
-        return;
-      }
-    }
-    
-    // Build arrays for batch deposit
-    const merchants = [];
-    const tokens = [];
-    const amounts = [];
-    let totalEthValue = 0n;
-    
-    tokenSelections.forEach(selection => {
-      const currentTokenAddress = getCurrentTokenAddress(selection);
-      merchants.push(merchantAddress);
-      tokens.push(currentTokenAddress);
-      
-      if (currentTokenAddress === ETH_ADDRESS) {
-        // ETH deposit
-        const ethAmount = parseUnits(selection.amount, 18);
-        amounts.push(ethAmount);
-        totalEthValue += ethAmount;
-      } else {
-        // ERC20 deposit
-        const tokenAmount = parseUnits(selection.amount, selection.tokenDecimals);
-        amounts.push(tokenAmount);
-      }
-    });
-    
-    writeContract({
-      address: contractAddress,
-      abi: ABI,
-      functionName: 'deposit',
-      args: [
-        merchants,
-        tokens,
-        amounts
-      ],
-      value: totalEthValue,
-    });
-  };
-
-  const handleWithdraw = () => {
-    writeContract({
-      address: contractAddress,
-      abi: ABI,
-      functionName: 'withdraw',
-    });
-  };
-
-  const handleApprove = (tokenAddress) => {
-    if (tokenAddress === ETH_ADDRESS) {
-      alert('ETH does not need approval');
-      return;
-    }
-    if (!isAddress(tokenAddress)) {
-      alert('Please enter a valid token address');
-      return;
-    }
-    
-    writeContract({
-      address: tokenAddress,
-      abi: ERC20_ABI,
-      functionName: 'approve',
-      args: [
-        contractAddress,
-        maxUint256 // Approve maximum amount
-      ],
-    });
-  };
-
-  const handleApproveAll = () => {
-    const tokensToApprove = tokenSelections
-      .map(selection => getCurrentTokenAddress(selection))
-      .filter(addr => addr !== ETH_ADDRESS && isAddress(addr));
-    
-    if (tokensToApprove.length === 0) {
-      alert('No ERC20 tokens to approve');
-      return;
-    }
-
-    // Approve first token (user will need to approve others manually)
-    handleApprove(tokensToApprove[0]);
-    
-    if (tokensToApprove.length > 1) {
-      alert(`Please approve remaining ${tokensToApprove.length - 1} tokens individually`);
-    }
-  };
+  const isTransactionLoading = isDepositLoading || isWithdrawLoading;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -312,12 +78,7 @@ export default function Escrow() {
                 {CHAIN_CONFIGS.map((chain) => (
                   <button
                     key={chain.chainId}
-                    onClick={() => {
-                      setSelectedChainId(chain.chainId);
-                      if (currentChainId !== chain.chainId) {
-                        switchChain({ chainId: chain.chainId });
-                      }
-                    }}
+                    onClick={() => handleChainSwitch(chain.chainId)}
                     className={`p-4 rounded-lg border-2 transition-all duration-200 ${
                       selectedChainId === chain.chainId
                         ? 'border-blue-500 bg-blue-50 text-blue-700'
@@ -349,7 +110,7 @@ export default function Escrow() {
               )}
 
               {/* Chain Mismatch Warning */}
-              {currentChainId !== selectedChainId && (
+              {isChainMismatch && (
                 <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-md">
                   <p className="text-orange-800 text-sm">
                     ⚠️ Your wallet is connected to a different network. Please switch to <strong>{selectedChainConfig?.name}</strong> to use this escrow contract.
@@ -606,7 +367,7 @@ export default function Escrow() {
                   Refresh Balances
                 </button>
 
-                {escrowData && escrowData[0]?.length > 0 ? (
+                {hasBalances ? (
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Escrow Balances:</h3>
                     {escrowData[0].map((token, index) => {
@@ -641,7 +402,7 @@ export default function Escrow() {
                   This will withdraw all your accumulated funds (ETH and tokens) from the escrow contract.
                 </p>
 
-                {escrowData && escrowData[0]?.length > 0 ? (
+                {hasBalances ? (
                   <div className="mb-6">
                     <h3 className="text-lg font-semibold mb-3">Your Current Balance:</h3>
                     <div className="space-y-2">
@@ -672,7 +433,7 @@ export default function Escrow() {
 
                 <button
                   onClick={handleWithdraw}
-                  disabled={isTransactionLoading || !escrowData?.[0]?.length}
+                  disabled={isTransactionLoading || !hasBalances}
                   className="w-full bg-red-600 text-white py-3 px-4 rounded-md font-medium hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   {isTransactionLoading ? 'Withdrawing...' : 'Withdraw All Funds'}
