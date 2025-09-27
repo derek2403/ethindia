@@ -262,7 +262,7 @@ const QRPage = () => {
           xOffset={120}
         />
         <div className="relative z-10">
-          <Header />
+        <Header />
           <div className="flex items-center justify-center h-[calc(100vh-80px)]">
             <div className="glass-card p-8 text-center">
               <h1 className="text-2xl font-bold mb-4 text-white/90">Connect Your Wallet</h1>
@@ -290,11 +290,11 @@ const QRPage = () => {
         />
       </div>
       <div className="relative z-10">
-        <Header />
+      <Header />
         <div className="max-w-7xl mx-auto p-3 h-[calc(100vh-70px)]">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 h-full">
-          {/* Left Panel - Chain Selection */}
+            {/* Left Panel - Chain Selection */}
           <div className="lg:col-span-1 h-full flex flex-col">
             <ChainSelector
               chains={chains}
@@ -309,8 +309,8 @@ const QRPage = () => {
               totalAllocation={totalAllocation}
               removeToken={removeToken}
             />
-          </div>
-
+              </div>
+              
           {/* Center Panel - Portfolio Allocation */}
           <div className="lg:col-span-1 h-full">
             <PortfolioChart
@@ -321,8 +321,8 @@ const QRPage = () => {
               resetSelection={resetSelection}
               selectedChains={selectedChains}
             />
-          </div>
-
+            </div>
+            
           {/* Right Panel - Available Tokens */}
           <div className="lg:col-span-1 h-full">
             <TokenGrid
@@ -332,13 +332,13 @@ const QRPage = () => {
               selectedChains={selectedChains}
               handleTokenClick={handleTokenClick}
               totalAllocation={totalAllocation}
-            />
-          </div>
-        </div>
-
-        </div>
-      </div>
-      
+                    />
+                  </div>
+                </div>
+                
+                  </div>
+                </div>
+                
       <TokenModal
         showTokenModal={showTokenModal}
         setShowTokenModal={setShowTokenModal}
@@ -358,6 +358,7 @@ const QRPage = () => {
         qrDataUrl={qrDataUrl}
         selectedChains={selectedChains}
         chains={chains}
+        tokensByChain={tokensByChain}
         totalAllocation={totalAllocation}
         address={address}
         resetSelection={resetSelection}
