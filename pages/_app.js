@@ -15,7 +15,8 @@ import {
   arbitrum,
   base,
   optimismSepolia,
-  sepolia
+  sepolia,
+  arbitrumSepolia
 } from 'wagmi/chains';
 
 // Custom chain definitions for testnets
@@ -54,7 +55,7 @@ import {
 const config = getDefaultConfig({
   appName: 'ethindia',
   projectId: '1',
-  chains: [sepolia, flowEVMTestnet, hederaTestnet, mainnet, polygon, optimismSepolia, arbitrum, base],
+  chains: [sepolia, flowEVMTestnet, hederaTestnet, mainnet, polygon, optimismSepolia, arbitrumSepolia, base],
   ssr: true,
 });
 
