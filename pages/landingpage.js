@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Head from "next/head";
+import Image from "next/image";
 
 import {
   NavigationMenu,
@@ -10,6 +11,41 @@ import {
 import { Button } from "@/components/ui/button";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
+
+// Token Icon Components using real icon files
+const TokenIcon = ({ src, alt }) => (
+  <Image 
+    src={src} 
+    alt={alt} 
+    width={32} 
+    height={32} 
+    className="w-8 h-8"
+  />
+);
+
+// Token Icon with Chain overlay - more prominent like 1inch
+const TokenWithChain = ({ tokenSrc, chainSrc, tokenAlt, chainAlt }) => (
+  <div className="relative w-8 h-8">
+    <Image 
+      src={tokenSrc} 
+      alt={tokenAlt} 
+      width={32} 
+      height={32} 
+      className="w-8 h-8"
+    />
+    {chainSrc && (
+      <div className="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 bg-gray-900 rounded-full p-0.5 border border-white/20 shadow-lg">
+        <Image 
+          src={chainSrc} 
+          alt={chainAlt} 
+          width={14} 
+          height={14} 
+          className="w-3.5 h-3.5"
+        />
+      </div>
+    )}
+  </div>
+);
 
 export default function LandingPage() {
   useEffect(() => {
@@ -49,9 +85,12 @@ export default function LandingPage() {
                 {/* HBAR Payment */}
                 <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white text-xs font-bold">
-                      HBAR
-                    </div>
+                    <TokenWithChain 
+                      tokenSrc="/icons/hedera-hbar-logo.svg" 
+                      chainSrc="/icons/hedera-hbar-logo.svg" 
+                      tokenAlt="HBAR" 
+                      chainAlt="Hedera"
+                    />
                     <span className="text-white/90 text-sm">Hedera</span>
                   </div>
                   <span className="text-white font-medium">$10</span>
@@ -60,9 +99,12 @@ export default function LandingPage() {
                 {/* FLOW Payment */}
                 <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-bold">
-                      FLOW
-                    </div>
+                    <TokenWithChain 
+                      tokenSrc="/icons/flow-flow-logo.svg" 
+                      chainSrc="/icons/flow-flow-logo.svg" 
+                      tokenAlt="FLOW" 
+                      chainAlt="Flow"
+                    />
                     <span className="text-white/90 text-sm">Flow</span>
                   </div>
                   <span className="text-white font-medium">$20</span>
@@ -71,9 +113,12 @@ export default function LandingPage() {
                 {/* USDC Payment */}
                 <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold">
-                      USDC
-                    </div>
+                    <TokenWithChain 
+                      tokenSrc="/icons/usd-coin-usdc-logo.svg" 
+                      chainSrc="/icons/arbitrum-arb-logo.svg" 
+                      tokenAlt="USDC" 
+                      chainAlt="Arbitrum"
+                    />
                     <span className="text-white/90 text-sm">Arbitrum</span>
                   </div>
                   <span className="text-white font-medium">$50</span>
@@ -82,9 +127,7 @@ export default function LandingPage() {
                 {/* PayPal USD Payment */}
                 <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold">
-                      PYUSD
-                    </div>
+                    <TokenIcon src="/icons/paypal-usd-pyusd-logo.svg" alt="PYUSD" />
                     <span className="text-white/90 text-sm">PayPal USD</span>
                   </div>
                   <span className="text-white font-medium">$20</span>
@@ -214,9 +257,12 @@ export default function LandingPage() {
                 {/* ETH Received */}
                 <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold">
-                      ETH
-                    </div>
+                    <TokenWithChain 
+                      tokenSrc="/icons/ethereum-eth-logo.svg" 
+                      chainSrc="/icons/ethereum-eth-logo.svg" 
+                      tokenAlt="ETH" 
+                      chainAlt="Ethereum"
+                    />
                     <span className="text-white/90 text-sm">Ethereum</span>
                   </div>
                   <span className="text-white font-medium">$70</span>
@@ -225,9 +271,12 @@ export default function LandingPage() {
                 {/* SOL Received */}
                 <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center text-white text-xs font-bold">
-                      SOL
-                    </div>
+                    <TokenWithChain 
+                      tokenSrc="/icons/solana-sol-logo.svg" 
+                      chainSrc="/icons/solana-sol-logo.svg" 
+                      tokenAlt="SOL" 
+                      chainAlt="Solana"
+                    />
                     <span className="text-white/90 text-sm">Solana</span>
                   </div>
                   <span className="text-white font-medium">$30</span>
