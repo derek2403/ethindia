@@ -138,51 +138,44 @@ const glassmorphismTheme = darkTheme({
   overlayBlur: 'large',
 });
 
-// Enhanced glassmorphism styling - more transparent and glass-like
-glassmorphismTheme.colors.modalBackground = 'rgba(0, 0, 0, 0.7)';  // More transparent dark background
+// True glassmorphism styling to match wallet connection button
+glassmorphismTheme.colors.modalBackground = 'rgba(255, 255, 255, 0.1)';  // Light glassmorphism like wallet button
 glassmorphismTheme.colors.modalBorder = 'rgba(255, 255, 255, 0.2)';
 glassmorphismTheme.colors.modalText = 'rgba(255, 255, 255, 0.95)';
-glassmorphismTheme.colors.modalTextSecondary = 'rgba(255, 255, 255, 0.7)';
-glassmorphismTheme.colors.modalTextDim = 'rgba(255, 255, 255, 0.6)';
+glassmorphismTheme.colors.modalTextSecondary = 'rgba(255, 255, 255, 0.8)';
 
-// Close button glassmorphism
-glassmorphismTheme.colors.closeButton = 'rgba(255, 255, 255, 0.15)';
-glassmorphismTheme.colors.closeButtonBackground = 'rgba(255, 255, 255, 0.08)';
+// Close button to match glassmorphism
+glassmorphismTheme.colors.closeButton = 'rgba(255, 255, 255, 0.3)';
+glassmorphismTheme.colors.closeButtonBackground = 'rgba(255, 255, 255, 0.1)';
 
-// General UI elements with glass effect
-glassmorphismTheme.colors.generalBorder = 'rgba(255, 255, 255, 0.1)';
-glassmorphismTheme.colors.generalBorderDim = 'rgba(255, 255, 255, 0.05)';
+// Enhanced borders for glass effect
+glassmorphismTheme.colors.generalBorder = 'rgba(255, 255, 255, 0.2)';
 
-// Menu items and interactive elements
-glassmorphismTheme.colors.menuItemBackground = 'rgba(255, 255, 255, 0.08)';
-glassmorphismTheme.colors.profileAction = 'rgba(255, 255, 255, 0.08)';
-glassmorphismTheme.colors.profileActionHover = 'rgba(255, 255, 255, 0.15)';
+// Network options with glass card effect
+glassmorphismTheme.colors.menuItemBackground = 'rgba(255, 255, 255, 0.1)';
+glassmorphismTheme.colors.profileAction = 'rgba(255, 255, 255, 0.1)';
+glassmorphismTheme.colors.profileActionHover = 'rgba(255, 255, 255, 0.2)';
 glassmorphismTheme.colors.profileForeground = 'rgba(255, 255, 255, 0.95)';
 
-// Network/chain selection styling
-glassmorphismTheme.colors.selectedOptionBorder = 'rgba(59, 130, 246, 0.4)';
-glassmorphismTheme.colors.actionButtonBorder = 'rgba(255, 255, 255, 0.15)';
-glassmorphismTheme.colors.actionButtonBorderMobile = 'rgba(255, 255, 255, 0.1)';
-glassmorphismTheme.colors.actionButtonSecondaryBackground = 'rgba(255, 255, 255, 0.05)';
+// Enhanced network selection to match glass aesthetic
+glassmorphismTheme.colors.selectedOptionBorder = 'rgba(59, 130, 246, 0.6)';
+glassmorphismTheme.colors.actionButtonBorder = 'rgba(255, 255, 255, 0.25)';
+glassmorphismTheme.colors.actionButtonBorderMobile = 'rgba(255, 255, 255, 0.2)';
+glassmorphismTheme.colors.actionButtonSecondaryBackground = 'rgba(255, 255, 255, 0.1)';
 
-// Connected state styling
-glassmorphismTheme.colors.connectButtonBackground = 'rgba(255, 255, 255, 0.08)';
-glassmorphismTheme.colors.connectButtonBackgroundError = 'rgba(239, 68, 68, 0.15)';
-glassmorphismTheme.colors.connectButtonInnerBackground = 'rgba(255, 255, 255, 0.05)';
+// Network buttons with glassmorphism
+glassmorphismTheme.colors.connectButtonBackground = 'rgba(255, 255, 255, 0.12)';
+glassmorphismTheme.colors.connectButtonBackgroundError = 'rgba(239, 68, 68, 0.2)';
+glassmorphismTheme.colors.connectButtonInnerBackground = 'rgba(255, 255, 255, 0.1)';
 glassmorphismTheme.colors.connectButtonText = 'rgba(255, 255, 255, 0.95)';
 glassmorphismTheme.colors.connectButtonTextError = 'rgba(239, 68, 68, 0.9)';
 
-// Enhanced backdrop and shadow effects
+// Use only valid RainbowKit theme color properties
+glassmorphismTheme.colors.error = 'rgba(239, 68, 68, 0.9)';
+
+// Enhanced backdrop effects - only using known properties
 if (glassmorphismTheme.blurs) {
   glassmorphismTheme.blurs.modalOverlay = 'blur(24px)';
-}
-
-if (glassmorphismTheme.shadows) {
-  glassmorphismTheme.shadows.dialog = '0 25px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)';
-  glassmorphismTheme.shadows.profileDetailsAction = '0 4px 12px rgba(0, 0, 0, 0.3)';
-  glassmorphismTheme.shadows.selectedOption = '0 4px 16px rgba(59, 130, 246, 0.2)';
-  glassmorphismTheme.shadows.selectedWallet = '0 4px 16px rgba(59, 130, 246, 0.15)';
-  glassmorphismTheme.shadows.walletLogo = '0 2px 8px rgba(0, 0, 0, 0.2)';
 }
 
 export default function App({ Component, pageProps }) {
