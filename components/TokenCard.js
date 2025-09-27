@@ -7,7 +7,8 @@ const TokenCard = ({
   chainId, 
   userAddress, 
   transferAmounts, 
-  onTransferAmountChange 
+  onTransferAmountChange,
+  tokenPrice = null 
 }) => {
   const { balance, isLoading, error } = useTokenBalance(chainId, token.address, userAddress);
   const balanceFormatted = formatBalance(balance, token.decimals);
@@ -26,7 +27,7 @@ const TokenCard = ({
   }
 
   return (
-    <div className="border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+    <div className="border border-white/30 rounded-lg p-4 bg-white/10 backdrop-blur-sm">
       {/* Token Header */}
       <div className="flex items-center gap-3 mb-4">
         <img 
@@ -39,29 +40,40 @@ const TokenCard = ({
         />
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold">{token.symbol}</span>
+            <span className="text-sm font-semibold text-white">{token.symbol}</span>
             {token.isNative && (
-              <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
+              <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded border border-blue-400/30">
                 Native
               </span>
             )}
           </div>
-          <p className="text-xs text-gray-500">{token.name}</p>
+          <p className="text-xs text-white/70">{token.name}</p>
         </div>
       </div>
 
       {/* Balance Display */}
       <div className="mb-4">
         {isLoading ? (
-          <div className="text-sm text-gray-400">Loading balance...</div>
+          <div className="text-sm text-white/60">Loading balance...</div>
         ) : error ? (
-          <div className="text-sm text-red-500">Error loading balance</div>
+          <div className="text-sm text-red-300">Error loading balance</div>
         ) : (
           <div className="text-right">
-            <div className="text-lg font-semibold">
+            <div className="text-lg font-semibold text-white">
               {balanceFormatted} {token.symbol}
             </div>
-            <div className="text-xs text-gray-500">Available</div>
+            {tokenPrice ? (
+              <div className="space-y-1">
+                <div className="text-sm text-green-300 font-medium">
+                  ${tokenPrice.formatted}
+                </div>
+                <div className="text-xs text-white/60">
+                  ≈ ${(balanceNum * tokenPrice.price).toFixed(2)} USD
+                </div>
+              </div>
+            ) : (
+              <div className="text-xs text-white/60">Available</div>
+            )}
           </div>
         )}
       </div>
@@ -70,10 +82,10 @@ const TokenCard = ({
       {!isLoading && !error && balanceNum > 0 && (
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <label className="text-xs font-medium text-gray-700">
+            <label className="text-xs font-medium text-white/80">
               Transfer Amount
             </label>
-            <span className="text-xs text-gray-600">
+            <span className="text-xs text-white/70">
               {transferAmount.toFixed(4)} {token.symbol}
             </span>
           </div>
@@ -85,13 +97,13 @@ const TokenCard = ({
             step={balanceNum / 1000}
             value={transferAmount}
             onChange={(e) => handleSliderChange(parseFloat(e.target.value))}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+            className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
             style={{
-              background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${(transferAmount/balanceNum)*100}%, #e5e7eb ${(transferAmount/balanceNum)*100}%, #e5e7eb 100%)`
+              background: `linear-gradient(to right, #60a5fa 0%, #60a5fa ${(transferAmount/balanceNum)*100}%, rgba(255,255,255,0.2) ${(transferAmount/balanceNum)*100}%, rgba(255,255,255,0.2) 100%)`
             }}
           />
           
-          <div className="flex justify-between text-xs text-gray-500">
+          <div className="flex justify-between text-xs text-white/60">
             <span>0</span>
             <span>{balanceFormatted}</span>
           </div>
@@ -102,7 +114,7 @@ const TokenCard = ({
               <button
                 key={p}
                 onClick={() => handleSliderChange((balanceNum * p) / 100)}
-                className="flex-1 px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-colors"
+                className="flex-1 px-2 py-1 text-xs bg-white/10 hover:bg-white/20 text-white rounded transition-colors border border-white/20 hover:border-white/30"
               >
                 {p}%
               </button>
@@ -111,10 +123,15 @@ const TokenCard = ({
 
           {/* Selected amount display */}
           {transferAmount > 0 && (
-            <div className="mt-2 p-2 bg-blue-50 rounded border border-blue-200">
-              <p className="text-xs text-blue-800">
-                Selected: <span className="font-semibold">{transferAmount.toFixed(4)} {token.symbol}</span>
-                <span className="text-blue-600 ml-1">
+            <div className="mt-2 p-2 bg-blue-500/10 rounded border border-blue-400/30 backdrop-blur-sm">
+              <p className="text-xs text-blue-200">
+                Selected: <span className="font-semibold text-white">{transferAmount.toFixed(4)} {token.symbol}</span>
+                {tokenPrice && (
+                  <span className="text-blue-300 ml-1">
+                    (≈ ${(transferAmount * tokenPrice.price).toFixed(2)} USD)
+                  </span>
+                )}
+                <span className="text-blue-300 ml-1">
                   ({((transferAmount/balanceNum)*100).toFixed(1)}% of balance)
                 </span>
               </p>
