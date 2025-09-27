@@ -126,7 +126,7 @@ export default function LandingPage() {
           <div className="flex flex-col items-center gap-3 max-w-4xl w-full px-4">
             {/* Header */}
             <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white text-center max-w-3xl leading-tight">
-              Pay and Receive with any combination of any token on any chain.
+            Any tokens. Any chains. Both ways.
             </h1>
             
             {/* Payment Cards Container */}

@@ -15,9 +15,9 @@ const PortfolioSummary = ({
 
   return (
     <div className="mt-auto pt-2">
-      <div className="bg-white/5 border border-white/20 rounded-lg p-3">
+      <div className="bg-white/5 border border-white/15 rounded-lg p-3 backdrop-blur-sm">
         <div className="flex items-center gap-2 mb-2">
-          <div className="w-4 h-4 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+          <div className="w-4 h-4 rounded-full bg-white/10 border border-white/10 flex items-center justify-center backdrop-blur-sm">
             <TrendingUp className="w-2.5 h-2.5 text-white/70" />
           </div>
           <h3 className="text-sm font-bold text-white/90">Portfolio Summary</h3>
@@ -41,7 +41,7 @@ const PortfolioSummary = ({
               {Object.entries(tokens).map(([tokenName, allocation]) => {
                 const token = tokensByChain[chainId]?.find(t => t.name === tokenName)
                 return (
-                  <div key={tokenName} className="flex justify-between items-center bg-white/5 border border-white/10 p-1.5 rounded">
+                  <div key={tokenName} className="flex justify-between items-center bg-white/5 border border-white/10 p-1.5 rounded backdrop-blur-sm">
                     <div className="flex items-center gap-1">
                       {token && (
                         <div className="w-3 h-3 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-0.5">
@@ -72,7 +72,7 @@ const PortfolioSummary = ({
           ))}
         </div>
         
-        <div className="mt-2 pt-2 border-t border-white/20">
+        <div className="mt-2 pt-2 border-t border-white/15">
           <div className="flex justify-between items-center">
             <span className="font-bold text-white/90 text-xs">Total:</span>
             <span className={`font-bold text-sm ${
