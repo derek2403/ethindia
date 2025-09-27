@@ -4,19 +4,19 @@ async function main() {
     const [signer] = await ethers.getSigners();
     console.log("Minting with account:", signer.address);
     
-    // Sepolia MyOFT contract address
-    const sepoliaOFT = await ethers.getContractAt("MyOFT", "0x61397e1401f8835c1B90622f70F1Fec81068800A");
+    // Sepolia USDC contract address (new deployment)
+    const sepoliaUSDC = await ethers.getContractAt("MyOFT", "0x3EA7dFee7a515D9B5dFe5699f6cc2ce2EEcc7807");
     
-    // Mint 1000 tokens
-    console.log("Minting 1000 tokens on Sepolia...");
-    const tx = await sepoliaOFT.mint(signer.address, ethers.utils.parseEther("1000"));
+    // Mint 1000 USDC tokens
+    console.log("Minting 1000 USDC tokens on Sepolia...");
+    const tx = await sepoliaUSDC.mint(signer.address, ethers.utils.parseEther("1000"));
     await tx.wait();
     
     // Check balance
-    const balance = await sepoliaOFT.balanceOf(signer.address);
-    console.log("Balance:", ethers.utils.formatEther(balance), "tokens");
+    const balance = await sepoliaUSDC.balanceOf(signer.address);
+    console.log("Balance:", ethers.utils.formatEther(balance), "USDC");
     
-    console.log("✅ Minting completed!");
+    console.log("✅ USDC minting completed!");
 }
 
 main().catch((error) => {
