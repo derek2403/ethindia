@@ -51,51 +51,51 @@ const QRPage = () => {
     { id: 'hedera', name: 'Hedera', icon: '/icons/hedera-hbar-logo.svg' }
   ]
 
-  // Common tokens for each chain with SVG icons and theme colors
+  // Common tokens for each chain with SVG icons and consistent styling
   const tokensByChain = {
     mainnet: [
-      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
-      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', bgColor: 'bg-orange-500/20', chartColor: '#F7931A' },
-      { name: 'DAI', fullName: 'Dai Stablecoin', icon: '/icons/multi-collateral-dai-dai-logo.svg', bgColor: 'bg-yellow-500/20', chartColor: '#F5AC37' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' },
+      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#26A17B' },
+      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', chartColor: '#F7931A' },
+      { name: 'DAI', fullName: 'Dai Stablecoin', icon: '/icons/multi-collateral-dai-dai-logo.svg', chartColor: '#F5AC37' }
     ],
     polygon: [
-      { name: 'MATIC', fullName: 'Polygon', icon: '/icons/polygon-matic-logo.svg', bgColor: 'bg-purple-500/20', chartColor: '#8247E5' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
-      { name: 'WETH', fullName: 'Wrapped Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'DAI', fullName: 'Dai Stablecoin', icon: '/icons/multi-collateral-dai-dai-logo.svg', bgColor: 'bg-yellow-500/20', chartColor: '#F5AC37' }
+      { name: 'MATIC', fullName: 'Polygon', icon: '/icons/polygon-matic-logo.svg', chartColor: '#8247E5' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' },
+      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#26A17B' },
+      { name: 'WETH', fullName: 'Wrapped Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
+      { name: 'DAI', fullName: 'Dai Stablecoin', icon: '/icons/multi-collateral-dai-dai-logo.svg', chartColor: '#F5AC37' }
     ],
     optimism: [
-      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
-      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', bgColor: 'bg-orange-500/20', chartColor: '#F7931A' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' },
+      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#26A17B' },
+      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', chartColor: '#F7931A' }
     ],
     arbitrum: [
-      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'PYUSD', fullName: 'PayPal USD', icon: '/icons/paypal-usd-pyusd-logo.svg', bgColor: 'bg-blue-600/20', chartColor: '#0070BA' },
-      { name: 'ARB', fullName: 'Arbitrum', icon: '/icons/arbitrum-arb-logo.svg', bgColor: 'bg-blue-600/20', chartColor: '#28A0F0' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
-      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', bgColor: 'bg-orange-500/20', chartColor: '#F7931A' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
+      { name: 'PYUSD', fullName: 'PayPal USD', icon: '/icons/paypal-usd-pyusd-logo.svg', chartColor: '#0070BA' },
+      { name: 'ARB', fullName: 'Arbitrum', icon: '/icons/arbitrum-arb-logo.svg', chartColor: '#28A0F0' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' },
+      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#26A17B' },
+      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', chartColor: '#F7931A' }
     ],
     base: [
-      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' }
     ],
     sepolia: [
-      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'PYUSD', fullName: 'PayPal USD', icon: '/icons/paypal-usd-pyusd-logo.svg', bgColor: 'bg-blue-600/20', chartColor: '#0070BA' },
-      { name: 'LINK', fullName: 'Chainlink', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-700/20', chartColor: '#375BD2' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
+      { name: 'PYUSD', fullName: 'PayPal USD', icon: '/icons/paypal-usd-pyusd-logo.svg', chartColor: '#0070BA' },
+      { name: 'LINK', fullName: 'Chainlink', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#375BD2' }
     ],
     flow: [
-      { name: 'FLOW', fullName: 'Flow', icon: '/icons/flow-flow-logo.svg', bgColor: 'bg-green-600/20', chartColor: '#00EF8B' }
+      { name: 'FLOW', fullName: 'Flow', icon: '/icons/flow-flow-logo.svg', chartColor: '#00EF8B' }
     ],
     hedera: [
-      { name: 'HBAR', fullName: 'Hedera Hashgraph', icon: '/icons/hedera-hbar-logo.svg', bgColor: 'bg-purple-600/20', chartColor: '#82259D' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' }
+      { name: 'HBAR', fullName: 'Hedera Hashgraph', icon: '/icons/hedera-hbar-logo.svg', chartColor: '#82259D' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' }
     ]
   }
 
@@ -281,8 +281,8 @@ const QRPage = () => {
             <div className="lg:col-span-1 h-full">
               <div className="glass-card p-4 h-full flex flex-col">
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
-                    <Link className="w-3 h-3 text-white" />
+                  <div className="w-6 h-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                    <Link className="w-3 h-3 text-white/70" />
                   </div>
                   <h3 className="text-lg font-bold text-white/90">Select Blockchain</h3>
                 </div>
@@ -293,7 +293,7 @@ const QRPage = () => {
                       onClick={() => setCurrentChain(chain.id)}
                       className={`w-full p-3 rounded-lg text-left transition-all duration-200 flex items-center gap-3 ${
                         currentChain === chain.id
-                          ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-blue-400 border-2 text-white shadow-lg'
+                          ? 'bg-white/10 border-white/40 border-2 text-white shadow-lg'
                           : 'bg-white/5 hover:bg-white/10 text-white/80 border border-white/20 backdrop-blur-sm hover:border-white/40'
                       }`}
                     >
@@ -315,7 +315,7 @@ const QRPage = () => {
                         )}
                       </div>
                       {currentChain === chain.id && (
-                        <div className="w-3 h-3 rounded-full bg-blue-400"></div>
+                        <div className="w-3 h-3 rounded-full bg-white/60"></div>
                       )}
                     </button>
                   ))}
@@ -325,22 +325,22 @@ const QRPage = () => {
                   <div className="mt-auto pt-2">
                     <div className="bg-white/5 border border-white/20 rounded-lg p-3">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-4 h-4 rounded-full bg-gradient-to-r from-green-500 to-blue-500 flex items-center justify-center">
-                          <TrendingUp className="w-2.5 h-2.5 text-white" />
+                        <div className="w-4 h-4 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                          <TrendingUp className="w-2.5 h-2.5 text-white/70" />
                         </div>
                         <h3 className="text-sm font-bold text-white/90">Portfolio Summary</h3>
                       </div>
                       <div className="space-y-1 max-h-20 overflow-y-auto">
                         {Object.entries(selectedChains).map(([chainId, tokens]) => (
                           <div key={chainId} className="space-y-1">
-                            <div className="text-xs font-medium text-blue-400 flex items-center gap-1">
+                            <div className="text-xs font-medium text-white/60 flex items-center gap-1">
                               <div className="w-2.5 h-2.5 rounded-full bg-white/10 flex items-center justify-center p-0.5">
                                 <Image
                                   src={chains.find(c => c.id === chainId)?.icon || '/icons/ethereum-eth-logo.svg'}
                                   alt={chains.find(c => c.id === chainId)?.name || chainId}
                                   width={10}
                                   height={10}
-                                  className="w-1.5 h-1.5"
+                                  className="w-1.5 h-1.5 opacity-60"
                                 />
                               </div>
                               {chains.find(c => c.id === chainId)?.name}
@@ -351,7 +351,7 @@ const QRPage = () => {
                                 <div key={tokenName} className="flex justify-between items-center bg-white/5 border border-white/10 p-1.5 rounded">
                                   <div className="flex items-center gap-1">
                                     {token && (
-                                      <div className={`w-3 h-3 rounded-full ${token.bgColor} flex items-center justify-center p-0.5`}>
+                                      <div className="w-3 h-3 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-0.5">
                                         <Image
                                           src={token.icon}
                                           alt={token.name}
@@ -382,8 +382,8 @@ const QRPage = () => {
                         <div className="flex justify-between items-center">
                           <span className="font-bold text-white/90 text-xs">Total:</span>
                           <span className={`font-bold text-sm ${
-                            totalAllocation === 100 ? 'text-green-400' : 
-                            totalAllocation > 100 ? 'text-red-400' : 'text-blue-400'
+                            totalAllocation === 100 ? 'text-white/90' : 
+                            totalAllocation > 100 ? 'text-white/70' : 'text-white/80'
                           }`}>
                             {totalAllocation.toFixed(1)}%
                           </span>
@@ -399,8 +399,8 @@ const QRPage = () => {
             <div className="lg:col-span-1 h-full">
               <div className="glass-card p-4 h-full flex flex-col">
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-orange-500 to-yellow-500 flex items-center justify-center">
-                    <PieChart className="w-3 h-3 text-white" />
+                  <div className="w-6 h-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                    <PieChart className="w-3 h-3 text-white/70" />
                   </div>
                   <h3 className="text-lg font-bold text-white/90">Portfolio Allocation</h3>
                 </div>
@@ -426,7 +426,7 @@ const QRPage = () => {
                   <button
                     onClick={generateQRCode}
                     disabled={Object.keys(selectedChains).length === 0}
-                    className="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed transition-all duration-200 font-medium flex items-center justify-center space-x-2 shadow-lg"
+                    className="w-full px-6 py-3 bg-white/20 border border-white/30 text-white rounded-xl hover:bg-white/30 disabled:bg-white/5 disabled:border-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-all duration-200 font-medium flex items-center justify-center space-x-2 backdrop-blur-sm"
                   >
                     <Target className="w-4 h-4" />
                     <span>Generate QR</span>
@@ -446,8 +446,8 @@ const QRPage = () => {
             <div className="lg:col-span-1 h-full">
               <div className="glass-card p-4 h-full flex flex-col">
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                    <Coins className="w-3 h-3 text-white" />
+                  <div className="w-6 h-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                    <Coins className="w-3 h-3 text-white/70" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white/90">Available Tokens</h3>
@@ -465,12 +465,12 @@ const QRPage = () => {
                         disabled={isSelected}
                         className={`w-full p-3 rounded-lg border transition-all duration-200 flex items-center gap-3 text-left ${
                           isSelected
-                            ? 'border-green-400/50 bg-green-400/10 cursor-not-allowed'
-                            : 'border-white/20 hover:border-blue-400/50 hover:bg-white/10 cursor-pointer bg-white/5'
+                            ? 'border-white/40 bg-white/10 cursor-not-allowed'
+                            : 'border-white/20 hover:border-white/40 hover:bg-white/10 cursor-pointer bg-white/5'
                         }`}
                       >
                         <div className="relative w-10 h-10 flex-shrink-0">
-                          <div className={`w-10 h-10 rounded-full ${token.bgColor} border border-white/20 flex items-center justify-center p-2`}>
+                          <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-2">
                             <Image
                               src={token.icon}
                               alt={token.name}
@@ -480,8 +480,8 @@ const QRPage = () => {
                             />
                           </div>
                           {isSelected && (
-                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full flex items-center justify-center">
-                              <CheckCircle2 className="w-2.5 h-2.5 text-white" />
+                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-white/80 rounded-full flex items-center justify-center">
+                              <CheckCircle2 className="w-2.5 h-2.5 text-black" />
                             </div>
                           )}
                         </div>
@@ -489,7 +489,7 @@ const QRPage = () => {
                           <div className="text-base font-bold text-white/90">{token.name}</div>
                           <div className="text-xs text-white/60 truncate">{token.fullName}</div>
                           {isSelected && (
-                            <div className="text-xs text-green-400 font-medium mt-0.5">
+                            <div className="text-xs text-white/70 font-medium mt-0.5">
                               {selectedChains[currentChain][token.name]}% allocated
                             </div>
                           )}
@@ -511,7 +511,7 @@ const QRPage = () => {
                   <div className="w-full bg-white/20 rounded-full h-3 overflow-hidden">
                     <div 
                       className={`h-full transition-all duration-500 ${
-                        totalAllocation <= 100 ? 'bg-gradient-to-r from-blue-500 to-purple-500' : 'bg-gradient-to-r from-red-500 to-orange-500'
+                        totalAllocation <= 100 ? 'bg-white/60' : 'bg-white/40'
                       }`}
                       style={{ width: `${Math.min(totalAllocation, 100)}%` }}
                     ></div>
@@ -628,8 +628,8 @@ const QRPage = () => {
           <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
             <div className="glass-card max-w-md w-full p-8">
               <div className="text-center mb-8">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
-                  <Plus className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                  <Plus className="w-8 h-8 text-white/70" />
                 </div>
                 <h3 className="text-2xl font-bold text-white/90 mb-2">
                   Add {selectedToken} to Portfolio
@@ -642,7 +642,7 @@ const QRPage = () => {
               <div className="space-y-8">
                 {/* Current Allocation Display */}
                 <div className="text-center bg-white/5 border border-white/20 rounded-xl p-6">
-                  <div className="text-6xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-3">
+                  <div className="text-6xl font-bold text-white/90 mb-3">
                     {tokenAllocation}%
                   </div>
                   <div className="text-sm text-white/60">
@@ -664,7 +664,7 @@ const QRPage = () => {
                         onChange={(e) => setTokenAllocation(parseFloat(e.target.value))}
                         className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
                         style={{
-                          background: `linear-gradient(to right, #3b82f6 0%, #8b5cf6 ${(tokenAllocation / Math.min(100 - totalAllocation, 100)) * 100}%, rgba(255, 255, 255, 0.2) ${(tokenAllocation / Math.min(100 - totalAllocation, 100)) * 100}%, rgba(255, 255, 255, 0.2) 100%)`
+                          background: `linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) ${(tokenAllocation / Math.min(100 - totalAllocation, 100)) * 100}%, rgba(255, 255, 255, 0.2) ${(tokenAllocation / Math.min(100 - totalAllocation, 100)) * 100}%, rgba(255, 255, 255, 0.2) 100%)`
                         }}
                       />
                       <div className="flex justify-between text-xs text-white/50 mt-2">
@@ -684,7 +684,7 @@ const QRPage = () => {
                           onClick={() => setTokenAllocation(percentage)}
                           className={`px-3 py-2 text-sm rounded-lg transition-all duration-200 border font-medium ${
                             tokenAllocation === percentage
-                              ? 'bg-blue-500 border-blue-400 text-white'
+                              ? 'bg-white/20 border-white/40 text-white'
                               : 'bg-white/10 hover:bg-white/20 text-white/80 hover:text-white border-white/20 hover:border-white/40'
                           }`}
                         >
@@ -706,7 +706,7 @@ const QRPage = () => {
                   <button
                     onClick={addTokenToPortfolio}
                     disabled={tokenAllocation <= 0 || (totalAllocation + tokenAllocation > 100)}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed transition-all duration-200 font-medium shadow-lg"
+                    className="flex-1 px-6 py-3 bg-white/20 border border-white/30 text-white rounded-xl hover:bg-white/30 disabled:bg-white/5 disabled:border-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-all duration-200 font-medium backdrop-blur-sm"
                   >
                     Add to Portfolio
                   </button>
@@ -714,12 +714,12 @@ const QRPage = () => {
 
                 {/* Warning */}
                 {totalAllocation + tokenAllocation > 100 && (
-                  <div className="bg-red-500/10 border border-red-400/30 rounded-lg p-3 backdrop-blur-sm">
+                  <div className="bg-white/5 border border-white/20 rounded-lg p-3 backdrop-blur-sm">
                     <div className="flex items-center space-x-2">
-                      <div className="w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
-                        <X className="w-3 h-3 text-red-400" />
+                      <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <X className="w-3 h-3 text-white/70" />
                       </div>
-                      <p className="text-sm text-red-300">
+                      <p className="text-sm text-white/70">
                         This allocation would exceed 100%. Please reduce the percentage.
                       </p>
                     </div>
