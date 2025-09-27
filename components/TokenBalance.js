@@ -150,11 +150,6 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
                 <span className="text-gray-500"> (${balanceUsd.toFixed(2)})</span>
               )}
             </div>
-            {transferAmount > 0 && (
-              <div className="text-xs text-red-400">
-                Selected: {transferAmount.toFixed(4)} {token.symbol} (${(transferAmount * price).toFixed(2)})
-              </div>
-            )}
           </div>
         </div>
       </div>
