@@ -286,17 +286,19 @@ const QRPage = () => {
 
   return (
     <div className="h-screen bg-black overflow-hidden relative">
-      <Spotlight
-        gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(0, 0%, 100%, .12) 0, hsla(0, 0%, 100%, .04) 50%, hsla(0, 0%, 100%, 0) 80%)"
-        gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 100%, .08) 0, hsla(0, 0%, 100%, .03) 80%, transparent 100%)"
-        gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 100%, .06) 0, hsla(0, 0%, 100%, .02) 80%, transparent 100%)"
-        translateY={-300}
-        width={600}
-        height={1200}
-        smallWidth={300}
-        duration={6}
-        xOffset={120}
-      />
+      <div className="absolute inset-0 z-0">
+        <Spotlight
+          gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(0, 0%, 100%, .12) 0, hsla(0, 0%, 100%, .04) 50%, hsla(0, 0%, 100%, 0) 80%)"
+          gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 100%, .08) 0, hsla(0, 0%, 100%, .03) 80%, transparent 100%)"
+          gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 100%, .06) 0, hsla(0, 0%, 100%, .02) 80%, transparent 100%)"
+          translateY={-300}
+          width={600}
+          height={1200}
+          smallWidth={300}
+          duration={6}
+          xOffset={120}
+        />
+      </div>
       <div className="relative z-10">
         <Header />
         <div className="max-w-7xl mx-auto p-3 h-[calc(100vh-70px)]">
@@ -435,13 +437,13 @@ const QRPage = () => {
                   {totalAllocation > 0 ? (
                     <Pie data={chartData} options={chartOptions} />
                   ) : (
-                    <div className="h-full flex items-center justify-center border-2 border-dashed border-white/30 rounded-xl bg-white/5">
-                      <div className="text-center text-white/60">
-                        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
-                          <PieChart className="w-8 h-8 text-white/40" />
+                    <div className="h-full flex items-center justify-center border-2 border-dashed border-white/30 rounded-xl bg-white/5 p-8">
+                      <div className="text-center text-white/60 max-w-md">
+                        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-white/10 flex items-center justify-center">
+                          <PieChart className="w-10 h-10 text-white/40" />
                         </div>
-                        <p className="text-sm font-medium">Select tokens to see your portfolio</p>
-                        <p className="text-xs text-white/40 mt-1">Choose from available tokens on the right</p>
+                        <h3 className="text-lg font-semibold text-white/80 mb-3">Select tokens to see your portfolio</h3>
+                        <p className="text-sm text-white/50 leading-relaxed">Choose from available tokens on the right to build your custom portfolio allocation</p>
                       </div>
                     </div>
                   )}
@@ -649,114 +651,115 @@ const QRPage = () => {
           </div>
         )}
 
-        {/* Token Allocation Modal */}
-        {showTokenModal && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
-            <div className="glass-card max-w-md w-full p-8">
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
-                  <Plus className="w-8 h-8 text-white/70" />
-                </div>
-                <h3 className="text-2xl font-bold text-white/90 mb-2">
-                  Add {selectedToken} to Portfolio
-                </h3>
-                <p className="text-white/70">
-                  Set allocation percentage for {selectedToken} on {chains.find(c => c.id === currentChain)?.name}
-                </p>
-              </div>
-
-              <div className="space-y-8">
-                {/* Current Allocation Display */}
-                <div className="text-center bg-white/5 border border-white/20 rounded-xl p-6">
-                  <div className="text-6xl font-bold text-white/90 mb-3">
-                    {tokenAllocation}%
-                  </div>
-                  <div className="text-sm text-white/60">
-                    Remaining: <span className="font-medium text-white/80">{(100 - totalAllocation).toFixed(1)}%</span>
-                  </div>
-                </div>
-
-                {/* Allocation Slider */}
-                <div className="space-y-6">
-                  <div className="space-y-4">
-                    <label className="text-sm font-medium text-white/80">Allocation Percentage</label>
-                    <div className="relative">
-                      <input
-                        type="range"
-                        min="0.5"
-                        max={Math.min(100 - totalAllocation, 100)}
-                        step="0.5"
-                        value={tokenAllocation}
-                        onChange={(e) => setTokenAllocation(parseFloat(e.target.value))}
-                        className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
-                        style={{
-                          background: `linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) ${(tokenAllocation / Math.min(100 - totalAllocation, 100)) * 100}%, rgba(255, 255, 255, 0.2) ${(tokenAllocation / Math.min(100 - totalAllocation, 100)) * 100}%, rgba(255, 255, 255, 0.2) 100%)`
-                        }}
-                      />
-                      <div className="flex justify-between text-xs text-white/50 mt-2">
-                        <span>0.5%</span>
-                        <span>{Math.min(100 - totalAllocation, 100)}%</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Quick percentage buttons */}
-                  <div>
-                    <label className="text-sm font-medium text-white/80 block mb-3">Quick Select</label>
-                    <div className="grid grid-cols-4 gap-2">
-                      {[5, 10, 25, 50].filter(val => val <= (100 - totalAllocation)).map(percentage => (
-                        <button
-                          key={percentage}
-                          onClick={() => setTokenAllocation(percentage)}
-                          className={`px-3 py-2 text-sm rounded-lg transition-all duration-200 border font-medium ${
-                            tokenAllocation === percentage
-                              ? 'bg-white/20 border-white/40 text-white'
-                              : 'bg-white/10 hover:bg-white/20 text-white/80 hover:text-white border-white/20 hover:border-white/40'
-                          }`}
-                        >
-                          {percentage}%
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Modal Actions */}
-                <div className="flex space-x-4 pt-6">
-                  <button
-                    onClick={() => setShowTokenModal(false)}
-                    className="flex-1 px-6 py-3 bg-white/10 text-white/80 rounded-xl hover:bg-white/20 transition-all duration-200 font-medium border border-white/20 hover:border-white/40"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={addTokenToPortfolio}
-                    disabled={tokenAllocation <= 0 || (totalAllocation + tokenAllocation > 100)}
-                    className="flex-1 px-6 py-3 bg-white/20 border border-white/30 text-white rounded-xl hover:bg-white/30 disabled:bg-white/5 disabled:border-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-all duration-200 font-medium backdrop-blur-sm"
-                  >
-                    Add to Portfolio
-                  </button>
-                </div>
-
-                {/* Warning */}
-                {totalAllocation + tokenAllocation > 100 && (
-                  <div className="bg-white/5 border border-white/20 rounded-lg p-3 backdrop-blur-sm">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                        <X className="w-3 h-3 text-white/70" />
-                      </div>
-                      <p className="text-sm text-white/70">
-                        This allocation would exceed 100%. Please reduce the percentage.
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
         </div>
       </div>
+      
+      {/* Token Allocation Modal - Outside main content for proper layering */}
+      {showTokenModal && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[100] p-4">
+          <div className="glass-card max-w-md w-full p-8">
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                <Plus className="w-8 h-8 text-white/70" />
+              </div>
+              <h3 className="text-2xl font-bold text-white/90 mb-2">
+                Add {selectedToken} to Portfolio
+              </h3>
+              <p className="text-white/70">
+                Set allocation percentage for {selectedToken} on {chains.find(c => c.id === currentChain)?.name}
+              </p>
+            </div>
+
+            <div className="space-y-8">
+              {/* Current Allocation Display */}
+              <div className="text-center bg-white/5 border border-white/20 rounded-xl p-6">
+                <div className="text-6xl font-bold text-white/90 mb-3">
+                  {tokenAllocation}%
+                </div>
+                <div className="text-sm text-white/60">
+                  Remaining: <span className="font-medium text-white/80">{(100 - totalAllocation).toFixed(1)}%</span>
+                </div>
+              </div>
+
+              {/* Allocation Slider */}
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <label className="text-sm font-medium text-white/80">Allocation Percentage</label>
+                  <div className="relative">
+                    <input
+                      type="range"
+                      min="0.5"
+                      max={Math.min(100 - totalAllocation, 100)}
+                      step="0.5"
+                      value={tokenAllocation}
+                      onChange={(e) => setTokenAllocation(parseFloat(e.target.value))}
+                      className="w-full h-3 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+                      style={{
+                        background: `linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) ${(tokenAllocation / Math.min(100 - totalAllocation, 100)) * 100}%, rgba(255, 255, 255, 0.2) ${(tokenAllocation / Math.min(100 - totalAllocation, 100)) * 100}%, rgba(255, 255, 255, 0.2) 100%)`
+                      }}
+                    />
+                    <div className="flex justify-between text-xs text-white/50 mt-2">
+                      <span>0.5%</span>
+                      <span>{Math.min(100 - totalAllocation, 100)}%</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Quick percentage buttons */}
+                <div>
+                  <label className="text-sm font-medium text-white/80 block mb-3">Quick Select</label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {[5, 10, 25, 50].filter(val => val <= (100 - totalAllocation)).map(percentage => (
+                      <button
+                        key={percentage}
+                        onClick={() => setTokenAllocation(percentage)}
+                        className={`px-3 py-2 text-sm rounded-lg transition-all duration-200 border font-medium ${
+                          tokenAllocation === percentage
+                            ? 'bg-white/20 border-white/40 text-white'
+                            : 'bg-white/10 hover:bg-white/20 text-white/80 hover:text-white border-white/20 hover:border-white/40'
+                        }`}
+                      >
+                        {percentage}%
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Modal Actions */}
+              <div className="flex space-x-4 pt-6">
+                <button
+                  onClick={() => setShowTokenModal(false)}
+                  className="flex-1 px-6 py-3 bg-white/10 text-white/80 rounded-xl hover:bg-white/20 transition-all duration-200 font-medium border border-white/20 hover:border-white/40"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={addTokenToPortfolio}
+                  disabled={tokenAllocation <= 0 || (totalAllocation + tokenAllocation > 100)}
+                  className="flex-1 px-6 py-3 bg-white/20 border border-white/30 text-white rounded-xl hover:bg-white/30 disabled:bg-white/5 disabled:border-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-all duration-200 font-medium backdrop-blur-sm"
+                >
+                  Add to Portfolio
+                </button>
+              </div>
+
+              {/* Warning */}
+              {totalAllocation + tokenAllocation > 100 && (
+                <div className="bg-white/5 border border-white/20 rounded-lg p-3 backdrop-blur-sm">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                      <X className="w-3 h-3 text-white/70" />
+                    </div>
+                    <p className="text-sm text-white/70">
+                      This allocation would exceed 100%. Please reduce the percentage.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
