@@ -1,6 +1,6 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Image from 'next/image';
-import { IconHome, IconCurrencyDollar, IconWallet } from "@tabler/icons-react";
+import { IconHome, IconCurrencyDollar, IconBuildingStore } from "@tabler/icons-react";
 import { FloatingDock } from "@/components/ui/floating-dock";
 
 export const Header = ({ showNavigation = false }) => {
@@ -17,7 +17,7 @@ export const Header = ({ showNavigation = false }) => {
     },
     {
       title: "Merchant",
-      icon: <IconWallet className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+      icon: <IconBuildingStore className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
       href: "/merchant",
     },
   ];
