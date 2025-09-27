@@ -13,19 +13,12 @@ const QRDisplay = ({
 }) => {
   if (!showQRModal) return null
 
-  const handleCreateNew = () => {
-    setShowQRModal(false)
-    resetSelection()
-  }
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
       <div className="glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6">
         <div className="text-center space-y-6">
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-            🎉 Your Portfolio QR Code
-          </h2>
           <p className="text-white/70">Scan this QR code to share your portfolio allocation</p>
         </div>
       
@@ -74,20 +67,6 @@ const QRDisplay = ({
               </div>
             </div>
           
-            {/* JSON Data - Collapsible */}
-            <details className="w-full max-w-2xl">
-              <summary className="cursor-pointer bg-white/10 hover:bg-white/20 border border-white/20 p-2 rounded-lg font-medium text-white/80 transition-colors backdrop-blur-sm text-sm">
-                🔧 View Raw JSON Data
-              </summary>
-              <div className="mt-2 bg-black/50 border border-white/20 text-green-400 p-3 rounded-lg font-mono text-xs overflow-auto backdrop-blur-sm max-h-32">
-                <pre>
-                  {JSON.stringify({
-                    walletAddress: address,
-                    ...selectedChains
-                  }, null, 2)}
-                </pre>
-              </div>
-            </details>
           
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
@@ -96,13 +75,6 @@ const QRDisplay = ({
                 className="px-6 py-2.5 bg-white/10 text-white/80 rounded-lg hover:bg-white/20 transition-all duration-200 font-medium border border-white/20 hover:border-white/40 text-sm"
               >
                 Close
-              </button>
-              <button
-                onClick={handleCreateNew}
-                className="px-6 py-2.5 bg-white/20 border border-white/30 text-white rounded-lg hover:bg-white/30 transition-all duration-200 font-medium backdrop-blur-sm text-sm flex items-center justify-center space-x-2"
-              >
-                <span>🔄</span>
-                <span>Create New Portfolio</span>
               </button>
               <button
                 onClick={() => {
