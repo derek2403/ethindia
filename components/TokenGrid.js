@@ -17,7 +17,7 @@ const TokenGrid = ({
           <Coins className="w-3 h-3 text-white/70" />
         </div>
         <div>
-          <h3 className="text-lg font-bold text-white/90">Available Tokens</h3>
+          <h3 className="text-lg font-bold text-white/90">Available Payment Tokens</h3>
           <p className="text-xs text-white/60">{chains.find(c => c.id === currentChain)?.name}</p>
         </div>
       </div>
@@ -25,8 +25,8 @@ const TokenGrid = ({
       <div className="space-y-2 flex-1 overflow-y-auto mb-4">
         {tokensByChain[currentChain]?.map(token => {
           const isSelected = selectedChains[currentChain]?.[token.name]
-          const isPortfolioFull = totalAllocation >= 100
-          const isDisabled = isSelected || isPortfolioFull
+          const isPreferencesFull = totalAllocation >= 100
+          const isDisabled = isSelected || isPreferencesFull
           
           return (
             <button
@@ -36,7 +36,7 @@ const TokenGrid = ({
               className={`w-full p-3 rounded-lg border transition-all duration-200 flex items-center gap-3 text-left backdrop-blur-sm ${
                 isSelected
                   ? 'border-white/20 bg-white/10 cursor-not-allowed shadow-sm shadow-white/10'
-                  : isPortfolioFull
+                  : isPreferencesFull
                   ? 'border-white/10 bg-white/5 cursor-not-allowed opacity-50 blur-[1px]'
                   : 'border-white/10 hover:border-white/20 hover:bg-white/10 cursor-pointer bg-white/5'
               }`}
@@ -62,7 +62,7 @@ const TokenGrid = ({
                 <div className="text-xs text-white/60 truncate">{token.fullName}</div>
                 {isSelected && (
                   <div className="text-xs text-white/70 font-medium mt-0.5">
-                    {selectedChains[currentChain][token.name]}% allocated
+                    {selectedChains[currentChain][token.name]}% preference
                   </div>
                 )}
               </div>
@@ -77,7 +77,7 @@ const TokenGrid = ({
       {/* Progress indicator */}
       <div className="border-t border-white/15 pt-4 mt-auto">
         <div className="flex justify-between text-sm text-white/70 mb-3">
-          <span className="font-medium">Portfolio Progress</span>
+          <span className="font-medium">Payment Progress</span>
           <span className="font-mono">{totalAllocation.toFixed(1)}% / 100%</span>
         </div>
         <div className="w-full bg-white/20 rounded-full h-3 overflow-hidden">
@@ -89,9 +89,9 @@ const TokenGrid = ({
           ></div>
         </div>
         <div className="text-xs text-white/50 mt-2 text-center">
-          {totalAllocation === 0 && "Start by selecting tokens above"}
+          {totalAllocation === 0 && "Start by selecting payment tokens above"}
           {totalAllocation > 0 && totalAllocation < 100 && `${(100 - totalAllocation).toFixed(1)}% remaining`}
-          {totalAllocation === 100 && "Portfolio complete! Ready to generate QR"}
+          {totalAllocation === 100 && "Payment preferences set! Ready to claim"}
           {totalAllocation > 100 && "Over-allocated! Please reduce some percentages"}
         </div>
       </div>

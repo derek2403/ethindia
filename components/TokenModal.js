@@ -43,10 +43,10 @@ const TokenModal = ({
             </div>
           </div>
           <h3 className="text-xl font-bold text-white/90 mb-2">
-            Add {selectedToken} to Portfolio
+            Set Payment Preference
           </h3>
           <p className="text-sm text-white/70">
-            Set allocation percentage for {selectedToken} on {chains.find(c => c.id === currentChain)?.name}
+            Set preference percentage for {selectedToken} on {chains.find(c => c.id === currentChain)?.name}
           </p>
         </div>
 
@@ -64,7 +64,7 @@ const TokenModal = ({
           {/* Allocation Slider */}
           <div className="space-y-4">
             <div className="space-y-3">
-              <label className="text-xs font-medium text-white/80">Allocation Percentage</label>
+              <label className="text-xs font-medium text-white/80">Preference Percentage</label>
               <div className="relative">
                 <input
                   type="range"
@@ -119,7 +119,7 @@ const TokenModal = ({
               disabled={tokenAllocation <= 0 || (totalAllocation + tokenAllocation > 100)}
               className="flex-1 px-4 py-2.5 bg-white/20 border border-white/30 text-white rounded-lg hover:bg-white/30 disabled:bg-white/5 disabled:border-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-all duration-200 font-medium backdrop-blur-sm text-sm"
             >
-              Add to Portfolio
+              Set Preference
             </button>
           </div>
 
@@ -131,7 +131,7 @@ const TokenModal = ({
                   <X className="w-2.5 h-2.5 text-white/70" />
                 </div>
                 <p className="text-xs text-white/70">
-                  This allocation would exceed 100%. Please reduce the percentage.
+                  This preference would exceed 100%. Please reduce the percentage.
                 </p>
               </div>
             </div>

@@ -10,6 +10,7 @@ import TokenGrid from '@/components/TokenGrid'
 import PortfolioSummary from '@/components/PortfolioSummary'
 import TokenModal from '@/components/TokenModal'
 import QRDisplay from '@/components/QRDisplay'
+import SimpleQRDisplay from '@/components/SimpleQRDisplay'
 import {
   Chart as ChartJS,
   ArcElement,
@@ -27,6 +28,7 @@ const MerchantPage = () => {
   const [qrDataUrl, setQrDataUrl] = useState('')
   const [showTokenModal, setShowTokenModal] = useState(false)
   const [showQRModal, setShowQRModal] = useState(false)
+  const [showSimpleQRModal, setShowSimpleQRModal] = useState(false)
   const [selectedToken, setSelectedToken] = useState('')
   const [tokenAllocation, setTokenAllocation] = useState(10)
 
@@ -77,7 +79,7 @@ const MerchantPage = () => {
     ]
   }
 
-  // Calculate total allocation percentage and prepare chart data
+  // Calculate total payment preference percentage and prepare chart data
   const totalAllocation = useMemo(() => {
     return Object.values(selectedChains).reduce((total, chainTokens) => {
       return total + Object.values(chainTokens).reduce((chainTotal, allocation) => chainTotal + allocation, 0)
@@ -99,9 +101,9 @@ const MerchantPage = () => {
       })
     })
     
-    // Add remaining allocation if less than 100%
+    // Add remaining preference if less than 100%
     if (totalAllocation < 100) {
-      labels.push('Unallocated')
+      labels.push('No Preference')
       data.push(100 - totalAllocation)
       colors.push('#E5E7EB')
     }
@@ -119,16 +121,19 @@ const MerchantPage = () => {
 
   const handleTokenClick = (token) => {
     setSelectedToken(token.name)
+    // Set allocation to remaining percentage or 10%, whichever is smaller
+    const remainingPercentage = 100 - totalAllocation
+    setTokenAllocation(Math.min(remainingPercentage, 10))
     setShowTokenModal(true)
   }
 
-  const addTokenToPortfolio = () => {
+  const addPaymentPreference = () => {
     if (!currentChain || !selectedToken || !tokenAllocation) {
       alert('Please fill in all fields')
       return
     }
 
-    // Check if adding this allocation would exceed 100%
+    // Check if adding this preference would exceed 100%
     if (totalAllocation + tokenAllocation > 100) {
       alert(`Adding ${tokenAllocation}% would exceed 100%. Current total: ${totalAllocation.toFixed(1)}%`)
       return
@@ -175,6 +180,27 @@ const MerchantPage = () => {
     }
   }
 
+  const generateSimpleQRCode = async () => {
+    if (!isConnected || !address) {
+      alert('Please connect your wallet first')
+      return
+    }
+
+    const qrData = {
+      walletAddress: address,
+      ...selectedChains
+    }
+
+    try {
+      const qrCodeDataUrl = await QRCode.toDataURL(JSON.stringify(qrData))
+      setQrDataUrl(qrCodeDataUrl)
+      setShowSimpleQRModal(true)
+    } catch (error) {
+      console.error('Error generating QR code:', error)
+      alert('Error generating QR code')
+    }
+  }
+
   const removeToken = (chainId, tokenName) => {
     setSelectedChains(prev => {
       const newChains = { ...prev }
@@ -197,6 +223,7 @@ const MerchantPage = () => {
     setQrDataUrl('')
     setShowTokenModal(false)
     setShowQRModal(false)
+    setShowSimpleQRModal(false)
   }
 
   const chartOptions = {
@@ -253,7 +280,7 @@ const MerchantPage = () => {
           <div className="flex items-center justify-center h-[calc(100vh-80px)]">
             <div className="glass-card p-8 text-center">
               <h1 className="text-2xl font-bold mb-4 text-white/90">Connect Your Wallet</h1>
-              <p className="text-white/70">Please connect your wallet to generate a portfolio QR code</p>
+              <p className="text-white/70">Please connect your wallet to set up payment claiming preferences</p>
             </div>
           </div>
         </div>
@@ -281,7 +308,7 @@ const MerchantPage = () => {
         <div className="max-w-7xl mx-auto p-3 h-[calc(100vh-70px)]">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 h-full">
-            {/* Left Panel - Chain Selection */}
+            {/* Left Panel - Payment Chain Selection */}
           <div className="lg:col-span-1 h-full flex flex-col">
             <ChainSelector
               chains={chains}
@@ -298,19 +325,19 @@ const MerchantPage = () => {
             />
               </div>
               
-          {/* Center Panel - Portfolio Allocation */}
+          {/* Center Panel - Payment Preferences */}
           <div className="lg:col-span-1 h-full">
             <PortfolioChart
               totalAllocation={totalAllocation}
               chartData={chartData}
               chartOptions={chartOptions}
-              generateQRCode={generateQRCode}
+              generateQRCode={generateSimpleQRCode}
               resetSelection={resetSelection}
               selectedChains={selectedChains}
             />
             </div>
             
-          {/* Right Panel - Available Tokens */}
+          {/* Right Panel - Available Payment Tokens */}
           <div className="lg:col-span-1 h-full">
             <TokenGrid
               chains={chains}
@@ -336,7 +363,7 @@ const MerchantPage = () => {
         tokenAllocation={tokenAllocation}
         setTokenAllocation={setTokenAllocation}
         totalAllocation={totalAllocation}
-        addTokenToPortfolio={addTokenToPortfolio}
+        addTokenToPortfolio={addPaymentPreference}
       />
       
       <QRDisplay
@@ -349,6 +376,12 @@ const MerchantPage = () => {
         totalAllocation={totalAllocation}
         address={address}
         resetSelection={resetSelection}
+      />
+      
+      <SimpleQRDisplay
+        showSimpleQRModal={showSimpleQRModal}
+        setShowSimpleQRModal={setShowSimpleQRModal}
+        qrDataUrl={qrDataUrl}
       />
     </div>
   )
