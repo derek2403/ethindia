@@ -91,7 +91,10 @@ export default function LandingPage() {
                       tokenAlt="HBAR" 
                       chainAlt="Hedera"
                     />
-                    <span className="text-white/90 text-sm">HBAR on Hedera</span>
+                    <div className="flex flex-col">
+                      <span className="text-white/90 text-sm font-medium">HBAR</span>
+                      <span className="text-white/50 text-xs">on Hedera</span>
+                    </div>
                   </div>
                   <span className="text-white font-medium">$10</span>
                 </div>
@@ -105,7 +108,10 @@ export default function LandingPage() {
                       tokenAlt="FLOW" 
                       chainAlt="Flow"
                     />
-                    <span className="text-white/90 text-sm">FLOW on Flow</span>
+                    <div className="flex flex-col">
+                      <span className="text-white/90 text-sm font-medium">FLOW</span>
+                      <span className="text-white/50 text-xs">on Flow</span>
+                    </div>
                   </div>
                   <span className="text-white font-medium">$20</span>
                 </div>
@@ -119,7 +125,10 @@ export default function LandingPage() {
                       tokenAlt="USDC" 
                       chainAlt="Arbitrum"
                     />
-                    <span className="text-white/90 text-sm">USDC on Arbitrum</span>
+                    <div className="flex flex-col">
+                      <span className="text-white/90 text-sm font-medium">USDC</span>
+                      <span className="text-white/50 text-xs">on Arbitrum</span>
+                    </div>
                   </div>
                   <span className="text-white font-medium">$50</span>
                 </div>
@@ -127,8 +136,16 @@ export default function LandingPage() {
                 {/* PayPal USD Payment */}
                 <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
                   <div className="flex items-center gap-3">
-                    <TokenIcon src="/icons/paypal-usd-pyusd-logo.svg" alt="PYUSD" />
-                    <span className="text-white/90 text-sm">PYUSD (PayPal)</span>
+                    <TokenWithChain 
+                      tokenSrc="/icons/paypal-usd-pyusd-logo.svg" 
+                      chainSrc="/icons/ethereum-eth-logo.svg" 
+                      tokenAlt="PYUSD" 
+                      chainAlt="Ethereum Sepolia"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-white/90 text-sm font-medium">PYUSD</span>
+                      <span className="text-white/50 text-xs">on Ethereum Sepolia</span>
+                    </div>
                   </div>
                   <span className="text-white font-medium">$20</span>
                 </div>
@@ -263,7 +280,10 @@ export default function LandingPage() {
                       tokenAlt="ETH" 
                       chainAlt="Ethereum"
                     />
-                    <span className="text-white/90 text-sm">ETH on Ethereum</span>
+                    <div className="flex flex-col">
+                      <span className="text-white/90 text-sm font-medium">ETH</span>
+                      <span className="text-white/50 text-xs">on Ethereum</span>
+                    </div>
                   </div>
                   <span className="text-white font-medium">$70</span>
                 </div>
@@ -277,7 +297,10 @@ export default function LandingPage() {
                       tokenAlt="SOL" 
                       chainAlt="Solana"
                     />
-                    <span className="text-white/90 text-sm">SOL on Solana</span>
+                    <div className="flex flex-col">
+                      <span className="text-white/90 text-sm font-medium">SOL</span>
+                      <span className="text-white/50 text-xs">on Solana</span>
+                    </div>
                   </div>
                   <span className="text-white font-medium">$30</span>
                 </div>
