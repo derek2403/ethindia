@@ -3,6 +3,7 @@ import { useAccount } from 'wagmi'
 import QRCode from 'qrcode'
 import Image from 'next/image'
 import { Header } from '@/components/Header'
+import { Spotlight } from '@/components/ui/spotlight-new'
 import {
   Chart as ChartJS,
   ArcElement,
@@ -258,12 +259,25 @@ const QRPage = () => {
 
   if (!isConnected) {
     return (
-      <div className="h-screen bg-black overflow-hidden">
-        <Header />
-        <div className="flex items-center justify-center h-[calc(100vh-80px)]">
-          <div className="glass-card p-8 text-center">
-            <h1 className="text-2xl font-bold mb-4 text-white/90">Connect Your Wallet</h1>
-            <p className="text-white/70">Please connect your wallet to generate a portfolio QR code</p>
+      <div className="h-screen bg-black overflow-hidden relative">
+        <Spotlight
+          gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(0, 0%, 100%, .12) 0, hsla(0, 0%, 100%, .04) 50%, hsla(0, 0%, 100%, 0) 80%)"
+          gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 100%, .08) 0, hsla(0, 0%, 100%, .03) 80%, transparent 100%)"
+          gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 100%, .06) 0, hsla(0, 0%, 100%, .02) 80%, transparent 100%)"
+          translateY={-300}
+          width={600}
+          height={1200}
+          smallWidth={300}
+          duration={6}
+          xOffset={120}
+        />
+        <div className="relative z-10">
+          <Header />
+          <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+            <div className="glass-card p-8 text-center">
+              <h1 className="text-2xl font-bold mb-4 text-white/90">Connect Your Wallet</h1>
+              <p className="text-white/70">Please connect your wallet to generate a portfolio QR code</p>
+            </div>
           </div>
         </div>
       </div>
@@ -271,9 +285,21 @@ const QRPage = () => {
   }
 
   return (
-    <div className="h-screen bg-black overflow-hidden">
-      <Header />
-      <div className="max-w-7xl mx-auto p-3 h-[calc(100vh-70px)]">
+    <div className="h-screen bg-black overflow-hidden relative">
+      <Spotlight
+        gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(0, 0%, 100%, .12) 0, hsla(0, 0%, 100%, .04) 50%, hsla(0, 0%, 100%, 0) 80%)"
+        gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 100%, .08) 0, hsla(0, 0%, 100%, .03) 80%, transparent 100%)"
+        gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 100%, .06) 0, hsla(0, 0%, 100%, .02) 80%, transparent 100%)"
+        translateY={-300}
+        width={600}
+        height={1200}
+        smallWidth={300}
+        duration={6}
+        xOffset={120}
+      />
+      <div className="relative z-10">
+        <Header />
+        <div className="max-w-7xl mx-auto p-3 h-[calc(100vh-70px)]">
 
         {isAddingTokens ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 h-full">
@@ -729,6 +755,7 @@ const QRPage = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   )
