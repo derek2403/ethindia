@@ -15,6 +15,35 @@ import {
   base,
   sepolia,
 } from 'wagmi/chains';
+
+// Custom chain definitions for testnets
+const flowEVMTestnet = {
+  id: 545,
+  name: 'Flow EVM Testnet',
+  nativeCurrency: { name: 'Flow', symbol: 'FLOW', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://testnet.evm.nodes.onflow.org'] },
+    public: { http: ['https://testnet.evm.nodes.onflow.org'] }
+  },
+  blockExplorers: {
+    default: { name: 'Flow Diver', url: 'https://testnet.flowdiver.io' }
+  },
+  testnet: true
+};
+
+const hederaTestnet = {
+  id: 296,
+  name: 'Hedera Testnet',
+  nativeCurrency: { name: 'HBAR', symbol: 'HBAR', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://testnet.hashio.io/api'] },
+    public: { http: ['https://testnet.hashio.io/api'] }
+  },
+  blockExplorers: {
+    default: { name: 'HashScan', url: 'https://hashscan.io/testnet' }
+  },
+  testnet: true
+};
 import {
   QueryClientProvider,
   QueryClient,
@@ -23,7 +52,7 @@ import {
 const config = getDefaultConfig({
   appName: 'ethindia',
   projectId: '1',
-  chains: [mainnet, polygon, optimism, arbitrum, base, sepolia],
+  chains: [sepolia, flowEVMTestnet, hederaTestnet, mainnet, polygon, optimism, arbitrum, base],
   ssr: true,
 });
 
