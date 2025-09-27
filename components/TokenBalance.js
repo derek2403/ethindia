@@ -35,11 +35,18 @@ const TOKENS = [
 export default function TokenBalance({ transferAmounts = {}, setTransferAmounts }) {
     const { address, isConnected } = useAccount();
   
-    const balances = {};
-    TOKENS.forEach(token => {
-      const { data: balance } = useBalance({ address, token: token.address });
-      balances[token.symbol] = balance;
-    });
+    // Call useBalance hook for each token individually at the top level
+    const ethBalance = useBalance({ address, token: null });
+    const usdcBalance = useBalance({ address, token: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238' });
+    const pyusdBalance = useBalance({ address, token: '0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9' });
+    const linkBalance = useBalance({ address, token: '0x779877A7B0D9E8603169DdbD7836e478b4624789' });
+    
+    const balances = {
+      'ETH': ethBalance.data,
+      'USDC': usdcBalance.data,
+      'PYUSD': pyusdBalance.data,
+      'LINK': linkBalance.data
+    };
   
     const handleSliderChange = (tokenSymbol, value) => {
       setTransferAmounts(prev => ({ ...prev, [tokenSymbol]: value }));
