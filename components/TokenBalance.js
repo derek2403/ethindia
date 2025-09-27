@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useCapabilities, useSendCalls, useChainId, useSwitchChain } from 'wagmi';
 import Image from "next/image";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { CHAIN_CONFIGS } from '../lib/chainConfigs';
 import { createTransferKey, formatBalance } from '../lib/tokenUtils';
 import { useTokenBalance } from '../hooks/useTokenBalance';
 import TransferSummary from './TransferSummary';
+import { 
+  groupTransfersByChain, 
+  executeMultiChainTransfers
+} from '../lib/chainUtils';
 
 // Token Icon with Chain overlay component
 const TokenWithChain = ({ tokenSrc, chainSrc, tokenAlt, chainAlt }) => (
@@ -272,6 +276,16 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
 
 export default function TokenBalance({ transferAmounts = {}, setTransferAmounts, tokenPrices = {}, pricesLoading = false, pricesError = null }) {
   const { address, isConnected } = useAccount();
+  
+  // Transfer functionality
+  const { data: capabilities } = useCapabilities();
+  const { sendCalls, isPending } = useSendCalls();
+  const currentChainId = useChainId();
+  const { switchChain, isPending: isSwitchingChain } = useSwitchChain();
+  
+  const [txResult, setTxResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentProgress, setCurrentProgress] = useState('');
 
   // Add CSS to hide number input spinners
   useEffect(() => {
@@ -296,6 +310,41 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
   const handleTransferAmountChange = (tokenSymbol, chainId, value) => {
     const key = createTransferKey(tokenSymbol, chainId);
     setTransferAmounts(prev => ({ ...prev, [key]: value }));
+  };
+
+  // Transfer functionality
+  const transfersByChain = groupTransfersByChain(transferAmounts);
+  const hasTokensSelected = Object.keys(transfersByChain).length > 0;
+
+  const handleTransfer = async () => {
+    if (!address) return;
+
+    setIsLoading(true);
+    setTxResult(null);
+    setCurrentProgress('');
+
+    try {
+      const recipientAddress = '0x3C1e5A7C1E70Dae9008C45AeAcff9C123271Cf0A';
+      
+      const results = await executeMultiChainTransfers({
+        transfersByChain,
+        recipientAddress,
+        currentChainId,
+        switchChain,
+        sendCalls,
+        capabilities,
+        setProgress: setCurrentProgress
+      });
+
+      setCurrentProgress('');
+      setTxResult({ success: true, results });
+    } catch (err) {
+      console.error('Transfer failed:', err);
+      setCurrentProgress('');
+      setTxResult({ success: false, error: err.message });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Flatten all tokens from all chains
@@ -355,9 +404,51 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
             tokenPrice={tokenPrices[token.symbol]}
           />
         ))}
+
+        {/* Transfer Summary - integrated in same container */}
+        <TransferSummary transferAmounts={transferAmounts} tokenPrices={tokenPrices} />
       </div>
 
-      <TransferSummary transferAmounts={transferAmounts} />
+      {/* Transfer Button */}
+      <div className="flex justify-center mt-6">
+        <button
+          onClick={handleTransfer}
+          disabled={isLoading || isPending || isSwitchingChain || !hasTokensSelected}
+          className="px-8 py-4 bg-white/10 hover:bg-white/20 disabled:bg-white/5 disabled:text-white/40 text-white font-medium rounded-lg border border-white/20 hover:border-white/30 transition-all duration-200 text-lg"
+        >
+          {isLoading || isPending
+            ? currentProgress || 'Sending Transfer...'
+            : isSwitchingChain
+            ? 'Switching Chain...'
+            : !hasTokensSelected
+            ? 'Select tokens to transfer'
+            : 'Send Transfer'}
+        </button>
+      </div>
+
+      {/* Transfer Result */}
+      {txResult && (
+        <div className={`mt-4 p-4 rounded-lg border ${txResult.success ? 'bg-green-500/10 border-green-400/30' : 'bg-red-500/10 border-red-400/30'}`}>
+          <p className={`font-medium ${txResult.success ? 'text-green-300' : 'text-red-300'}`}>
+            {txResult.success ? 'Transfer Successful!' : 'Transfer Failed'}
+          </p>
+          {txResult.success && txResult.results && (
+            <div className="mt-2 space-y-2">
+              {txResult.results.map(({ chainId, result, chainName }, index) => {
+                const chain = CHAIN_CONFIGS.find(c => c.chainId === parseInt(chainId));
+                return (
+                  <div key={index} className="text-sm text-green-200">
+                    {chain?.icon} {chainName || chain?.name}: Transaction {result}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {!txResult.success && (
+            <p className="text-sm text-red-200 mt-1">{txResult.error}</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
