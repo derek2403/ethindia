@@ -118,7 +118,7 @@ export default function LandingPage() {
             {/* Payment Cards Container */}
             <div className="flex gap-8 flex-col lg:flex-row w-full max-w-6xl">
               {/* Payment Breakdown Card */}
-              <div className="glass-card flex flex-col justify-start p-6 relative flex-1 max-w-lg">
+              <div className="glass-card flex flex-col justify-start p-6 relative flex-1 max-w-md">
                 <BorderBeam 
                   size={120}
                   duration={4}
@@ -144,7 +144,10 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Hedera</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-base">$10</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">46.9 HBAR</span>
+                    <span className="text-white/60 text-sm block">$10</span>
+                  </div>
                 </div>
 
                 {/* FLOW Payment */}
@@ -161,7 +164,10 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Flow</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-base">$20</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">66.3 FLOW</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
 
                 {/* USDC Payment */}
@@ -178,7 +184,10 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Arbitrum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-base">$30</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">30.0 USDC</span>
+                    <span className="text-white/60 text-sm block">$30</span>
+                  </div>
                 </div>
 
                 {/* ETH Payment */}
@@ -195,7 +204,10 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Arbitrum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-base">$20</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">0.005 ETH</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
 
                 {/* PayPal USD Payment */}
@@ -212,7 +224,10 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Ethereum Sepolia</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-base">$20</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">20.0 PYUSD</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
               </div>
 
@@ -324,7 +339,7 @@ export default function LandingPage() {
               </div>
 
               {/* Merchant Received Card */}
-              <div className="glass-card flex flex-col justify-start p-6 relative flex-1 max-w-lg">
+              <div className="glass-card flex flex-col justify-start p-6 relative flex-1 max-w-md">
                 <BorderBeam 
                   size={120}
                   duration={4}
@@ -350,7 +365,10 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Ethereum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-base">$50</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">0.012 ETH</span>
+                    <span className="text-white/60 text-sm block">$50</span>
+                  </div>
                 </div>
 
                 {/* SOL Received */}
@@ -367,7 +385,10 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Solana</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-base">$30</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">0.148 SOL</span>
+                    <span className="text-white/60 text-sm block">$30</span>
+                  </div>
                 </div>
 
                 {/* PYUSD Received */}
@@ -384,7 +405,10 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Arbitrum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-base">$20</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">20.0 PYUSD</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
               </div>
 
