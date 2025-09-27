@@ -46,7 +46,9 @@ const QRPage = () => {
     { id: 'optimism', name: 'Optimism', icon: '/icons/ethereum-eth-logo.svg' },
     { id: 'arbitrum', name: 'Arbitrum', icon: '/icons/arbitrum-arb-logo.svg' },
     { id: 'base', name: 'Base', icon: '/icons/ethereum-eth-logo.svg' },
-    { id: 'sepolia', name: 'Sepolia', icon: '/icons/ethereum-eth-logo.svg' }
+    { id: 'sepolia', name: 'Sepolia', icon: '/icons/ethereum-eth-logo.svg' },
+    { id: 'flow', name: 'Flow', icon: '/icons/flow-flow-logo.svg' },
+    { id: 'hedera', name: 'Hedera', icon: '/icons/hedera-hbar-logo.svg' }
   ]
 
   // Common tokens for each chain with SVG icons and theme colors
@@ -73,6 +75,7 @@ const QRPage = () => {
     ],
     arbitrum: [
       { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
+      { name: 'PYUSD', fullName: 'PayPal USD', icon: '/icons/paypal-usd-pyusd-logo.svg', bgColor: 'bg-blue-600/20', chartColor: '#0070BA' },
       { name: 'ARB', fullName: 'Arbitrum', icon: '/icons/arbitrum-arb-logo.svg', bgColor: 'bg-blue-600/20', chartColor: '#28A0F0' },
       { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
       { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
@@ -84,8 +87,15 @@ const QRPage = () => {
     ],
     sepolia: [
       { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
-      { name: 'DAI', fullName: 'Dai Stablecoin', icon: '/icons/multi-collateral-dai-dai-logo.svg', bgColor: 'bg-yellow-500/20', chartColor: '#F5AC37' }
+      { name: 'PYUSD', fullName: 'PayPal USD', icon: '/icons/paypal-usd-pyusd-logo.svg', bgColor: 'bg-blue-600/20', chartColor: '#0070BA' },
+      { name: 'LINK', fullName: 'Chainlink', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-700/20', chartColor: '#375BD2' }
+    ],
+    flow: [
+      { name: 'FLOW', fullName: 'Flow', icon: '/icons/flow-flow-logo.svg', bgColor: 'bg-green-600/20', chartColor: '#00EF8B' }
+    ],
+    hedera: [
+      { name: 'HBAR', fullName: 'Hedera Hashgraph', icon: '/icons/hedera-hbar-logo.svg', bgColor: 'bg-purple-600/20', chartColor: '#82259D' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' }
     ]
   }
 
