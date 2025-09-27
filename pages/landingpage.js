@@ -370,10 +370,12 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Wallet Connection Header - Exact same as transfer.js */}
+        {/* Wallet Connection Header - Glassmorphism design */}
         <header className="absolute top-0 left-0 right-0 z-30 flex justify-end items-center p-4">
-          <div className="bg-white/10 border border-white/30 rounded-xl backdrop-blur-md shadow-lg">
-            <ConnectButton />
+          <div className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-2xl p-1">
+            <div className="relative z-10 [&>div]:!bg-transparent [&>div]:!border-transparent [&>div]:!backdrop-blur-none [&>div]:!shadow-none">
+              <ConnectButton />
+            </div>
           </div>
         </header>
 
