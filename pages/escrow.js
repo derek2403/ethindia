@@ -1,8 +1,106 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useAccount } from 'wagmi';
-import { formatEther } from 'viem';
+import { formatEther, isAddress } from 'viem';
+import { ethers } from 'ethers';
 import { Header } from '../components/Header';
 import { CHAIN_CONFIGS } from '../lib/chainConfigs';
+
+// Hardcoded configurations for escrow - override chainConfigs
+const ESCROW_CHAIN_CONFIGS = [
+  {
+    chainId: 11155111,
+    name: 'Sepolia',
+    icon: '🔵',
+    nativeToken: {
+      symbol: 'ETH',
+      name: 'Ethereum',
+      decimals: 18,
+      logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png'
+    },
+    escrowAddress: '0x724D4Ec728b54B1b2E963811981504EEc56E85FF',
+    erc20Tokens: [
+      {
+        symbol: 'USDC',
+        name: 'USD Coin',
+        address: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
+        decimals: 6,
+        logo: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.png'
+      },
+      {
+        symbol: 'PYUSD',
+        name: 'PayPal USD',
+        address: '0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9',
+        decimals: 6,
+        logo: 'https://cryptologos.cc/logos/paypal-usd-pyusd-logo.png'
+      },
+      {
+        symbol: 'LINK',
+        name: 'Chainlink',
+        address: '0x779877A7B0D9E8603169DdbD7836e478b4624789',
+        decimals: 18,
+        logo: 'https://cryptologos.cc/logos/chainlink-link-logo.png'
+      }
+    ]
+  },
+  {
+    chainId: 421614,
+    name: 'Arbitrum Sepolia',
+    icon: '🔶',
+    nativeToken: {
+      symbol: 'ETH',
+      name: 'Ethereum',
+      decimals: 18,
+      logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png'
+    },
+    escrowAddress: '0xFBdB5D6A0bf37A3b0D87EC317661a83581890692',
+    erc20Tokens: [
+      {
+        symbol: 'USDC',
+        name: 'USD Coin',
+        address: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d',
+        decimals: 6,
+        logo: 'https://cryptologos.cc/logos/usd-coin-usdc-logo.png'
+      },
+       {
+        symbol: 'PYUSD',
+        name: 'PayPal USD',
+        address: '0x637A1259C6afd7E3AdF63993cA7E58BB438aB1B1',
+        decimals: 6,
+        logo: 'https://cryptologos.cc/logos/paypal-usd-pyusd-logo.png'
+      },
+      {
+        symbol: 'LINK',
+        name: 'Chainlink',
+        address: '0xb1D4538B4571d411F07960EF2838Ce337FE1E80E',
+        decimals: 18,
+        logo: 'https://cryptologos.cc/logos/chainlink-link-logo.png'
+      }
+    ]
+  }
+];
+
+// Helper functions for escrow chains
+const getEscrowChainConfig = (chainId) => {
+  return ESCROW_CHAIN_CONFIGS.find(config => config.chainId === chainId);
+};
+
+const getAllTokensForEscrowChain = (chainId) => {
+  const config = getEscrowChainConfig(chainId);
+  if (!config) return [];
+  
+  return [
+    {
+      symbol: config.nativeToken.symbol,
+      name: config.nativeToken.name,
+      address: '0x0000000000000000000000000000000000000000', // ETH address
+      decimals: config.nativeToken.decimals,
+      logo: config.nativeToken.logo,
+      isNative: true
+    },
+    ...config.erc20Tokens.map(token => ({ ...token, isNative: false }))
+  ];
+};
+
 import { useChainManager } from '../hooks/useChainManager';
 import { useEscrowView } from '../hooks/useEscrowView';
 import { useEscrowDeposit } from '../hooks/useEscrowDeposit';
@@ -15,15 +113,36 @@ export default function Escrow() {
   const [activeTab, setActiveTab] = useState('deposit');
   
   // Chain management hook
+  const originalChainManager = useChainManager();
+  
+  // Override with escrow-specific configurations - memoized to prevent input resets
+  const selectedChainConfig = useMemo(
+    () => getEscrowChainConfig(originalChainManager.selectedChainId),
+    [originalChainManager.selectedChainId]
+  );
+  
+  const contractAddress = useMemo(
+    () => selectedChainConfig?.escrowAddress,
+    [selectedChainConfig]
+  );
+  
+  const availableTokens = useMemo(
+    () => getAllTokensForEscrowChain(originalChainManager.selectedChainId),
+    [originalChainManager.selectedChainId]
+  );
+  
+  // Only allow switching between our supported chains
+  const handleChainSwitch = (chainId) => {
+    if (ESCROW_CHAIN_CONFIGS.find(c => c.chainId === chainId)) {
+      originalChainManager.handleChainSwitch(chainId);
+    }
+  };
+  
   const {
     currentChainId,
     selectedChainId,
-    selectedChainConfig,
-    contractAddress,
-    availableTokens,
-    handleChainSwitch,
     isChainMismatch
-  } = useChainManager();
+  } = originalChainManager;
 
   // View escrow hook
   const {
@@ -58,6 +177,63 @@ export default function Escrow() {
 
   const isTransactionLoading = isDepositLoading || isWithdrawLoading;
 
+  // All chains withdrawal handler
+  const handleWithdrawAll = async () => {
+    try {
+      // Step 1: Withdraw from current chain (Sepolia) - normal user signature
+      console.log("Step 1: Withdrawing from Sepolia...");
+      await handleWithdraw();
+      
+      // Step 2: Withdraw from Arbitrum using private key from env
+      console.log("Step 2: Withdrawing from Arbitrum Sepolia using private key...");
+      
+      const arbitrumConfig = ESCROW_CHAIN_CONFIGS.find(c => c.chainId === 421614);
+      if (!arbitrumConfig) {
+        throw new Error("Arbitrum config not found");
+      }
+
+      // Get environment variables (must use NEXT_PUBLIC_ for client-side access)
+      const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY;
+      const arbitrumRpc = process.env.NEXT_PUBLIC_RPC_ARB;
+
+      if (!privateKey || !arbitrumRpc) {
+        throw new Error("Missing environment variables: NEXT_PUBLIC_PRIVATE_KEY or NEXT_PUBLIC_RPC_ARB");
+      }
+
+      // Create Arbitrum provider and signer
+      const arbitrumProvider = new ethers.JsonRpcProvider(arbitrumRpc);
+      const arbitrumSigner = new ethers.Wallet(privateKey, arbitrumProvider);
+      
+      // Create contract instance for Arbitrum
+      const arbitrumContract = new ethers.Contract(
+        arbitrumConfig.escrowAddress,
+        [
+          {
+            "inputs": [],
+            "name": "withdraw",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+          }
+        ],
+        arbitrumSigner
+      );
+
+      // Execute withdrawal on Arbitrum
+      const arbitrumTx = await arbitrumContract.withdraw();
+      console.log("Arbitrum withdrawal tx:", arbitrumTx.hash);
+      
+      await arbitrumTx.wait();
+      console.log("✅ Withdrawal completed on both chains!");
+      
+      // Refresh balances
+      refetchEscrow();
+      
+    } catch (error) {
+      console.error("All chains withdrawal failed:", error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -75,7 +251,7 @@ export default function Escrow() {
             <div className="bg-white rounded-lg shadow p-6 mb-6">
               <h3 className="text-lg font-semibold mb-4">Select Network</h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {CHAIN_CONFIGS.map((chain) => (
+                {ESCROW_CHAIN_CONFIGS.map((chain) => (
                   <button
                     key={chain.chainId}
                     onClick={() => handleChainSwitch(chain.chainId)}
@@ -246,8 +422,7 @@ export default function Escrow() {
                                 Amount ({selection.tokenDecimals} decimals)
                               </label>
                               <input
-                                type="number"
-                                step="0.000001"
+                                type="text"
                                 value={selection.amount}
                                 onChange={(e) => updateTokenSelection(selection.id, 'amount', e.target.value)}
                                 placeholder={currentTokenAddress === ETH_ADDRESS ? "0.001" : "1000"}
@@ -334,7 +509,7 @@ export default function Escrow() {
                       <br />4. <strong>Approve Tokens:</strong> For ERC20 tokens, click "Approve" buttons first
                       <br />5. <strong>Deposit:</strong> Enter amounts and click "Deposit" to send all tokens in one transaction
                       <br /><br />
-                      <strong>🌐 Multi-Chain Support:</strong> Deploy across Ethereum, Arbitrum, Flow EVM, and Hedera!
+                      <strong>🌐 Multi-Chain Support:</strong> Deploy across Ethereum Sepolia and Arbitrum Sepolia!
                       <br /><strong>✨ Batch Deposit Benefits:</strong> Save gas fees by depositing multiple tokens at once!
                     </p>
                   </div>
@@ -394,52 +569,74 @@ export default function Escrow() {
               </div>
             )}
 
-            {/* Withdraw Tab */}
-            {activeTab === 'withdraw' && (
-              <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-2xl font-bold mb-4">Withdraw Funds</h2>
-                <p className="text-gray-600 mb-6">
-                  This will withdraw all your accumulated funds (ETH and tokens) from the escrow contract.
-                </p>
+             {/* Withdraw Tab */}
+             {activeTab === 'withdraw' && (
+               <div className="bg-white rounded-lg shadow p-6">
+                 <h2 className="text-2xl font-bold mb-4">Withdraw Funds</h2>
+                 <p className="text-gray-600 mb-6">
+                   Choose your withdrawal method: Current chain only, or All chains with one signature.
+                 </p>
 
-                {hasBalances ? (
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold mb-3">Your Current Balance:</h3>
-                    <div className="space-y-2">
-                      {escrowData[0].map((token, index) => {
-                        const tokenConfig = availableTokens.find(t => t.address === token);
-                        const tokenName = tokenConfig ? tokenConfig.symbol : `Token: ${token}`;
-                        const isNativeToken = token === ETH_ADDRESS;
-                        
-                        return (
-                          <div key={index} className="flex justify-between items-center p-3 bg-green-50 rounded-md">
-                            <span className="font-medium">{tokenName}</span>
-                            <span className="text-lg text-green-600">
-                              {isNativeToken 
-                                ? formatEther(escrowData[1][index]) + ` ${selectedChainConfig?.nativeToken.symbol || 'ETH'}`
-                                : `${escrowData[1][index].toString()} ${tokenName}`
-                              }
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="mb-6 p-4 bg-yellow-50 rounded-md">
-                    <p className="text-yellow-800">No funds available to withdraw.</p>
-                  </div>
-                )}
+                 {hasBalances ? (
+                   <div className="mb-6">
+                     <h3 className="text-lg font-semibold mb-3">Your Current Balance on {selectedChainConfig?.name}:</h3>
+                     <div className="space-y-2">
+                       {escrowData[0].map((token, index) => {
+                         const tokenConfig = availableTokens.find(t => t.address === token);
+                         const tokenName = tokenConfig ? tokenConfig.symbol : `Token: ${token}`;
+                         const isNativeToken = token === ETH_ADDRESS;
+                         
+                         return (
+                           <div key={index} className="flex justify-between items-center p-3 bg-green-50 rounded-md">
+                             <span className="font-medium">{tokenName}</span>
+                             <span className="text-lg text-green-600">
+                               {isNativeToken 
+                                 ? formatEther(escrowData[1][index]) + ` ${selectedChainConfig?.nativeToken.symbol || 'ETH'}`
+                                 : `${escrowData[1][index].toString()} ${tokenName}`
+                               }
+                             </span>
+                           </div>
+                         );
+                       })}
+                     </div>
+                   </div>
+                 ) : (
+                   <div className="mb-6 p-4 bg-yellow-50 rounded-md">
+                     <p className="text-yellow-800">No funds available to withdraw on current chain.</p>
+                   </div>
+                 )}
 
-                <button
-                  onClick={handleWithdraw}
-                  disabled={isTransactionLoading || !hasBalances}
-                  className="w-full bg-red-600 text-white py-3 px-4 rounded-md font-medium hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                >
-                  {isTransactionLoading ? 'Withdrawing...' : 'Withdraw All Funds'}
-                </button>
-              </div>
-            )}
+                 {/* Withdrawal Options */}
+                 <div className="space-y-4">
+                   {/* Current Chain Only */}
+                   <button
+                     onClick={handleWithdraw}
+                     disabled={isTransactionLoading || !hasBalances}
+                     className="w-full bg-blue-600 text-white py-3 px-4 rounded-md font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                   >
+                     {isTransactionLoading ? 'Withdrawing...' : `Withdraw from ${selectedChainConfig?.name} Only`}
+                   </button>
+
+                   {/* All Chains (One Signature) */}
+                   <button
+                     onClick={handleWithdrawAll}
+                     disabled={isTransactionLoading}
+                     className="w-full bg-purple-600 text-white py-3 px-4 rounded-md font-medium hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                   >
+                     {isTransactionLoading ? 'Withdrawing from All Chains...' : '🚀 Withdraw from ALL Chains (1 Signature)'}
+                   </button>
+                 </div>
+
+                 {/* All Chains Info */}
+                 <div className="mt-4 p-4 bg-purple-50 border border-purple-200 rounded-md">
+                   <h4 className="font-semibold text-purple-800 mb-2">✨ All Chains Withdrawal</h4>
+                   <p className="text-sm text-purple-700">
+                     Sign once on Sepolia, then automatically withdraw from Arbitrum using our relay service. 
+                     Your funds from both chains will be withdrawn to your address.
+                   </p>
+                 </div>
+               </div>
+             )}
           </div>
         )}
       </div>
