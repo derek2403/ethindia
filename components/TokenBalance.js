@@ -1,10 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
+import Image from "next/image";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { CHAIN_CONFIGS } from '../lib/chainConfigs';
 import { createTransferKey, formatBalance } from '../lib/tokenUtils';
 import { useTokenBalance } from '../hooks/useTokenBalance';
 import TransferSummary from './TransferSummary';
+
+// Token Icon with Chain overlay component
+const TokenWithChain = ({ tokenSrc, chainSrc, tokenAlt, chainAlt }) => (
+  <div className="relative w-10 h-10">
+    <Image 
+      src={tokenSrc} 
+      alt={tokenAlt} 
+      width={40} 
+      height={40} 
+      className="w-10 h-10 rounded-full"
+    />
+    {chainSrc && (
+      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-gray-900 rounded-full p-0.5 border border-white/20 shadow-lg">
+        <Image 
+          src={chainSrc} 
+          alt={chainAlt} 
+          width={20} 
+          height={20} 
+          className="w-5 h-5"
+        />
+      </div>
+    )}
+  </div>
+);
 
 // Individual token row component
 const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmountChange, tokenPrice }) => {
@@ -51,14 +76,11 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
         opacity: 0.5
       }}>
         <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-          <img
-            src={token.logo}
-            alt={token.name}
-            style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%'
-            }}
+          <TokenWithChain 
+            tokenSrc={token.logo} 
+            chainSrc={chain.icon} 
+            tokenAlt={token.symbol} 
+            chainAlt={chain.name}
           />
           <div>
             <div style={{color: 'white', fontWeight: '600', fontSize: '14px'}}>
@@ -99,17 +121,11 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
     }}>
       {/* Asset Info - Fixed width column */}
       <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-        <img
-          src={token.logo}
-          alt={token.name}
-          style={{
-            width: '40px',
-            height: '40px',
-            borderRadius: '50%'
-          }}
-          onError={(e) => {
-            e.target.src = `https://via.placeholder.com/40x40?text=${token.symbol}`;
-          }}
+        <TokenWithChain 
+          tokenSrc={token.logo} 
+          chainSrc={chain.icon} 
+          tokenAlt={token.symbol} 
+          chainAlt={chain.name}
         />
         <div>
           <div style={{
@@ -124,13 +140,6 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
               color: transferAmount > 0 ? '#60a5fa' : 'white'
             }}>
               {token.symbol}
-            </span>
-            <span style={{
-              fontSize: '12px',
-              color: '#9ca3af',
-              fontWeight: '500'
-            }}>
-              {chain.name}
             </span>
             {price > 0 && (
               <span style={{
