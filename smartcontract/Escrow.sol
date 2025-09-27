@@ -39,41 +39,61 @@ contract Escrow {
     }
     
     /**
-     * @dev Deposit ETH or ERC20 tokens into escrow for a merchant
-     * @param _merchant Address of the merchant
-     * @param _token Address of the ERC20 token (use address(0) for ETH)
-     * @param _amount Amount of tokens to deposit (ignored for ETH, uses msg.value)
+     * @dev Deposit one or multiple tokens into escrow for merchants
+     * @param _merchants Array of merchant addresses (can be same address multiple times)
+     * @param _tokens Array of token addresses (use address(0) for ETH)
+     * @param _amounts Array of token amounts
      */
-    function deposit(address _merchant, address _token, uint256 _amount) external payable {
-        require(_merchant != address(0), "Invalid merchant address");
+    function deposit(
+        address[] calldata _merchants,
+        address[] calldata _tokens, 
+        uint256[] calldata _amounts
+    ) external payable {
+        require(_merchants.length == _tokens.length && _tokens.length == _amounts.length, "Arrays length mismatch");
+        require(_merchants.length > 0, "Empty arrays not allowed");
         
-        if (_token == address(0)) {
-            // ETH deposit
-            require(msg.value > 0, "ETH amount must be greater than 0");
+        uint256 totalEthRequired = 0;
+        
+        // First pass: Calculate total ETH needed and validate inputs
+        for (uint256 i = 0; i < _merchants.length; i++) {
+            require(_merchants[i] != address(0), "Invalid merchant address");
             
-            // Add to merchant's ETH balance
-            merchantBalances[_merchant][address(0)] += msg.value;
-            
-            // Track that merchant has ETH (if not already tracked)
-            if (!merchantHasToken[_merchant][address(0)]) {
-                merchantTokens[_merchant].push(address(0));
-                merchantHasToken[_merchant][address(0)] = true;
+            if (_tokens[i] == address(0)) {
+                // ETH deposit
+                require(_amounts[i] > 0, "ETH amount must be greater than 0");
+                totalEthRequired += _amounts[i];
+            } else {
+                // ERC20 token deposit
+                require(_amounts[i] > 0, "Token amount must be greater than 0");
             }
-        } else {
-            // ERC20 token deposit
-            require(_amount > 0, "Token amount must be greater than 0");
-            require(msg.value == 0, "Cannot send ETH when depositing tokens");
-            
-            // Transfer tokens from payer to this contract
-            IERC20(_token).transferFrom(msg.sender, address(this), _amount);
-            
-            // Add to merchant's token balance
-            merchantBalances[_merchant][_token] += _amount;
-            
-            // Track that merchant has this token (if not already tracked)
-            if (!merchantHasToken[_merchant][_token]) {
-                merchantTokens[_merchant].push(_token);
-                merchantHasToken[_merchant][_token] = true;
+        }
+        
+        // Verify sent ETH matches required amount
+        require(msg.value == totalEthRequired, "Incorrect ETH amount sent");
+        
+        // Second pass: Execute deposits
+        for (uint256 i = 0; i < _merchants.length; i++) {
+            if (_tokens[i] == address(0)) {
+                // ETH deposit
+                merchantBalances[_merchants[i]][address(0)] += _amounts[i];
+                
+                // Track that merchant has ETH (if not already tracked)
+                if (!merchantHasToken[_merchants[i]][address(0)]) {
+                    merchantTokens[_merchants[i]].push(address(0));
+                    merchantHasToken[_merchants[i]][address(0)] = true;
+                }
+            } else {
+                // ERC20 token deposit
+                IERC20(_tokens[i]).transferFrom(msg.sender, address(this), _amounts[i]);
+                
+                // Add to merchant's token balance
+                merchantBalances[_merchants[i]][_tokens[i]] += _amounts[i];
+                
+                // Track that merchant has this token (if not already tracked)
+                if (!merchantHasToken[_merchants[i]][_tokens[i]]) {
+                    merchantTokens[_merchants[i]].push(_tokens[i]);
+                    merchantHasToken[_merchants[i]][_tokens[i]] = true;
+                }
             }
         }
     }
