@@ -1,10 +1,214 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { BorderBeam } from "@/components/ui/border-beam";
 import { CHAIN_CONFIGS } from '../lib/chainConfigs';
-import { createTransferKey } from '../lib/tokenUtils';
-import ChainSection from './ChainSection';
+import { createTransferKey, formatBalance } from '../lib/tokenUtils';
+import { useTokenBalance } from '../hooks/useTokenBalance';
 import TransferSummary from './TransferSummary';
+
+// Individual token row component
+const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmountChange, tokenPrice }) => {
+  const { balance, isLoading, error } = useTokenBalance(chain.chainId, token.address, userAddress);
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
+  
+  const balanceFormatted = formatBalance(balance, token.decimals);
+  const balanceNum = parseFloat(balanceFormatted);
+  
+  const transferKey = createTransferKey(token.symbol, chain.chainId);
+  const transferAmount = transferAmounts[transferKey] || 0;
+
+  // Set timeout for loading state
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setTimeout(() => {
+        setLoadingTimeout(true);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    } else {
+      setLoadingTimeout(false);
+    }
+  }, [isLoading]);
+
+  // Don't render if no balance, has error, balance is 0, or loading timeout exceeded
+  if (!isLoading && (error || balanceNum === 0)) {
+    return null;
+  }
+
+  if (isLoading && loadingTimeout) {
+    return null;
+  }
+
+  if (isLoading) {
+    return (
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: '200px 1fr 120px',
+        alignItems: 'center',
+        gap: '16px',
+        padding: '16px 0',
+        borderBottom: '1px solid rgba(255,255,255,0.1)',
+        opacity: 0.5
+      }}>
+        <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+          <img
+            src={token.logo}
+            alt={token.name}
+            style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '50%'
+            }}
+          />
+          <div>
+            <div style={{color: 'white', fontWeight: '600', fontSize: '14px'}}>
+              {token.symbol}
+            </div>
+            <div style={{fontSize: '11px', color: '#9ca3af'}}>
+              Loading balance...
+            </div>
+          </div>
+        </div>
+        <div></div>
+        <div></div>
+      </div>
+    );
+  }
+
+  const price = tokenPrice?.price || 0;
+  const balanceUsd = balanceNum * price;
+  const transferPercentage = balanceNum > 0 ? (transferAmount / balanceNum) * 100 : 0;
+
+  const handleSliderChange = (percentage) => {
+    const newAmount = (balanceNum * percentage) / 100;
+    onTransferAmountChange(token.symbol, chain.chainId, newAmount);
+  };
+
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: '200px 1fr 120px',
+      alignItems: 'center',
+      gap: '16px',
+      padding: '16px 0',
+      borderBottom: '1px solid rgba(255,255,255,0.1)',
+      background: transferAmount > 0 ? 'rgba(96, 165, 250, 0.1)' : 'transparent',
+      borderRadius: transferAmount > 0 ? '6px' : '0',
+      paddingLeft: transferAmount > 0 ? '12px' : '0',
+      paddingRight: transferAmount > 0 ? '12px' : '0'
+    }}>
+      {/* Asset Info - Fixed width column */}
+      <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
+        <img
+          src={token.logo}
+          alt={token.name}
+          style={{
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%'
+          }}
+          onError={(e) => {
+            e.target.src = `https://via.placeholder.com/40x40?text=${token.symbol}`;
+          }}
+        />
+        <div>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            marginBottom: '2px'
+          }}>
+            <span style={{
+              fontWeight: '600',
+              fontSize: '14px',
+              color: transferAmount > 0 ? '#60a5fa' : 'white'
+            }}>
+              {token.symbol}
+            </span>
+            <span style={{
+              fontSize: '12px',
+              color: '#9ca3af',
+              fontWeight: '500'
+            }}>
+              {chain.name}
+            </span>
+            {price > 0 && (
+              <span style={{
+                fontSize: '12px',
+                color: '#6b7280',
+                fontWeight: '500'
+              }}>
+                ${price.toFixed(2)}
+              </span>
+            )}
+          </div>
+          <div>
+            <div style={{fontSize: '11px', color: '#9ca3af'}}>
+              Available: {balanceFormatted} {token.symbol}
+              {balanceUsd > 0 && (
+                <span style={{color: '#6b7280'}}> (${balanceUsd.toFixed(2)})</span>
+              )}
+            </div>
+            {transferAmount > 0 && (
+              <div style={{fontSize: '11px', color: '#ef4444', marginTop: '1px'}}>
+                Selected: {transferAmount.toFixed(4)} {token.symbol} (${(transferAmount * price).toFixed(2)})
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Slider - Flexible center column */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '4px',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%'
+      }}>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={transferPercentage}
+          onChange={(e) => handleSliderChange(Number(e.target.value))}
+          style={{
+            width: '100%',
+            margin: '0',
+            cursor: 'pointer',
+            accentColor: '#60a5fa',
+            WebkitAppearance: 'none',
+            appearance: 'none',
+            background: `linear-gradient(to right, #60a5fa 0%, #60a5fa ${transferPercentage}%, rgba(255,255,255,0.2) ${transferPercentage}%, rgba(255,255,255,0.2) 100%)`,
+            height: '6px',
+            borderRadius: '3px'
+          }}
+        />
+
+        <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#6b7280', width: '100%'}}>
+          <span>0%</span>
+          <span>50%</span>
+          <span>100%</span>
+        </div>
+      </div>
+
+      {/* Allocation Display - Fixed width column */}
+      <div style={{textAlign: 'right'}}>
+        <div style={{
+          fontWeight: '600',
+          fontSize: '16px',
+          color: transferAmount > 0 ? '#60a5fa' : 'white'
+        }}>
+          ${(transferAmount * price).toFixed(2)}
+        </div>
+        <div style={{fontSize: '12px', color: '#6b7280'}}>
+          Slider: {transferPercentage.toFixed(1)}% • {transferAmount.toFixed(4)} {token.symbol}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function TokenBalance({ transferAmounts = {}, setTransferAmounts, tokenPrices = {}, pricesLoading = false, pricesError = null }) {
   const { address, isConnected } = useAccount();
@@ -13,6 +217,12 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
     const key = createTransferKey(tokenSymbol, chainId);
     setTransferAmounts(prev => ({ ...prev, [key]: value }));
   };
+
+  // Flatten all tokens from all chains
+  const allTokens = CHAIN_CONFIGS.flatMap(chain => [
+    { ...chain.nativeToken, address: null, isNative: true, chain },
+    ...chain.erc20Tokens.map(token => ({ ...token, isNative: false, chain }))
+  ]);
 
   if (!isConnected) {
     return (
@@ -47,19 +257,33 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
         </span>
       </h2>
 
-      
-      
-      <div className="space-y-8">
-        {CHAIN_CONFIGS.map(chain => (
-          <ChainSection
-            key={chain.chainId}
-            chain={chain}
+      <div style={{
+        background: 'rgba(255,255,255,0.05)',
+        border: '1px solid rgba(255,255,255,0.1)',
+        borderRadius: '12px',
+        padding: '24px',
+        backdropFilter: 'blur(8px)'
+      }}>
+        {allTokens.map((token, index) => (
+          <TokenRow
+            key={`${token.symbol}_${token.chain.chainId}`}
+            token={token}
+            chain={token.chain}
             userAddress={address}
             transferAmounts={transferAmounts}
             onTransferAmountChange={handleTransferAmountChange}
-            tokenPrices={tokenPrices}
+            tokenPrice={tokenPrices[token.symbol]}
           />
         ))}
+
+        <div style={{
+          textAlign: 'right',
+          marginTop: '16px',
+          fontSize: '12px',
+          color: '#6b7280'
+        }}>
+          Based on Chainlink Data Feeds
+        </div>
       </div>
 
       <TransferSummary transferAmounts={transferAmounts} />
