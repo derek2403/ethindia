@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTokenBalance } from '../hooks/useTokenBalance';
 import { formatBalance, createTransferKey } from '../lib/tokenUtils';
 
@@ -14,6 +14,8 @@ const TokenCard = ({
   const balanceFormatted = formatBalance(balance, token.decimals);
   const balanceNum = parseFloat(balanceFormatted);
   
+  const [loadingTimeout, setLoadingTimeout] = useState(false);
+  
   const transferKey = createTransferKey(token.symbol, chainId);
   const transferAmount = transferAmounts[transferKey] || 0;
 
@@ -21,8 +23,26 @@ const TokenCard = ({
     onTransferAmountChange(token.symbol, chainId, value);
   };
 
-  // Don't render if no balance and not loading
-  if (!isLoading && !error && balanceNum === 0) {
+  // Set timeout for loading state
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setTimeout(() => {
+        setLoadingTimeout(true);
+      }, 1000); // 3 seconds timeout
+
+      return () => clearTimeout(timer);
+    } else {
+      setLoadingTimeout(false);
+    }
+  }, [isLoading]);
+
+  // Don't render if no balance, has error, balance is 0, or loading timeout exceeded
+  if (!isLoading && (error || balanceNum === 0)) {
+    return null;
+  }
+
+  // Don't render if loading timeout exceeded
+  if (isLoading && loadingTimeout) {
     return null;
   }
 

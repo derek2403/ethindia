@@ -18,7 +18,11 @@ const ChainSection = ({
     <div className="border border-white/20 rounded-lg p-6 bg-white/5 backdrop-blur-sm">
       {/* Chain Header */}
       <div className="flex items-center gap-3 mb-6">
-        <span className="text-2xl">{chain.icon}</span>
+        <img 
+          src={chain.icon} 
+          alt={`${chain.name} icon`}
+          className="w-8 h-8"
+        />
         <div>
           <h3 className="text-xl font-semibold text-white">{chain.name}</h3>
           <p className="text-sm text-white/70">Chain ID: {chain.chainId}</p>

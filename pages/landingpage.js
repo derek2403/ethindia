@@ -2,14 +2,8 @@ import { useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { Header } from '../components/Header';
 
-import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
@@ -99,6 +93,7 @@ export default function LandingPage() {
     };
   }, []);
 
+
   return (
     <>
       <Head>
@@ -107,18 +102,20 @@ export default function LandingPage() {
       </Head>
 
       <AuroraBackground className="relative isolate grid h-dvh grid-rows-[auto,1fr] overflow-hidden bg-black">
-        {/* Header and Payment Cards */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="flex flex-col items-center gap-6 max-w-7xl w-full px-4">
-            {/* Header */}
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center max-w-4xl leading-tight">
-              Pay and Receive with any combination of any token on any chain.
-            </h1>
-            
+        {/* Main Heading - Clear positioning */}
+        <div className="pointer-events-none absolute top-1/4 left-0 right-0 flex items-center justify-center z-30">
+            <h1 className="text-lg md:text-2xl lg:text-5xl font-black text-center max-w-4xl leading-tight text-white">
+            Any tokens. Any chains. Both ways.
+          </h1>
+        </div>
+
+        {/* Payment Cards */}
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 flex items-center justify-center pb-20">
+          <div className="flex flex-col items-center gap-3 max-w-4xl w-full px-4">
             {/* Payment Cards Container */}
-            <div className="flex gap-8 flex-col lg:flex-row w-full max-w-6xl">
+            <div className="flex gap-6 flex-col lg:flex-row w-full max-w-4xl justify-center">
               {/* Payment Breakdown Card */}
-              <div className="glass-card flex flex-col justify-start p-6 relative flex-1 max-w-md">
+              <div className="glass-card flex flex-col justify-start p-4 relative flex-1 max-w-xs">
                 <BorderBeam 
                   size={120}
                   duration={4}
@@ -127,11 +124,11 @@ export default function LandingPage() {
                   delay={0}
                 />
                 <div className="text-white/90">
-                  <h2 className="text-lg font-semibold text-white mb-4 text-center">User Pay</h2>
+                  <h2 className="text-base font-semibold text-white mb-3 text-center">User Pay</h2>
                   
-                  <div className="space-y-3 mb-4">
+                  <div className="space-y-2 mb-3">
                 {/* HBAR Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/10">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/hedera-hbar-logo.svg" 
@@ -151,7 +148,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* FLOW Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/flow-flow-logo.svg" 
@@ -171,7 +168,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* USDC Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/usd-coin-usdc-logo.svg" 
@@ -191,7 +188,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* ETH Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/ethereum-eth-logo-colored.svg" 
@@ -211,7 +208,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* PayPal USD Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/paypal-usd-pyusd-logo.svg" 
@@ -339,7 +336,7 @@ export default function LandingPage() {
               </div>
 
               {/* Merchant Received Card */}
-              <div className="glass-card flex flex-col justify-start p-6 relative flex-1 max-w-md">
+              <div className="glass-card flex flex-col justify-start p-4 relative flex-1 max-w-xs">
                 <BorderBeam 
                   size={120}
                   duration={4}
@@ -348,11 +345,11 @@ export default function LandingPage() {
                   delay={2}
                 />
                 <div className="text-white/90">
-              <h2 className="text-lg font-semibold text-white mb-4 text-center">Merchant Receive</h2>
+              <h2 className="text-base font-semibold text-white mb-3 text-center">Merchant Receive</h2>
               
-              <div className="space-y-3 mb-4">
+              <div className="space-y-2 mb-3">
                 {/* ETH Received */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/ethereum-eth-logo-colored.svg" 
@@ -372,7 +369,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* SOL Received */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/solana-sol-logo.svg" 
@@ -392,7 +389,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* PYUSD Received */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/paypal-usd-pyusd-logo.svg" 
@@ -428,109 +425,9 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Wallet Connection Header - Glassmorphism design */}
-        <header className="absolute top-0 left-0 right-0 z-30 flex justify-end items-center p-4">
-          <div className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-2xl p-1">
-            <ConnectButton.Custom>
-              {({ account, chain, openAccountModal, openChainModal, openConnectModal, authenticationStatus, mounted }) => {
-                const ready = mounted && authenticationStatus !== 'loading';
-                const connected = ready && account && chain && (!authenticationStatus || authenticationStatus === 'authenticated');
-
-                return (
-                  <div className="relative z-10">
-                    {(() => {
-                      if (!connected) {
-                        return (
-                          <button
-                            onClick={openConnectModal}
-                            type="button"
-                            className="px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors rounded-lg hover:bg-white/10"
-                          >
-                            Connect Wallet
-                          </button>
-                        );
-                      }
-
-                      if (chain.unsupported) {
-                        return (
-                          <button
-                            onClick={openChainModal}
-                            type="button"
-                            className="px-4 py-2 text-sm font-medium text-red-300 hover:text-red-200 transition-colors rounded-lg hover:bg-red-500/10"
-                          >
-                            Wrong network
-                          </button>
-                        );
-                      }
-
-                      return (
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={openChainModal}
-                            type="button"
-                            className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10"
-                          >
-                            {chain.hasIcon && (
-                              <div
-                                className="w-4 h-4 rounded-full overflow-hidden flex items-center justify-center"
-                                style={{ background: chain.iconBackground }}
-                              >
-                                {chain.iconUrl && (
-                                  <img
-                                    alt={chain.name ?? 'Chain icon'}
-                                    src={chain.iconUrl}
-                                    className="w-4 h-4"
-                                  />
-                                )}
-                              </div>
-                            )}
-                            <span className="hidden sm:inline">{chain.name}</span>
-                          </button>
-
-                          <button
-                            onClick={openAccountModal}
-                            type="button"
-                            className="px-3 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10"
-                          >
-                            {account.displayName}
-                            {account.displayBalance && (
-                              <span className="hidden sm:inline text-white/60 ml-1">
-                                ({account.displayBalance})
-                              </span>
-                            )}
-                          </button>
-                        </div>
-                      );
-                    })()}
-                  </div>
-                );
-              }}
-            </ConnectButton.Custom>
-          </div>
-        </header>
-
-        {/* Navigation Header - Separate from wallet */}
-        <div className="absolute top-0 left-0 right-0 z-20 w-full">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 pt-6">
-             <div className="select-none text-sm font-semibold tracking-wide text-white/90">AnyChain</div>
-             
-             <NavigationMenu viewport={false} className="rounded-xl border border-white/30 bg-white/5 px-3 py-2 backdrop-blur-md shadow-lg">
-               <NavigationMenuList className="gap-1">
-                <NavigationMenuItem>
-                   <NavigationMenuLink href="#home" className="px-3 py-1.5 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10">Home</NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                   <NavigationMenuLink href="/transfer" className="px-3 py-1.5 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10">Transfer</NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                   <NavigationMenuLink href="#about" className="px-3 py-1.5 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10">About</NavigationMenuLink>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-            
-             {/* Empty space to balance layout */}
-             <div style={{ width: '140px' }}></div>
-          </div>
+        {/* Header with Logo, Navigation and Connect Button */}
+        <div className="absolute top-0 left-0 right-0 z-40">
+          <Header showNavigation={true} />
         </div>
 
         {/* Hero */}
