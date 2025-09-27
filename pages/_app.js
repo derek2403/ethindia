@@ -138,45 +138,33 @@ const glassmorphismTheme = darkTheme({
   overlayBlur: 'large',
 });
 
-// True glassmorphism styling to match wallet connection button
-glassmorphismTheme.colors.modalBackground = 'rgba(255, 255, 255, 0.1)';  // Light glassmorphism like wallet button
-glassmorphismTheme.colors.modalBorder = 'rgba(255, 255, 255, 0.2)';
+// Stronger glassmorphism styling for better visibility
+glassmorphismTheme.colors.modalBackground = 'rgba(255, 255, 255, 0.15)';  // More visible glassmorphism
+glassmorphismTheme.colors.modalBorder = 'rgba(255, 255, 255, 0.3)';
 glassmorphismTheme.colors.modalText = 'rgba(255, 255, 255, 0.95)';
-glassmorphismTheme.colors.modalTextSecondary = 'rgba(255, 255, 255, 0.8)';
+glassmorphismTheme.colors.modalTextSecondary = 'rgba(255, 255, 255, 0.85)';
 
 // Close button to match glassmorphism
 glassmorphismTheme.colors.closeButton = 'rgba(255, 255, 255, 0.3)';
 glassmorphismTheme.colors.closeButtonBackground = 'rgba(255, 255, 255, 0.1)';
 
-// Enhanced borders for glass effect
-glassmorphismTheme.colors.generalBorder = 'rgba(255, 255, 255, 0.2)';
-
-// Network options with glass card effect
+// All glassmorphism theme properties (cleaned up - no duplicates)
 glassmorphismTheme.colors.menuItemBackground = 'rgba(255, 255, 255, 0.1)';
 glassmorphismTheme.colors.profileAction = 'rgba(255, 255, 255, 0.1)';
 glassmorphismTheme.colors.profileActionHover = 'rgba(255, 255, 255, 0.2)';
 glassmorphismTheme.colors.profileForeground = 'rgba(255, 255, 255, 0.95)';
-
-// Enhanced network selection to match glass aesthetic
-glassmorphismTheme.colors.selectedOptionBorder = 'rgba(59, 130, 246, 0.6)';
-glassmorphismTheme.colors.actionButtonBorder = 'rgba(255, 255, 255, 0.25)';
-glassmorphismTheme.colors.actionButtonBorderMobile = 'rgba(255, 255, 255, 0.2)';
-glassmorphismTheme.colors.actionButtonSecondaryBackground = 'rgba(255, 255, 255, 0.1)';
-
-// Network buttons with glassmorphism
 glassmorphismTheme.colors.connectButtonBackground = 'rgba(255, 255, 255, 0.12)';
-glassmorphismTheme.colors.connectButtonBackgroundError = 'rgba(239, 68, 68, 0.2)';
-glassmorphismTheme.colors.connectButtonInnerBackground = 'rgba(255, 255, 255, 0.1)';
 glassmorphismTheme.colors.connectButtonText = 'rgba(255, 255, 255, 0.95)';
-glassmorphismTheme.colors.connectButtonTextError = 'rgba(239, 68, 68, 0.9)';
-
-// Use only valid RainbowKit theme color properties
+glassmorphismTheme.colors.generalBorder = 'rgba(255, 255, 255, 0.2)';
 glassmorphismTheme.colors.error = 'rgba(239, 68, 68, 0.9)';
 
-// Enhanced backdrop effects - only using known properties
+// Enhanced backdrop effects and shadows for all modals
 if (glassmorphismTheme.blurs) {
   glassmorphismTheme.blurs.modalOverlay = 'blur(24px)';
 }
+
+// Only use confirmed valid RainbowKit theme properties
+// Invalid properties cause runtime errors, so rely on CSS fallback for profile modal
 
 export default function App({ Component, pageProps }) {
   return (
