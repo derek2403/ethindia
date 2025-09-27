@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Header } from '../components/Header';
 import AtomicTransfer from '../components/AtomicTransfer';
 import TokenBalance from '../components/TokenBalance';
@@ -14,10 +15,12 @@ const PYTH_PRICE_IDS = {
 };
 
 export default function Transfer() {
+  const router = useRouter();
   const [transferAmounts, setTransferAmounts] = useState({});
   const [tokenPrices, setTokenPrices] = useState({});
   const [pricesLoading, setPricesLoading] = useState(true);
   const [pricesError, setPricesError] = useState(null);
+  const [portfolioData, setPortfolioData] = useState(null);
 
   // Function to fetch prices from Hermes API
   const fetchTokenPrices = async () => {
@@ -66,6 +69,19 @@ export default function Transfer() {
       setPricesLoading(false);
     }
   };
+
+  // Effect to parse portfolio data from URL parameter
+  useEffect(() => {
+    if (router.isReady && router.query.portfolio) {
+      try {
+        const decodedData = decodeURIComponent(router.query.portfolio);
+        const parsedPortfolio = JSON.parse(decodedData);
+        setPortfolioData(parsedPortfolio);
+      } catch (error) {
+        console.error('Error parsing portfolio data from URL:', error);
+      }
+    }
+  }, [router.isReady, router.query.portfolio]);
 
   // Effect to fetch prices on mount and set up periodic updates
   useEffect(() => {
@@ -196,6 +212,40 @@ export default function Transfer() {
       <Header />
       <main className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl mx-auto">
         <div className="space-y-6 sm:space-y-8 lg:space-y-10">
+          {/* Portfolio Info from QR Code */}
+          {portfolioData && (
+            <div className="w-full">
+              <div className="glass-card flex flex-col justify-start p-6 relative max-w-4xl mx-auto w-full">
+                <h3 className="text-xl font-bold mb-4 text-white">📱 Scanned Portfolio</h3>
+                <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                  <p className="text-sm text-white/70 mb-2">Recipient Wallet:</p>
+                  <p className="text-white font-mono text-sm break-all">{portfolioData.walletAddress}</p>
+                  
+                  {Object.keys(portfolioData).length > 1 && (
+                    <div className="mt-4">
+                      <p className="text-sm text-white/70 mb-2">Portfolio Allocation:</p>
+                      <div className="space-y-2">
+                        {Object.entries(portfolioData).map(([chain, tokens]) => {
+                          if (chain === 'walletAddress' || typeof tokens !== 'object') return null;
+                          return (
+                            <div key={chain} className="text-sm">
+                              <span className="text-white/90 capitalize">{chain}: </span>
+                              {Object.entries(tokens).map(([token, percentage], index, arr) => (
+                                <span key={token} className="text-white/70">
+                                  {token} ({percentage}%){index < arr.length - 1 ? ', ' : ''}
+                                </span>
+                              ))}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="w-full">
             <TokenBalance 
               transferAmounts={transferAmounts}
