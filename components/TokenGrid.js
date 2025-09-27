@@ -25,14 +25,19 @@ const TokenGrid = ({
       <div className="space-y-2 flex-1 overflow-y-auto mb-4">
         {tokensByChain[currentChain]?.map(token => {
           const isSelected = selectedChains[currentChain]?.[token.name]
+          const isPortfolioFull = totalAllocation >= 100
+          const isDisabled = isSelected || isPortfolioFull
+          
           return (
             <button
               key={token.name}
-              onClick={() => handleTokenClick(token)}
-              disabled={isSelected}
+              onClick={() => !isDisabled && handleTokenClick(token)}
+              disabled={isDisabled}
               className={`w-full p-3 rounded-lg border transition-all duration-200 flex items-center gap-3 text-left ${
                 isSelected
                   ? 'border-white/40 bg-white/10 cursor-not-allowed'
+                  : isPortfolioFull
+                  ? 'border-white/10 bg-white/5 cursor-not-allowed opacity-50 blur-[1px]'
                   : 'border-white/20 hover:border-white/40 hover:bg-white/10 cursor-pointer bg-white/5'
               }`}
             >
