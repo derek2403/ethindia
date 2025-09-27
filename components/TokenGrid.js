@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Coins, CheckCircle2, Circle } from 'lucide-react'
 
 const TokenGrid = ({ 
@@ -23,24 +24,38 @@ const TokenGrid = ({
       </div>
       
       <div className="space-y-2 flex-1 overflow-y-auto mb-4">
-        {tokensByChain[currentChain]?.map(token => {
-          const isSelected = selectedChains[currentChain]?.[token.name]
-          const isPreferencesFull = totalAllocation >= 100
-          const isDisabled = isSelected || isPreferencesFull
-          
-          return (
-            <button
-              key={token.name}
-              onClick={() => !isDisabled && handleTokenClick(token)}
-              disabled={isDisabled}
-              className={`w-full p-3 rounded-lg border transition-all duration-200 flex items-center gap-3 text-left backdrop-blur-sm ${
-                isSelected
-                  ? 'border-white/20 bg-white/10 cursor-not-allowed shadow-sm shadow-white/10'
-                  : isPreferencesFull
-                  ? 'border-white/10 bg-white/5 cursor-not-allowed opacity-50 blur-[1px]'
-                  : 'border-white/10 hover:border-white/20 hover:bg-white/10 cursor-pointer bg-white/5'
-              }`}
-            >
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={currentChain}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="space-y-2"
+          >
+            {tokensByChain[currentChain]?.map((token, index) => {
+            const isSelected = selectedChains[currentChain]?.[token.name]
+            const isPreferencesFull = totalAllocation >= 100
+            const isDisabled = isSelected || isPreferencesFull
+            
+            return (
+              <motion.button
+                key={token.name}
+                onClick={() => !isDisabled && handleTokenClick(token)}
+                disabled={isDisabled}
+                className={`w-full p-3 rounded-lg border transition-all duration-200 flex items-center gap-3 text-left backdrop-blur-sm ${
+                  isSelected
+                    ? 'border-white/20 bg-white/10 cursor-not-allowed shadow-sm shadow-white/10'
+                    : isPreferencesFull
+                    ? 'border-white/10 bg-white/5 cursor-not-allowed opacity-50 blur-[1px]'
+                    : 'border-white/10 hover:border-white/20 hover:bg-white/10 cursor-pointer bg-white/5'
+                }`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                whileTap={!isDisabled ? { scale: 0.99 } : {}}
+              >
               <div className="relative w-10 h-10 flex-shrink-0">
                 <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-2 backdrop-blur-sm">
                   <Image
@@ -51,27 +66,45 @@ const TokenGrid = ({
                     className="w-6 h-6"
                   />
                 </div>
-                {isSelected && (
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-white/80 rounded-full flex items-center justify-center">
-                    <CheckCircle2 className="w-2.5 h-2.5 text-black" />
-                  </div>
-                )}
+                <AnimatePresence>
+                  {isSelected && (
+                    <motion.div 
+                      className="absolute -top-1 -right-1 w-4 h-4 bg-white/80 rounded-full flex items-center justify-center"
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      exit={{ scale: 0, rotate: 180 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    >
+                      <CheckCircle2 className="w-2.5 h-2.5 text-black" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
               <div className="flex-1 min-w-0">
                 <div className="text-base font-bold text-white/90">{token.name}</div>
                 <div className="text-xs text-white/60 truncate">{token.fullName}</div>
-                {isSelected && (
-                  <div className="text-xs text-white/70 font-medium mt-0.5">
-                    {selectedChains[currentChain][token.name]}% preference
-                  </div>
-                )}
+                <AnimatePresence>
+                  {isSelected && (
+                    <motion.div 
+                      className="text-xs text-white/70 font-medium mt-0.5"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {selectedChains[currentChain][token.name]}% preference
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
               {!isSelected && (
                 <Circle className="w-5 h-5 text-white/30 flex-shrink-0" />
               )}
-            </button>
+            </motion.button>
           )
-        })}
+            })}
+          </motion.div>
+        </AnimatePresence>
       </div>
       
       {/* Progress indicator */}

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import QRCode from 'qrcode'
 import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Header } from '@/components/Header'
 import { Spotlight } from '@/components/ui/spotlight-new'
 import ChainSelector from '@/components/ChainSelector'
@@ -309,24 +310,45 @@ const MerchantPage = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 h-full">
             {/* Left Panel - Payment Chain Selection */}
-          <div className="lg:col-span-1 h-full flex flex-col">
+          <motion.div 
+            className="lg:col-span-1 h-full flex flex-col"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             <ChainSelector
               chains={chains}
               currentChain={currentChain}
               setCurrentChain={setCurrentChain}
               selectedChains={selectedChains}
             />
-            <PortfolioSummary
-              selectedChains={selectedChains}
-              chains={chains}
-              tokensByChain={tokensByChain}
-              totalAllocation={totalAllocation}
-              removeToken={removeToken}
-            />
-              </div>
+            <AnimatePresence>
+              {Object.keys(selectedChains).length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <PortfolioSummary
+                    selectedChains={selectedChains}
+                    chains={chains}
+                    tokensByChain={tokensByChain}
+                    totalAllocation={totalAllocation}
+                    removeToken={removeToken}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+              </motion.div>
               
           {/* Center Panel - Payment Preferences */}
-          <div className="lg:col-span-1 h-full">
+          <motion.div 
+            className="lg:col-span-1 h-full"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             <PortfolioChart
               totalAllocation={totalAllocation}
               chartData={chartData}
@@ -336,10 +358,15 @@ const MerchantPage = () => {
               resetSelection={resetSelection}
               selectedChains={selectedChains}
             />
-            </div>
+            </motion.div>
             
           {/* Right Panel - Available Payment Tokens */}
-          <div className="lg:col-span-1 h-full">
+          <motion.div 
+            className="lg:col-span-1 h-full"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             <TokenGrid
               chains={chains}
               currentChain={currentChain}
@@ -348,7 +375,7 @@ const MerchantPage = () => {
               handleTokenClick={handleTokenClick}
               totalAllocation={totalAllocation}
                     />
-                  </div>
+                  </motion.div>
                 </div>
                 
                   </div>

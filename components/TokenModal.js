@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import { Plus, X } from 'lucide-react'
 
 const TokenModal = ({
@@ -18,9 +19,25 @@ const TokenModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
-      <div className="glass-card max-w-sm w-full p-6">
-        <div className="text-center mb-6">
-          <div className="relative w-16 h-16 mx-auto mb-3">
+      <motion.div 
+        className="glass-card max-w-sm w-full p-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.2 }}
+      >
+        <motion.div 
+          className="text-center mb-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.05, duration: 0.3 }}
+        >
+          <motion.div 
+            className="relative w-16 h-16 mx-auto mb-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1, duration: 0.3 }}
+          >
             {/* Token Icon */}
             <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-3">
               <Image
@@ -41,25 +58,30 @@ const TokenModal = ({
                 className="w-4 h-4"
               />
             </div>
-          </div>
+          </motion.div>
           <h3 className="text-xl font-bold text-white/90 mb-2">
             Set Payment Preference
           </h3>
           <p className="text-sm text-white/70">
             Set preference percentage for {selectedToken} on {chains.find(c => c.id === currentChain)?.name}
           </p>
-        </div>
+        </motion.div>
 
         <div className="space-y-6">
           {/* Current Allocation Display */}
-          <div className="text-center bg-white/5 border border-white/20 rounded-lg p-4">
+          <motion.div 
+            className="text-center bg-white/5 border border-white/20 rounded-lg p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.05, duration: 0.2 }}
+          >
             <div className="text-5xl font-bold text-white/90 mb-2">
               {tokenAllocation}%
             </div>
             <div className="text-xs text-white/60">
               Remaining: <span className="font-medium text-white/80">{(100 - totalAllocation).toFixed(1)}%</span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Allocation Slider */}
           <div className="space-y-4">
@@ -107,21 +129,30 @@ const TokenModal = ({
           </div>
 
           {/* Modal Actions */}
-          <div className="flex space-x-3 pt-4">
-            <button
+          <motion.div 
+            className="flex space-x-3 pt-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1, duration: 0.2 }}
+          >
+            <motion.button
               onClick={() => setShowTokenModal(false)}
               className="flex-1 px-4 py-2.5 bg-white/10 text-white/80 rounded-lg hover:bg-white/20 transition-all duration-200 font-medium border border-white/20 hover:border-white/40 text-sm"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               Cancel
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={addTokenToPortfolio}
               disabled={tokenAllocation <= 0 || (totalAllocation + tokenAllocation > 100)}
               className="flex-1 px-4 py-2.5 bg-white/20 border border-white/30 text-white rounded-lg hover:bg-white/30 disabled:bg-white/5 disabled:border-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-all duration-200 font-medium backdrop-blur-sm text-sm"
+              whileHover={!(tokenAllocation <= 0 || (totalAllocation + tokenAllocation > 100)) ? { scale: 1.02 } : {}}
+              whileTap={!(tokenAllocation <= 0 || (totalAllocation + tokenAllocation > 100)) ? { scale: 0.98 } : {}}
             >
               Set Preference
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
 
           {/* Warning */}
           {totalAllocation + tokenAllocation > 100 && (
@@ -137,7 +168,7 @@ const TokenModal = ({
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

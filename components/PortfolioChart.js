@@ -1,5 +1,6 @@
 import React from 'react'
 import { Pie } from 'react-chartjs-2'
+import { motion } from 'framer-motion'
 import { PieChart, Target, RotateCcw, QrCode } from 'lucide-react'
 
 const PortfolioChart = ({ 
@@ -38,30 +39,49 @@ const PortfolioChart = ({
       
       {/* Action Buttons */}
       <div className="flex flex-col gap-3 mt-auto">
-        <button
+        <motion.button
           onClick={generateDetailedQRCode}
           disabled={Object.keys(selectedChains).length === 0}
           className="w-full px-6 py-3 bg-white/15 border border-white/20 text-white rounded-xl hover:bg-white/25 disabled:bg-white/5 disabled:border-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-all duration-200 font-medium flex items-center justify-center space-x-2 backdrop-blur-sm"
+          whileHover={{ scale: Object.keys(selectedChains).length > 0 ? 1.02 : 1 }}
+          whileTap={{ scale: Object.keys(selectedChains).length > 0 ? 0.98 : 1 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          <Target className="w-4 h-4" />
+          <motion.div
+            animate={Object.keys(selectedChains).length > 0 ? { rotate: [0, 10, 0] } : {}}
+            transition={{ duration: 0.3 }}
+          >
+            <Target className="w-4 h-4" />
+          </motion.div>
           <span>Claim</span>
-        </button>
+        </motion.button>
         <div className="flex gap-2">
-          <button
+          <motion.button
             onClick={generateQRCode}
             disabled={Object.keys(selectedChains).length === 0}
             className="flex-1 px-4 py-3 bg-white/10 border border-white/15 text-white/80 rounded-xl hover:bg-white/20 hover:text-white disabled:bg-white/5 disabled:border-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-all duration-200 font-medium backdrop-blur-sm flex items-center justify-center space-x-2"
+            whileHover={{ scale: Object.keys(selectedChains).length > 0 ? 1.02 : 1 }}
+            whileTap={{ scale: Object.keys(selectedChains).length > 0 ? 0.98 : 1 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             <QrCode className="w-4 h-4" />
             <span>Show QR</span>
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={resetSelection}
             className="flex-1 px-4 py-3 bg-white/10 border border-white/15 text-white/80 rounded-xl hover:bg-white/20 hover:text-white transition-all duration-200 font-medium backdrop-blur-sm flex items-center justify-center space-x-2"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <RotateCcw className="w-4 h-4" />
+            <motion.div
+              whileHover={{ rotate: -180 }}
+              transition={{ duration: 0.3 }}
+            >
+              <RotateCcw className="w-4 h-4" />
+            </motion.div>
             <span>Reset</span>
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>
