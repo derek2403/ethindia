@@ -13,7 +13,7 @@ const TokenGrid = ({
   return (
     <div className="glass-card p-4 h-full flex flex-col">
       <div className="flex items-center gap-2 mb-4">
-        <div className="w-6 h-6 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+        <div className="w-6 h-6 rounded-full bg-white/10 border border-white/10 flex items-center justify-center backdrop-blur-sm">
           <Coins className="w-3 h-3 text-white/70" />
         </div>
         <div>
@@ -33,16 +33,16 @@ const TokenGrid = ({
               key={token.name}
               onClick={() => !isDisabled && handleTokenClick(token)}
               disabled={isDisabled}
-              className={`w-full p-3 rounded-lg border transition-all duration-200 flex items-center gap-3 text-left ${
+              className={`w-full p-3 rounded-lg border transition-all duration-200 flex items-center gap-3 text-left backdrop-blur-sm ${
                 isSelected
-                  ? 'border-white/40 bg-white/10 cursor-not-allowed'
+                  ? 'border-white/20 bg-white/10 cursor-not-allowed shadow-sm shadow-white/10'
                   : isPortfolioFull
                   ? 'border-white/10 bg-white/5 cursor-not-allowed opacity-50 blur-[1px]'
-                  : 'border-white/20 hover:border-white/40 hover:bg-white/10 cursor-pointer bg-white/5'
+                  : 'border-white/10 hover:border-white/20 hover:bg-white/10 cursor-pointer bg-white/5'
               }`}
             >
               <div className="relative w-10 h-10 flex-shrink-0">
-                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-2">
+                <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-2 backdrop-blur-sm">
                   <Image
                     src={token.icon}
                     alt={token.name}
@@ -75,7 +75,7 @@ const TokenGrid = ({
       </div>
       
       {/* Progress indicator */}
-      <div className="border-t border-white/20 pt-4 mt-auto">
+      <div className="border-t border-white/15 pt-4 mt-auto">
         <div className="flex justify-between text-sm text-white/70 mb-3">
           <span className="font-medium">Portfolio Progress</span>
           <span className="font-mono">{totalAllocation.toFixed(1)}% / 100%</span>
