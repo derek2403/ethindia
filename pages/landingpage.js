@@ -194,7 +194,7 @@ export default function LandingPage() {
                 <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
-                      tokenSrc="/icons/ethereum-eth-logo.svg" 
+                      tokenSrc="/icons/ethereum-eth-logo-colored.svg" 
                       chainSrc="/icons/arbitrum-arb-logo.svg" 
                       tokenAlt="ETH" 
                       chainAlt="Arbitrum"
@@ -215,7 +215,7 @@ export default function LandingPage() {
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/paypal-usd-pyusd-logo.svg" 
-                      chainSrc="/icons/ethereum-eth-logo.svg" 
+                      chainSrc="/icons/ethereum-eth-logo-colored.svg" 
                       tokenAlt="PYUSD" 
                       chainAlt="Ethereum Sepolia"
                     />
@@ -355,8 +355,8 @@ export default function LandingPage() {
                 <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
-                      tokenSrc="/icons/ethereum-eth-logo.svg" 
-                      chainSrc="/icons/ethereum-eth-logo.svg" 
+                      tokenSrc="/icons/ethereum-eth-logo-colored.svg" 
+                      chainSrc="/icons/ethereum-eth-logo-colored.svg" 
                       tokenAlt="ETH" 
                       chainAlt="Ethereum"
                     />
