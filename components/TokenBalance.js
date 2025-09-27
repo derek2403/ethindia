@@ -425,30 +425,6 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
             : 'Send Transfer'}
         </button>
       </div>
-
-      {/* Transfer Result */}
-      {txResult && (
-        <div className={`mt-4 p-4 rounded-lg border ${txResult.success ? 'bg-green-500/10 border-green-400/30' : 'bg-red-500/10 border-red-400/30'}`}>
-          <p className={`font-medium ${txResult.success ? 'text-green-300' : 'text-red-300'}`}>
-            {txResult.success ? 'Transfer Successful!' : 'Transfer Failed'}
-          </p>
-          {txResult.success && txResult.results && (
-            <div className="mt-2 space-y-2">
-              {txResult.results.map(({ chainId, result, chainName }, index) => {
-                const chain = CHAIN_CONFIGS.find(c => c.chainId === parseInt(chainId));
-                return (
-                  <div key={index} className="text-sm text-green-200">
-                    {chain?.icon} {chainName || chain?.name}: Transaction {result}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-          {!txResult.success && (
-            <p className="text-sm text-red-200 mt-1">{txResult.error}</p>
-          )}
-        </div>
-      )}
     </div>
   );
 }
