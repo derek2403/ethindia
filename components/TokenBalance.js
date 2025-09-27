@@ -373,7 +373,7 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
             <div className="mb-4">
               <div className="w-full bg-white/10 rounded-full h-2">
                 <div 
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-white/60 to-white/80 h-2 rounded-full transition-all duration-300"
                   style={{ 
                     width: `${Math.min((currentTotalUSD / maxPaymentAmount) * 100, 100)}%` 
                   }}
