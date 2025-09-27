@@ -36,7 +36,7 @@ const TokenWithChain = ({ tokenSrc, chainSrc, tokenAlt, chainAlt }) => (
 );
 
 // Individual token row component
-const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmountChange, tokenPrice }) => {
+const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmountChange, tokenPrice, maxPaymentAmount, currentTotalUSD }) => {
   const { balance, isLoading, error } = useTokenBalance(chain.chainId, token.address, userAddress);
   const [loadingTimeout, setLoadingTimeout] = useState(false);
   
@@ -101,15 +101,41 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
 
   const handleSliderChange = (percentage) => {
     const newAmount = (balanceNum * percentage) / 100;
+    
+    // If payment limit is set, check if new amount would exceed limit
+    if (maxPaymentAmount) {
+      const currentAmountUSD = transferAmount * price;
+      const newAmountUSD = newAmount * price;
+      const remainingBudget = maxPaymentAmount - currentTotalUSD + currentAmountUSD;
+      
+      if (newAmountUSD > remainingBudget) {
+        // Cap the new amount to remaining budget
+        const cappedTokenAmount = Math.max(0, remainingBudget / price);
+        const finalAmount = Math.min(cappedTokenAmount, balanceNum);
+        onTransferAmountChange(token.symbol, chain.chainId, finalAmount);
+        return;
+      }
+    }
+    
     onTransferAmountChange(token.symbol, chain.chainId, newAmount);
   };
 
   const handleUsdInputChange = (usdAmount) => {
     if (price > 0 && balanceNum > 0) {
-      const tokenAmount = usdAmount / price;
-      // Ensure we don't exceed available balance
-      const cappedAmount = Math.min(Math.max(0, tokenAmount), balanceNum);
-      onTransferAmountChange(token.symbol, chain.chainId, cappedAmount);
+      // If payment limit is set, check if new amount would exceed limit
+      if (maxPaymentAmount) {
+        const currentAmountUSD = transferAmount * price;
+        const remainingBudget = maxPaymentAmount - currentTotalUSD + currentAmountUSD;
+        const cappedUsdAmount = Math.min(usdAmount, remainingBudget);
+        const tokenAmount = cappedUsdAmount / price;
+        const finalAmount = Math.min(Math.max(0, tokenAmount), balanceNum);
+        onTransferAmountChange(token.symbol, chain.chainId, finalAmount);
+      } else {
+        const tokenAmount = usdAmount / price;
+        // Ensure we don't exceed available balance
+        const cappedAmount = Math.min(Math.max(0, tokenAmount), balanceNum);
+        onTransferAmountChange(token.symbol, chain.chainId, cappedAmount);
+      }
     } else if (usdAmount === 0) {
       // Reset to 0 when input is cleared
       onTransferAmountChange(token.symbol, chain.chainId, 0);
@@ -185,7 +211,14 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
           <input
             type="number"
             min="0"
-            max={(balanceNum * price).toFixed(2)}
+            max={
+              maxPaymentAmount 
+                ? Math.min(
+                    (balanceNum * price).toFixed(2),
+                    (maxPaymentAmount - currentTotalUSD + (transferAmount * price)).toFixed(2)
+                  )
+                : (balanceNum * price).toFixed(2)
+            }
             step="0.01"
             value={transferAmount * price ? (transferAmount * price).toFixed(2) : ''}
             onChange={(e) => handleUsdInputChange(parseFloat(e.target.value) || 0)}
@@ -205,7 +238,7 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
   );
 };
 
-export default function TokenBalance({ transferAmounts = {}, setTransferAmounts, tokenPrices = {}, pricesLoading = false, pricesError = null }) {
+export default function TokenBalance({ transferAmounts = {}, setTransferAmounts, tokenPrices = {}, pricesLoading = false, pricesError = null, maxPaymentAmount = null, currentTotalUSD = 0 }) {
   const { address, isConnected } = useAccount();
   
   // Transfer functionality
@@ -333,6 +366,8 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
             transferAmounts={transferAmounts}
             onTransferAmountChange={handleTransferAmountChange}
             tokenPrice={tokenPrices[token.symbol]}
+            maxPaymentAmount={maxPaymentAmount}
+            currentTotalUSD={currentTotalUSD}
           />
         ))}
 

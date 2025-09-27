@@ -22,6 +22,9 @@ export default function Transfer() {
   const [pricesLoading, setPricesLoading] = useState(true);
   const [pricesError, setPricesError] = useState(null);
   const [portfolioData, setPortfolioData] = useState(null);
+  
+  // Payment limit configuration
+  const MAX_PAYMENT_AMOUNT = 100; // $100 limit
 
   // Function to fetch prices from Hermes API
   const fetchTokenPrices = async () => {
@@ -68,6 +71,47 @@ export default function Transfer() {
       setPricesError(error.message);
     } finally {
       setPricesLoading(false);
+    }
+  };
+
+  // Calculate total USD value of selected tokens
+  const calculateTotalUSDValue = () => {
+    return Object.entries(transferAmounts).reduce((total, [key, amount]) => {
+      // Extract token symbol from key (format: "SYMBOL_CHAINID")
+      const tokenSymbol = key.split('_')[0];
+      const tokenPrice = tokenPrices[tokenSymbol]?.price || 0;
+      return total + (amount * tokenPrice);
+    }, 0);
+  };
+
+  // Wrapper for setTransferAmounts that enforces the payment limit
+  const setTransferAmountsWithLimit = (newAmounts) => {
+    if (typeof newAmounts === 'function') {
+      setTransferAmounts(prev => {
+        const updated = newAmounts(prev);
+        const totalValue = Object.entries(updated).reduce((total, [key, amount]) => {
+          const tokenSymbol = key.split('_')[0];
+          const tokenPrice = tokenPrices[tokenSymbol]?.price || 0;
+          return total + (amount * tokenPrice);
+        }, 0);
+        
+        // Only update if within limit
+        if (totalValue <= MAX_PAYMENT_AMOUNT) {
+          return updated;
+        }
+        return prev; // Return previous state if limit exceeded
+      });
+    } else {
+      // Direct object assignment
+      const totalValue = Object.entries(newAmounts).reduce((total, [key, amount]) => {
+        const tokenSymbol = key.split('_')[0];
+        const tokenPrice = tokenPrices[tokenSymbol]?.price || 0;
+        return total + (amount * tokenPrice);
+      }, 0);
+      
+      if (totalValue <= MAX_PAYMENT_AMOUNT) {
+        setTransferAmounts(newAmounts);
+      }
     }
   };
 
@@ -261,13 +305,54 @@ export default function Transfer() {
             </div>
           )}
 
+          {/* Payment Limit Display */}
+          <div className="w-full">
+            <div className="glass-card flex flex-col justify-start p-4 relative max-w-4xl mx-auto w-full">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-white">Payment Summary</h3>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-white">
+                    ${calculateTotalUSDValue().toFixed(2)} / ${MAX_PAYMENT_AMOUNT.toFixed(2)}
+                  </div>
+                  <div className="text-sm text-white/70">
+                    ${(MAX_PAYMENT_AMOUNT - calculateTotalUSDValue()).toFixed(2)} remaining
+                  </div>
+                </div>
+              </div>
+              
+              {/* Progress Bar */}
+              <div className="mt-4">
+                <div className="w-full bg-white/10 rounded-full h-2">
+                  <div 
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+                    style={{ 
+                      width: `${Math.min((calculateTotalUSDValue() / MAX_PAYMENT_AMOUNT) * 100, 100)}%` 
+                    }}
+                  ></div>
+                </div>
+                <div className="flex justify-between text-xs text-white/60 mt-1">
+                  <span>$0</span>
+                  <span>${MAX_PAYMENT_AMOUNT}</span>
+                </div>
+              </div>
+              
+              {calculateTotalUSDValue() >= MAX_PAYMENT_AMOUNT && (
+                <div className="mt-3 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg p-2">
+                  ⚠️ Payment limit reached. Remove some tokens to add more.
+                </div>
+              )}
+            </div>
+          </div>
+
           <div className="w-full">
             <TokenBalance 
               transferAmounts={transferAmounts}
-              setTransferAmounts={setTransferAmounts}
+              setTransferAmounts={setTransferAmountsWithLimit}
               tokenPrices={tokenPrices}
               pricesLoading={pricesLoading}
               pricesError={pricesError}
+              maxPaymentAmount={MAX_PAYMENT_AMOUNT}
+              currentTotalUSD={calculateTotalUSDValue()}
             />
           </div>
           <div className="w-full">
