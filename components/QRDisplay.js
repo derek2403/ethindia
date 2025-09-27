@@ -45,32 +45,16 @@ const QRDisplay = ({
       <div className="glass-card max-w-4xl w-full max-h-[85vh] overflow-y-auto p-6">
         <div className="text-center space-y-6">
         <div className="space-y-2">
-          <p className="text-lg text-white/80 font-medium">Scan this QR code to share your portfolio allocation</p>
+          <h3 className="text-xl font-bold text-white/90">Payment Claiming Summary</h3>
+          <p className="text-lg text-white/80 font-medium">Please review and confirm your payment preferences</p>
         </div>
       
         {qrDataUrl && (
           <div className="flex flex-col items-center space-y-5">
-            {/* QR Code with enhanced styling */}
-            <div className="relative p-4 bg-white/5 border border-white/20 rounded-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-xl"></div>
-              <div className="relative">
-                <img 
-                  src={qrDataUrl} 
-                  alt="Portfolio QR Code" 
-                  className="rounded-lg shadow-lg" 
-                  style={{ width: '280px', height: '280px' }}
-                />
-              </div>
-            </div>
           
             {/* Portfolio Summary */}
             <div className="bg-white/5 border border-white/20 rounded-lg p-4 max-w-2xl w-full">
-              <div className="flex items-center space-x-2 mb-3">
-                <div className="p-1.5 bg-white/10 border border-white/20 rounded-md">
-                  <BarChart3 className="w-4 h-4 text-white/70" />
-                </div>
-                <h3 className="font-semibold text-base text-white/90">Portfolio Summary</h3>
-              </div>
+              <div className="mb-3"></div>
               <div className="mb-3">
                 <div className="bg-white/5 border border-white/20 p-2.5 rounded-lg backdrop-blur-sm">
                   <div className="flex flex-wrap gap-2.5 justify-center">
@@ -87,8 +71,8 @@ const QRDisplay = ({
                               tokenAlt={`${token} ${allocation}%`}
                               chainAlt={chainInfo?.name || chain}
                             />
-                            <div className="mt-1 bg-black/80 rounded-full px-1.5 py-0.5 border border-white/20">
-                              <span className="text-white text-[10px] font-medium">{allocation}%</span>
+                            <div className="mt-1 bg-white/20 rounded-full px-2 py-1 border border-white/30 backdrop-blur-sm">
+                              <span className="text-white text-xs font-medium">{allocation}%</span>
                             </div>
                           </div>
                         )
@@ -96,14 +80,6 @@ const QRDisplay = ({
                     }).flat()}
                   </div>
                 </div>
-              </div>
-              <div className="flex justify-between items-center pt-3 border-t border-white/20">
-                <span className="font-semibold text-white/90 text-sm">Total Allocation:</span>
-                <span className={`font-bold text-lg ${
-                  totalAllocation === 100 ? 'text-white/90' : 'text-white/70'
-                }`}>
-                  {totalAllocation.toFixed(1)}%
-                </span>
               </div>
             </div>
           
@@ -120,14 +96,14 @@ const QRDisplay = ({
               <button
                 onClick={() => {
                   const link = document.createElement('a')
-                  link.download = `portfolio-qr-${Date.now()}.png`
+                  link.download = `payment-preferences-${Date.now()}.png`
                   link.href = qrDataUrl
                   link.click()
                 }}
                 className="px-6 py-2.5 bg-white/20 border border-white/30 text-white rounded-lg hover:bg-white/30 transition-all duration-200 font-medium backdrop-blur-sm text-sm flex items-center justify-center space-x-2"
               >
                 <Download className="w-4 h-4" />
-                <span>Download QR</span>
+                <span>Confirm Claim</span>
               </button>
             </div>
           </div>

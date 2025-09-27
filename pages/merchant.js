@@ -105,7 +105,7 @@ const MerchantPage = () => {
     if (totalAllocation < 100) {
       labels.push('No Preference')
       data.push(100 - totalAllocation)
-      colors.push('#E5E7EB')
+      colors.push('#4B5563')
     }
     
     return {
@@ -332,6 +332,7 @@ const MerchantPage = () => {
               chartData={chartData}
               chartOptions={chartOptions}
               generateQRCode={generateSimpleQRCode}
+              generateDetailedQRCode={generateQRCode}
               resetSelection={resetSelection}
               selectedChains={selectedChains}
             />

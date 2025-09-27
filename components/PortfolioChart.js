@@ -7,6 +7,7 @@ const PortfolioChart = ({
   chartData, 
   chartOptions, 
   generateQRCode, 
+  generateDetailedQRCode,
   resetSelection, 
   selectedChains 
 }) => {
@@ -38,6 +39,7 @@ const PortfolioChart = ({
       {/* Action Buttons */}
       <div className="flex flex-col gap-3 mt-auto">
         <button
+          onClick={generateDetailedQRCode}
           disabled={Object.keys(selectedChains).length === 0}
           className="w-full px-6 py-3 bg-white/15 border border-white/20 text-white rounded-xl hover:bg-white/25 disabled:bg-white/5 disabled:border-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-all duration-200 font-medium flex items-center justify-center space-x-2 backdrop-blur-sm"
         >
