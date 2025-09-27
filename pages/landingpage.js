@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 import {
   NavigationMenu,
@@ -369,26 +370,36 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Navbar */}
-         <header className="absolute top-0 left-0 right-0 z-20 w-full">
+        {/* Wallet Connection Header - Exact same as transfer.js */}
+        <header className="absolute top-0 left-0 right-0 z-30 flex justify-end items-center p-4">
+          <div className="bg-white/10 border border-white/30 rounded-xl backdrop-blur-md shadow-lg">
+            <ConnectButton />
+          </div>
+        </header>
+
+        {/* Navigation Header - Separate from wallet */}
+        <div className="absolute top-0 left-0 right-0 z-20 w-full">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-6 pt-6">
              <div className="select-none text-sm font-semibold tracking-wide text-white/90">AnyChain</div>
+             
              <NavigationMenu viewport={false} className="rounded-xl border border-white/30 bg-white/5 px-3 py-2 backdrop-blur-md shadow-lg">
                <NavigationMenuList className="gap-1">
                 <NavigationMenuItem>
                    <NavigationMenuLink href="#home" className="px-3 py-1.5 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10">Home</NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                   <NavigationMenuLink href="#pay" className="px-3 py-1.5 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10">Pay</NavigationMenuLink>
+                   <NavigationMenuLink href="/transfer" className="px-3 py-1.5 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10">Transfer</NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                    <NavigationMenuLink href="#about" className="px-3 py-1.5 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10">About</NavigationMenuLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-             <Button size="sm" className="bg-white/10 border border-white/30 text-white hover:bg-white/20 transition-colors shadow-lg">Start Payment</Button>
+            
+             {/* Empty space to balance layout */}
+             <div style={{ width: '140px' }}></div>
           </div>
-        </header>
+        </div>
 
         {/* Hero */}
         <main id="home" className="relative mx-auto flex w-full max-w-6xl items-center justify-center px-6 h-full">
