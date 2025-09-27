@@ -20,7 +20,7 @@ import { Pie } from 'react-chartjs-2'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
-const QRPage = () => {
+const MerchantPage = () => {
   const { address, isConnected } = useAccount()
   const [selectedChains, setSelectedChains] = useState({})
   const [currentChain, setCurrentChain] = useState('sepolia')
@@ -354,4 +354,4 @@ const QRPage = () => {
   )
 }
 
-export default QRPage
+export default MerchantPage
