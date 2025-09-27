@@ -182,13 +182,18 @@ const MerchantPage = () => {
       return
     }
 
-    const qrData = {
+    const portfolioData = {
       walletAddress: address,
       ...selectedChains
     }
 
+    // Create URL that leads to transfer page with portfolio data
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'
+    const portfolioParam = encodeURIComponent(JSON.stringify(portfolioData))
+    const transferUrl = `${baseUrl}/transfer?portfolio=${portfolioParam}`
+
     try {
-      const qrCodeDataUrl = await QRCode.toDataURL(JSON.stringify(qrData))
+      const qrCodeDataUrl = await QRCode.toDataURL(transferUrl)
       setQrDataUrl(qrCodeDataUrl)
       setShowQRModal(true)
     } catch (error) {
