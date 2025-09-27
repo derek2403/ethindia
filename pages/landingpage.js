@@ -112,7 +112,7 @@ export default function LandingPage() {
           <div className="flex flex-col items-center gap-8">
             {/* Header */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center max-w-4xl leading-tight">
-              Pay with any combination of any token on any chain.
+              Pay and Receive with any combination of any token on any chain.
             </h1>
             
             {/* Payment Cards Container */}
@@ -127,7 +127,7 @@ export default function LandingPage() {
                   delay={0}
                 />
                 <div className="text-white/90">
-                  <h2 className="text-lg font-semibold text-white mb-6 text-center">$100 Payment Example</h2>
+                  <h2 className="text-lg font-semibold text-white mb-6 text-center">User Pay</h2>
                   
                   <div className="space-y-3 mb-6">
                 {/* HBAR Payment */}
@@ -178,7 +178,24 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Arbitrum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium">$50</span>
+                  <span className="text-white font-medium">$30</span>
+                </div>
+
+                {/* ETH Payment */}
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
+                  <div className="flex items-center gap-3">
+                    <TokenWithChain 
+                      tokenSrc="/icons/ethereum-eth-logo.svg" 
+                      chainSrc="/icons/arbitrum-arb-logo.svg" 
+                      tokenAlt="ETH" 
+                      chainAlt="Arbitrum"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-white/90 text-sm font-medium">ETH</span>
+                      <span className="text-white/50 text-xs">on Arbitrum</span>
+                    </div>
+                  </div>
+                  <span className="text-white font-medium">$20</span>
                 </div>
 
                 {/* PayPal USD Payment */}
@@ -316,7 +333,7 @@ export default function LandingPage() {
                   delay={2}
                 />
                 <div className="text-white/90">
-              <h2 className="text-lg font-semibold text-white mb-6 text-center">Merchant Receives</h2>
+              <h2 className="text-lg font-semibold text-white mb-6 text-center">Merchant Receive</h2>
               
               <div className="space-y-3 mb-6">
                 {/* ETH Received */}
@@ -333,7 +350,7 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Ethereum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium">$70</span>
+                  <span className="text-white font-medium">$50</span>
                 </div>
 
                 {/* SOL Received */}
@@ -352,11 +369,28 @@ export default function LandingPage() {
                   </div>
                   <span className="text-white font-medium">$30</span>
                 </div>
+
+                {/* PYUSD Received */}
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
+                  <div className="flex items-center gap-3">
+                    <TokenWithChain 
+                      tokenSrc="/icons/paypal-usd-pyusd-logo.svg" 
+                      chainSrc="/icons/arbitrum-arb-logo.svg" 
+                      tokenAlt="PYUSD" 
+                      chainAlt="Arbitrum"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-white/90 text-sm font-medium">PYUSD</span>
+                      <span className="text-white/50 text-xs">on Arbitrum</span>
+                    </div>
+                  </div>
+                  <span className="text-white font-medium">$20</span>
+                </div>
               </div>
 
                   <div className="border-t border-white/20 pt-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-white font-semibold">Total Received</span>
+                      <span className="text-white font-semibold">Total Received&nbsp;</span>
                       <span className="text-white font-bold text-lg">$100.00</span>
                     </div>
                   </div>
