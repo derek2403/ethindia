@@ -106,6 +106,18 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
     onTransferAmountChange(token.symbol, chain.chainId, newAmount);
   };
 
+  const handleUsdInputChange = (usdAmount) => {
+    if (price > 0 && balanceNum > 0) {
+      const tokenAmount = usdAmount / price;
+      // Ensure we don't exceed available balance
+      const cappedAmount = Math.min(Math.max(0, tokenAmount), balanceNum);
+      onTransferAmountChange(token.symbol, chain.chainId, cappedAmount);
+    } else if (usdAmount === 0) {
+      // Reset to 0 when input is cleared
+      onTransferAmountChange(token.symbol, chain.chainId, 0);
+    }
+  };
+
   return (
     <div style={{
       display: 'grid',
@@ -204,12 +216,51 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
 
       {/* Allocation Display - Fixed width column */}
       <div style={{textAlign: 'right'}}>
-        <div style={{
-          fontWeight: '600',
-          fontSize: '16px',
-          color: transferAmount > 0 ? '#ffffff' : 'white'
-        }}>
-          ${(transferAmount * price).toFixed(2)}
+        <div style={{position: 'relative', marginBottom: '4px'}}>
+          <span style={{
+            position: 'absolute',
+            left: '8px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            fontSize: '14px',
+            color: '#ffffff',
+            fontWeight: '600',
+            pointerEvents: 'none'
+          }}>
+            $
+          </span>
+          <input
+            type="number"
+            min="0"
+            max={(balanceNum * price).toFixed(2)}
+            step="0.01"
+            value={transferAmount * price || ''}
+            onChange={(e) => handleUsdInputChange(parseFloat(e.target.value) || 0)}
+            style={{
+              width: '100%',
+              padding: '8px 8px 8px 20px',
+              fontSize: '14px',
+              fontWeight: '600',
+              color: '#ffffff',
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '6px',
+              textAlign: 'right',
+              outline: 'none',
+              backdropFilter: 'blur(4px)',
+              WebkitAppearance: 'none',
+              MozAppearance: 'textfield'
+            }}
+            onFocus={(e) => {
+              e.target.style.border = '1px solid rgba(255, 255, 255, 0.4)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.15)';
+            }}
+            onBlur={(e) => {
+              e.target.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+              e.target.style.background = 'rgba(255, 255, 255, 0.1)';
+            }}
+            placeholder="0.00"
+          />
         </div>
         <div style={{fontSize: '12px', color: '#6b7280'}}>
           Slider: {transferPercentage.toFixed(1)}% • {transferAmount.toFixed(4)} {token.symbol}
@@ -221,6 +272,26 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
 
 export default function TokenBalance({ transferAmounts = {}, setTransferAmounts, tokenPrices = {}, pricesLoading = false, pricesError = null }) {
   const { address, isConnected } = useAccount();
+
+  // Add CSS to hide number input spinners
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input[type="number"] {
+        -moz-appearance: textfield;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   const handleTransferAmountChange = (tokenSymbol, chainId, value) => {
     const key = createTransferKey(tokenSymbol, chainId);
