@@ -192,19 +192,25 @@ export default function Transfer() {
   }, []);
 
   return (
-    <div>
+    <div className="min-h-screen bg-black">
       <Header />
-      <main className="p-4 max-w-6xl mx-auto">
-        <TokenBalance 
-          transferAmounts={transferAmounts}
-          setTransferAmounts={setTransferAmounts}
-          tokenPrices={tokenPrices}
-          pricesLoading={pricesLoading}
-          pricesError={pricesError}
-        />
-        <AtomicTransfer 
-          transferAmounts={transferAmounts}
-        />
+      <main className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl mx-auto">
+        <div className="space-y-6 sm:space-y-8 lg:space-y-10">
+          <div className="w-full">
+            <TokenBalance 
+              transferAmounts={transferAmounts}
+              setTransferAmounts={setTransferAmounts}
+              tokenPrices={tokenPrices}
+              pricesLoading={pricesLoading}
+              pricesError={pricesError}
+            />
+          </div>
+          <div className="w-full">
+            <AtomicTransfer 
+              transferAmounts={transferAmounts}
+            />
+          </div>
+        </div>
       </main>
     </div>
   );
