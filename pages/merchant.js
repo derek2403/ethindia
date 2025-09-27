@@ -22,6 +22,14 @@ import { Pie } from 'react-chartjs-2'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
+// Remove the default legend and create custom one
+ChartJS.register({
+  id: 'customTokenLegend',
+  afterUpdate: (chart) => {
+    chart.options.plugins.legend.display = false
+  }
+})
+
 const MerchantPage = () => {
   const { address, isConnected } = useAccount()
   const [selectedChains, setSelectedChains] = useState({})
@@ -43,40 +51,40 @@ const MerchantPage = () => {
     { id: 'arbitrum', name: 'Arbitrum', icon: '/icons/arbitrum-arb-logo.svg' }
   ]
 
-  // Common tokens for each chain with SVG icons and consistent styling
+  // Common tokens for each chain with SVG icons and dark theme colors
   const tokensByChain = {
     polygon: [
-      { name: 'MATIC', fullName: 'Polygon', icon: '/icons/polygon-matic-logo.svg', chartColor: '#8247E5' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#26A17B' },
-      { name: 'WETH', fullName: 'Wrapped Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
-      { name: 'DAI', fullName: 'Dai Stablecoin', icon: '/icons/multi-collateral-dai-dai-logo.svg', chartColor: '#F5AC37' }
+      { name: 'MATIC', fullName: 'Polygon', icon: '/icons/polygon-matic-logo.svg', chartColor: '#E5E7EB' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#D1D5DB' },
+      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#9CA3AF' },
+      { name: 'WETH', fullName: 'Wrapped Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#6B7280' },
+      { name: 'DAI', fullName: 'Dai Stablecoin', icon: '/icons/multi-collateral-dai-dai-logo.svg', chartColor: '#4B5563' }
     ],
     optimism: [
-      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#26A17B' },
-      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', chartColor: '#F7931A' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#E5E7EB' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#D1D5DB' },
+      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#9CA3AF' },
+      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', chartColor: '#6B7280' }
     ],
     arbitrum: [
-      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
-      { name: 'PYUSD', fullName: 'PayPal USD', icon: '/icons/paypal-usd-pyusd-logo.svg', chartColor: '#0070BA' },
-      { name: 'ARB', fullName: 'Arbitrum', icon: '/icons/arbitrum-arb-logo.svg', chartColor: '#28A0F0' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#26A17B' },
-      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', chartColor: '#F7931A' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#E5E7EB' },
+      { name: 'PYUSD', fullName: 'PayPal USD', icon: '/icons/paypal-usd-pyusd-logo.svg', chartColor: '#D1D5DB' },
+      { name: 'ARB', fullName: 'Arbitrum', icon: '/icons/arbitrum-arb-logo.svg', chartColor: '#9CA3AF' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#6B7280' },
+      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#4B5563' },
+      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', chartColor: '#374151' }
     ],
     sepolia: [
-      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
-      { name: 'PYUSD', fullName: 'PayPal USD', icon: '/icons/paypal-usd-pyusd-logo.svg', chartColor: '#0070BA' },
-      { name: 'LINK', fullName: 'Chainlink', icon: '/icons/chainlink-link-logo.svg', chartColor: '#375BD2' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#E5E7EB' },
+      { name: 'PYUSD', fullName: 'PayPal USD', icon: '/icons/paypal-usd-pyusd-logo.svg', chartColor: '#D1D5DB' },
+      { name: 'LINK', fullName: 'Chainlink', icon: '/icons/chainlink-link-logo.svg', chartColor: '#9CA3AF' }
     ],
     flow: [
-      { name: 'FLOW', fullName: 'Flow', icon: '/icons/flow-flow-logo.svg', chartColor: '#00EF8B' }
+      { name: 'FLOW', fullName: 'Flow', icon: '/icons/flow-flow-logo.svg', chartColor: '#6B7280' }
     ],
     hedera: [
-      { name: 'HBAR', fullName: 'Hedera Hashgraph', icon: '/icons/hedera-hbar-logo.svg', chartColor: '#82259D' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' }
+      { name: 'HBAR', fullName: 'Hedera Hashgraph', icon: '/icons/hedera-hbar-logo.svg', chartColor: '#9CA3AF' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#6B7280' }
     ]
   }
 
@@ -92,13 +100,19 @@ const MerchantPage = () => {
     const data = []
     const labels = []
     const colors = []
+    const tokenInfo = []
     
     Object.entries(selectedChains).forEach(([chainId, tokens]) => {
       Object.entries(tokens).forEach(([tokenName, allocation]) => {
         const token = tokensByChain[chainId]?.find(t => t.name === tokenName)
         labels.push(`${tokenName} (${chainId})`)
         data.push(allocation)
-        colors.push(token?.chartColor || '#6B7280')
+        colors.push(token?.chartColor || '#4B5563')
+        tokenInfo.push({
+          icon: token?.icon || '/icons/ethereum-eth-logo.svg',
+          name: tokenName,
+          chain: chainId
+        })
       })
     })
     
@@ -106,16 +120,18 @@ const MerchantPage = () => {
     if (totalAllocation < 100) {
       labels.push('No Preference')
       data.push(100 - totalAllocation)
-      colors.push('#4B5563')
+      colors.push('#374151')
+      tokenInfo.push(null) // No icon for "No Preference"
     }
     
     return {
       labels,
+      tokenInfo,
       datasets: [{
         data,
         backgroundColor: colors,
-        borderColor: colors.map(color => color + '80'),
-        borderWidth: 2,
+        borderColor: '#1F2937',
+        borderWidth: 0,
       }]
     }
   }, [selectedChains, totalAllocation, tokensByChain])
@@ -231,23 +247,13 @@ const MerchantPage = () => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'bottom',
-        labels: {
-          padding: 16,
-          usePointStyle: true,
-          pointStyle: 'circle',
-          color: 'rgba(255, 255, 255, 0.8)',
-          font: {
-            size: 12,
-            weight: '500'
-          }
-        }
+        display: false
       },
       tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
         titleColor: 'rgba(255, 255, 255, 0.9)',
-        bodyColor: 'rgba(255, 255, 255, 0.8)',
-        borderColor: 'rgba(255, 255, 255, 0.2)',
+        bodyColor: 'rgba(255, 255, 255, 0.7)',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
         borderWidth: 1,
         cornerRadius: 8,
         callbacks: {
@@ -260,6 +266,11 @@ const MerchantPage = () => {
       }
     },
     maintainAspectRatio: false,
+    elements: {
+      arc: {
+        borderWidth: 0
+      }
+    }
   }
 
   if (!isConnected) {
@@ -316,17 +327,20 @@ const MerchantPage = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <ChainSelector
-              chains={chains}
-              currentChain={currentChain}
-              setCurrentChain={setCurrentChain}
-              selectedChains={selectedChains}
-            />
+            <div className="flex-1 min-h-0">
+              <ChainSelector
+                chains={chains}
+                currentChain={currentChain}
+                setCurrentChain={setCurrentChain}
+                selectedChains={selectedChains}
+              />
+            </div>
             <AnimatePresence>
               {Object.keys(selectedChains).length > 0 && (
                 <motion.div
+                  className="flex-shrink-0 h-48"
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
+                  animate={{ opacity: 1, height: 192 }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3 }}
                 >
