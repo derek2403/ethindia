@@ -8,6 +8,8 @@ import {
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
+import { BorderBeam } from "@/components/ui/border-beam";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
 
 export default function LandingPage() {
   useEffect(() => {
@@ -32,7 +34,14 @@ export default function LandingPage() {
         {/* Payment Cards */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center gap-8 flex-col md:flex-row px-4 md:px-0">
           {/* Payment Breakdown Card */}
-          <div className="glass-card flex flex-col justify-start p-6">
+          <div className="glass-card flex flex-col justify-start p-6 relative">
+            <BorderBeam 
+              size={120}
+              duration={4}
+              colorFrom="#ffffff"
+              colorTo="#ffffff80"
+              delay={0}
+            />
             <div className="text-white/90">
               <h2 className="text-lg font-semibold text-white mb-6 text-center">$100 Payment Example</h2>
               
@@ -85,14 +94,119 @@ export default function LandingPage() {
               <div className="border-t border-white/20 pt-4">
                 <div className="flex items-center justify-between">
                   <span className="text-white font-semibold">Total Payment</span>
-                  <span className="text-blue-400 font-bold text-lg">$100.00</span>
+                  <span className="text-white font-bold text-lg">$100.00</span>
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Animated Transition Arrow */}
+          <div className="hidden md:flex items-center justify-center">
+            <div className="relative flex items-center">
+              {/* Flowing dots */}
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-white/60 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                <div className="w-2 h-2 bg-white/20 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+              </div>
+              
+              {/* Arrow */}
+              <div className="ml-4 relative">
+                <svg 
+                  width="40" 
+                  height="20" 
+                  viewBox="0 0 40 20" 
+                  className="text-white/60 animate-pulse"
+                >
+                  <defs>
+                    <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" style={{stopColor: '#ffffff', stopOpacity: 0.6}} />
+                      <stop offset="50%" style={{stopColor: '#ffffff', stopOpacity: 0.4}} />
+                      <stop offset="100%" style={{stopColor: '#ffffff', stopOpacity: 0.2}} />
+                    </linearGradient>
+                  </defs>
+                  <path 
+                    d="M2 10 L30 10 M24 4 L30 10 L24 16" 
+                    stroke="url(#arrowGradient)" 
+                    strokeWidth="2" 
+                    fill="none" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              
+              {/* More flowing dots */}
+              <div className="ml-4 flex items-center gap-2">
+                <div className="w-2 h-2 bg-white/20 rounded-full animate-pulse" style={{animationDelay: '0.6s'}}></div>
+                <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{animationDelay: '0.8s'}}></div>
+                <div className="w-2 h-2 bg-white/60 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+              </div>
+            </div>
+            
+            {/* Conversion label */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-white/40 whitespace-nowrap">
+              Swaps & Bridges
+            </div>
+          </div>
+
+          {/* Mobile Transition (vertical) */}
+          <div className="md:hidden flex flex-col items-center justify-center">
+            <div className="relative flex flex-col items-center">
+              {/* Flowing dots */}
+              <div className="flex flex-col items-center gap-2 my-2">
+                <div className="w-2 h-2 bg-white/60 rounded-full animate-pulse"></div>
+                <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                <div className="w-2 h-2 bg-white/20 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+              </div>
+              
+              {/* Vertical Arrow */}
+              <svg 
+                width="20" 
+                height="40" 
+                viewBox="0 0 20 40" 
+                className="text-white/60 animate-pulse"
+              >
+                <defs>
+                  <linearGradient id="arrowGradientVertical" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style={{stopColor: '#ffffff', stopOpacity: 0.6}} />
+                    <stop offset="50%" style={{stopColor: '#ffffff', stopOpacity: 0.4}} />
+                    <stop offset="100%" style={{stopColor: '#ffffff', stopOpacity: 0.2}} />
+                  </linearGradient>
+                </defs>
+                <path 
+                  d="M10 2 L10 30 M4 24 L10 30 L16 24" 
+                  stroke="url(#arrowGradientVertical)" 
+                  strokeWidth="2" 
+                  fill="none" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                />
+              </svg>
+              
+              {/* More flowing dots */}
+              <div className="flex flex-col items-center gap-2 my-2">
+                <div className="w-2 h-2 bg-white/20 rounded-full animate-pulse" style={{animationDelay: '0.6s'}}></div>
+                <div className="w-2 h-2 bg-white/40 rounded-full animate-pulse" style={{animationDelay: '0.8s'}}></div>
+                <div className="w-2 h-2 bg-white/60 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+              </div>
+            </div>
+            
+            {/* Conversion label */}
+            <div className="text-xs text-white/40 whitespace-nowrap">
+              Swaps & Bridges
+            </div>
+          </div>
+
           {/* Merchant Received Card */}
-          <div className="glass-card flex flex-col justify-start p-6">
+          <div className="glass-card flex flex-col justify-start p-6 relative">
+            <BorderBeam 
+              size={120}
+              duration={4}
+              colorFrom="#ffffff80"
+              colorTo="#ffffff"
+              delay={2}
+            />
             <div className="text-white/90">
               <h2 className="text-lg font-semibold text-white mb-6 text-center">Merchant Receives</h2>
               
@@ -123,7 +237,7 @@ export default function LandingPage() {
               <div className="border-t border-white/20 pt-4">
                 <div className="flex items-center justify-between">
                   <span className="text-white font-semibold">Total Received</span>
-                  <span className="text-green-400 font-bold text-lg">$100.00</span>
+                  <span className="text-white font-bold text-lg">$100.00</span>
                 </div>
               </div>
 
