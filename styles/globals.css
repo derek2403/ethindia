@@ -154,7 +154,7 @@ body {
   }
 }
 
-/* Aurora Background Animation (Aceternity UI) */
+/* Aurora Background Animation (Aceternity UI) - Faster & More Consistent */
 @keyframes aurora {
   from {
     background-position:
@@ -169,7 +169,7 @@ body {
 }
 
 .animate-aurora {
-  animation: aurora 60s linear infinite;
+  animation: aurora 25s linear infinite;
 }
 
 .glass-card::before {
