@@ -267,3 +267,5 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* RainbowKit glassmorphism is now handled via proper theme API in _app.js */

@@ -5,6 +5,8 @@ import React, { useEffect } from 'react';
 import {
   getDefaultConfig,
   RainbowKitProvider,
+  darkTheme,
+  Theme,
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
 import {
@@ -127,13 +129,69 @@ if (typeof window !== 'undefined') {
   };
 }
 
+// Create custom glassmorphism theme
+const glassmorphismTheme = darkTheme({
+  accentColor: 'rgba(255, 255, 255, 0.15)',
+  accentColorForeground: 'white',
+  borderRadius: 'large',
+  fontStack: 'system',
+  overlayBlur: 'large',
+});
+
+// Enhanced glassmorphism styling - more transparent and glass-like
+glassmorphismTheme.colors.modalBackground = 'rgba(0, 0, 0, 0.7)';  // More transparent dark background
+glassmorphismTheme.colors.modalBorder = 'rgba(255, 255, 255, 0.2)';
+glassmorphismTheme.colors.modalText = 'rgba(255, 255, 255, 0.95)';
+glassmorphismTheme.colors.modalTextSecondary = 'rgba(255, 255, 255, 0.7)';
+glassmorphismTheme.colors.modalTextDim = 'rgba(255, 255, 255, 0.6)';
+
+// Close button glassmorphism
+glassmorphismTheme.colors.closeButton = 'rgba(255, 255, 255, 0.15)';
+glassmorphismTheme.colors.closeButtonBackground = 'rgba(255, 255, 255, 0.08)';
+
+// General UI elements with glass effect
+glassmorphismTheme.colors.generalBorder = 'rgba(255, 255, 255, 0.1)';
+glassmorphismTheme.colors.generalBorderDim = 'rgba(255, 255, 255, 0.05)';
+
+// Menu items and interactive elements
+glassmorphismTheme.colors.menuItemBackground = 'rgba(255, 255, 255, 0.08)';
+glassmorphismTheme.colors.profileAction = 'rgba(255, 255, 255, 0.08)';
+glassmorphismTheme.colors.profileActionHover = 'rgba(255, 255, 255, 0.15)';
+glassmorphismTheme.colors.profileForeground = 'rgba(255, 255, 255, 0.95)';
+
+// Network/chain selection styling
+glassmorphismTheme.colors.selectedOptionBorder = 'rgba(59, 130, 246, 0.4)';
+glassmorphismTheme.colors.actionButtonBorder = 'rgba(255, 255, 255, 0.15)';
+glassmorphismTheme.colors.actionButtonBorderMobile = 'rgba(255, 255, 255, 0.1)';
+glassmorphismTheme.colors.actionButtonSecondaryBackground = 'rgba(255, 255, 255, 0.05)';
+
+// Connected state styling
+glassmorphismTheme.colors.connectButtonBackground = 'rgba(255, 255, 255, 0.08)';
+glassmorphismTheme.colors.connectButtonBackgroundError = 'rgba(239, 68, 68, 0.15)';
+glassmorphismTheme.colors.connectButtonInnerBackground = 'rgba(255, 255, 255, 0.05)';
+glassmorphismTheme.colors.connectButtonText = 'rgba(255, 255, 255, 0.95)';
+glassmorphismTheme.colors.connectButtonTextError = 'rgba(239, 68, 68, 0.9)';
+
+// Enhanced backdrop and shadow effects
+if (glassmorphismTheme.blurs) {
+  glassmorphismTheme.blurs.modalOverlay = 'blur(24px)';
+}
+
+if (glassmorphismTheme.shadows) {
+  glassmorphismTheme.shadows.dialog = '0 25px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1)';
+  glassmorphismTheme.shadows.profileDetailsAction = '0 4px 12px rgba(0, 0, 0, 0.3)';
+  glassmorphismTheme.shadows.selectedOption = '0 4px 16px rgba(59, 130, 246, 0.2)';
+  glassmorphismTheme.shadows.selectedWallet = '0 4px 16px rgba(59, 130, 246, 0.15)';
+  glassmorphismTheme.shadows.walletLogo = '0 2px 8px rgba(0, 0, 0, 0.2)';
+}
+
 export default function App({ Component, pageProps }) {
   return (
     <ErrorBoundary>
       <div className={nunito.className}>
         <WagmiProvider config={config}>
           <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider>
+            <RainbowKitProvider theme={glassmorphismTheme}>
               <Component {...pageProps} />
             </RainbowKitProvider>
           </QueryClientProvider>
