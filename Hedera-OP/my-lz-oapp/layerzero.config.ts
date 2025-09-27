@@ -16,8 +16,7 @@ const sepoliaContract: OmniPointHardhat = {
 }
 
 // To connect all the above chains to each other, we need the following pathways:
-// Ethereum Sepolia <-> Hedera Testnet
-// Hedera Testnet   <-> Ethereum Sepolia
+// Hedera Testnet <-> Ethereum Sepolia
 
 // For this example's simplicity, we will use the same enforced options values for sending to all chains
 // For production, you should ensure `gas` is set to the correct value through profiling the gas usage of calling OFT._lzReceive(...) on the destination chain
@@ -35,22 +34,11 @@ const EVM_ENFORCED_OPTIONS: OAppEnforcedOption[] = [
 // i.e. if you declare A,B there's no need to declare B,A
 const pathways: TwoWayConfig[] = [
     [
-        // 1) Chain B's contract (e.g. Ethereum Sepolia)
-        sepoliaContract,
-        // 2) Chain A's contract (e.g. Hedera Testnet)
-        hederaTestnetContract,
-        // 3) Channel security settings:
-        //    • first array = "required" DVN names
-        //    • second array = "optional" DVN names array + threshold
-        //    • third value = threshold (i.e., number of optionalDVNs that must sign)
-        //    [ requiredDVN[], [ optionalDVN[], threshold ] ]
-        [['LayerZero Labs' /* ← add more DVN names here */], []],
-        // 4) Block confirmations:
-        //    [confirmations for Ethereum Sepolia → Hedera Testnet, confirmations for Hedera Testnet → Ethereum Sepolia]
-        [1, 1],
-        // 5) Enforced execution options:
-        //    [options for Ethereum Sepolia → Hedera Testnet, options for Hedera Testnet → Ethereum Sepolia]
-        [EVM_ENFORCED_OPTIONS, EVM_ENFORCED_OPTIONS],
+        hederaTestnetContract, // Chain A contract
+        sepoliaContract, // Chain B contract
+        [['LayerZero Labs'], []], // [ requiredDVN[], [ optionalDVN[], threshold ] ]
+        [1, 1], // [A to B confirmations, B to A confirmations]
+        [EVM_ENFORCED_OPTIONS, EVM_ENFORCED_OPTIONS], // Chain B enforcedOptions, Chain A enforcedOptions
     ],
 ]
 
@@ -58,7 +46,7 @@ export default async function () {
     // Generate the connections config based on the pathways
     const connections = await generateConnectionsConfig(pathways)
     return {
-        contracts: [{ contract: sepoliaContract }, { contract: hederaTestnetContract }],
+        contracts: [{ contract: hederaTestnetContract }, { contract: sepoliaContract }],
         connections,
     }
 }
