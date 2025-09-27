@@ -116,9 +116,9 @@ export default function LandingPage() {
             </h1>
             
             {/* Payment Cards Container */}
-            <div className="flex gap-6 flex-col lg:flex-row w-full max-w-4xl">
+            <div className="flex gap-8 flex-col lg:flex-row w-full max-w-6xl">
               {/* Payment Breakdown Card */}
-              <div className="glass-card flex flex-col justify-start p-4 relative flex-1 max-w-sm">
+              <div className="glass-card flex flex-col justify-start p-6 relative flex-1 max-w-md">
                 <BorderBeam 
                   size={120}
                   duration={4}
@@ -127,11 +127,11 @@ export default function LandingPage() {
                   delay={0}
                 />
                 <div className="text-white/90">
-                  <h2 className="text-base font-semibold text-white mb-3 text-center">User Pay</h2>
+                  <h2 className="text-lg font-semibold text-white mb-4 text-center">User Pay</h2>
                   
-                  <div className="space-y-2 mb-3">
+                  <div className="space-y-3 mb-4">
                 {/* HBAR Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/10">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/hedera-hbar-logo.svg" 
@@ -140,15 +140,18 @@ export default function LandingPage() {
                       chainAlt="Hedera"
                     />
                     <div className="flex flex-col">
-                      <span className="text-white/90 text-xs font-medium">HBAR</span>
-                      <span className="text-white/50 text-[10px]">on Hedera</span>
+                      <span className="text-white/90 text-sm font-medium">HBAR</span>
+                      <span className="text-white/50 text-xs">on Hedera</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-sm">$10</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">46.9 HBAR</span>
+                    <span className="text-white/60 text-sm block">$10</span>
+                  </div>
                 </div>
 
                 {/* FLOW Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/10">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/flow-flow-logo.svg" 
@@ -157,15 +160,18 @@ export default function LandingPage() {
                       chainAlt="Flow"
                     />
                     <div className="flex flex-col">
-                      <span className="text-white/90 text-xs font-medium">FLOW</span>
-                      <span className="text-white/50 text-[10px]">on Flow</span>
+                      <span className="text-white/90 text-sm font-medium">FLOW</span>
+                      <span className="text-white/50 text-xs">on Flow</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-sm">$20</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">66.3 FLOW</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
 
                 {/* USDC Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/10">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/usd-coin-usdc-logo.svg" 
@@ -174,15 +180,18 @@ export default function LandingPage() {
                       chainAlt="Arbitrum"
                     />
                     <div className="flex flex-col">
-                      <span className="text-white/90 text-xs font-medium">USDC</span>
-                      <span className="text-white/50 text-[10px]">on Arbitrum</span>
+                      <span className="text-white/90 text-sm font-medium">USDC</span>
+                      <span className="text-white/50 text-xs">on Arbitrum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-sm">$30</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">30.0 USDC</span>
+                    <span className="text-white/60 text-sm block">$30</span>
+                  </div>
                 </div>
 
                 {/* ETH Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/10">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/ethereum-eth-logo.svg" 
@@ -191,15 +200,18 @@ export default function LandingPage() {
                       chainAlt="Arbitrum"
                     />
                     <div className="flex flex-col">
-                      <span className="text-white/90 text-xs font-medium">ETH</span>
-                      <span className="text-white/50 text-[10px]">on Arbitrum</span>
+                      <span className="text-white/90 text-sm font-medium">ETH</span>
+                      <span className="text-white/50 text-xs">on Arbitrum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-sm">$20</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">0.005 ETH</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
 
                 {/* PayPal USD Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/10">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/paypal-usd-pyusd-logo.svg" 
@@ -208,18 +220,21 @@ export default function LandingPage() {
                       chainAlt="Ethereum Sepolia"
                     />
                     <div className="flex flex-col">
-                      <span className="text-white/90 text-xs font-medium">PYUSD</span>
-                      <span className="text-white/50 text-[10px]">on Ethereum Sepolia</span>
+                      <span className="text-white/90 text-sm font-medium">PYUSD</span>
+                      <span className="text-white/50 text-xs">on Ethereum Sepolia</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-sm">$20</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">20.0 PYUSD</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
               </div>
 
-                  <div className="border-t border-white/20 pt-3">
+                  <div className="border-t border-white/20 pt-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-white font-semibold text-sm">Total Payment</span>
-                      <span className="text-white font-bold text-base">$100.00</span>
+                      <span className="text-white font-semibold text-base">Total Payment</span>
+                      <span className="text-white font-bold text-lg">$100.00</span>
                     </div>
                   </div>
                 </div>
@@ -324,7 +339,7 @@ export default function LandingPage() {
               </div>
 
               {/* Merchant Received Card */}
-              <div className="glass-card flex flex-col justify-start p-4 relative flex-1 max-w-sm">
+              <div className="glass-card flex flex-col justify-start p-6 relative flex-1 max-w-md">
                 <BorderBeam 
                   size={120}
                   duration={4}
@@ -333,11 +348,11 @@ export default function LandingPage() {
                   delay={2}
                 />
                 <div className="text-white/90">
-              <h2 className="text-base font-semibold text-white mb-3 text-center">Merchant Receive</h2>
+              <h2 className="text-lg font-semibold text-white mb-4 text-center">Merchant Receive</h2>
               
-              <div className="space-y-2 mb-3">
+              <div className="space-y-3 mb-4">
                 {/* ETH Received */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/10">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/ethereum-eth-logo.svg" 
@@ -346,15 +361,18 @@ export default function LandingPage() {
                       chainAlt="Ethereum"
                     />
                     <div className="flex flex-col">
-                      <span className="text-white/90 text-xs font-medium">ETH</span>
-                      <span className="text-white/50 text-[10px]">on Ethereum</span>
+                      <span className="text-white/90 text-sm font-medium">ETH</span>
+                      <span className="text-white/50 text-xs">on Ethereum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-sm">$50</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">0.012 ETH</span>
+                    <span className="text-white/60 text-sm block">$50</span>
+                  </div>
                 </div>
 
                 {/* SOL Received */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/10">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/solana-sol-logo.svg" 
@@ -363,15 +381,18 @@ export default function LandingPage() {
                       chainAlt="Solana"
                     />
                     <div className="flex flex-col">
-                      <span className="text-white/90 text-xs font-medium">SOL</span>
-                      <span className="text-white/50 text-[10px]">on Solana</span>
+                      <span className="text-white/90 text-sm font-medium">SOL</span>
+                      <span className="text-white/50 text-xs">on Solana</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-sm">$30</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">0.148 SOL</span>
+                    <span className="text-white/60 text-sm block">$30</span>
+                  </div>
                 </div>
 
                 {/* PYUSD Received */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/10">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/5">
                   <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/paypal-usd-pyusd-logo.svg" 
@@ -380,22 +401,25 @@ export default function LandingPage() {
                       chainAlt="Arbitrum"
                     />
                     <div className="flex flex-col">
-                      <span className="text-white/90 text-xs font-medium">PYUSD</span>
-                      <span className="text-white/50 text-[10px]">on Arbitrum</span>
+                      <span className="text-white/90 text-sm font-medium">PYUSD</span>
+                      <span className="text-white/50 text-xs">on Arbitrum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium text-sm">$20</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">20.0 PYUSD</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
               </div>
 
-                  <div className="border-t border-white/20 pt-3">
+                  <div className="border-t border-white/20 pt-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-white font-semibold text-sm">Total Received</span>
-                      <span className="text-white font-bold text-base">$100.00</span>
+                      <span className="text-white font-semibold text-base">Total Received</span>
+                      <span className="text-white font-bold text-lg">$100.00</span>
                     </div>
                   </div>
 
-                  <div className="mt-3 text-[10px] text-white/60 text-center">
+                  <div className="mt-4 text-xs text-white/60 text-center">
                     Customizable allocation rules
                   </div>
                 </div>
