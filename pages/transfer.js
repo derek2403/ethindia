@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Header } from '../components/Header';
+import { Spotlight } from '@/components/ui/spotlight-new';
 import AtomicTransfer from '../components/AtomicTransfer';
 import TokenBalance from '../components/TokenBalance';
 
@@ -208,9 +209,23 @@ export default function Transfer() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black">
-      <Header />
-      <main className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-black overflow-hidden relative">
+      <div className="absolute inset-0 z-0">
+        <Spotlight
+          gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(0, 0%, 100%, .12) 0, hsla(0, 0%, 100%, .04) 50%, hsla(0, 0%, 100%, 0) 80%)"
+          gradientSecond="radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 100%, .08) 0, hsla(0, 0%, 100%, .03) 80%, transparent 100%)"
+          gradientThird="radial-gradient(50% 50% at 50% 50%, hsla(0, 0%, 100%, .06) 0, hsla(0, 0%, 100%, .02) 80%, transparent 100%)"
+          translateY={-300}
+          width={600}
+          height={1200}
+          smallWidth={300}
+          duration={6}
+          xOffset={120}
+        />
+      </div>
+      <div className="relative z-10">
+        <Header />
+        <main className="px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 max-w-7xl mx-auto">
         <div className="space-y-6 sm:space-y-8 lg:space-y-10">
           {/* Portfolio Info from QR Code */}
           {portfolioData && (
@@ -261,7 +276,8 @@ export default function Transfer() {
             />
           </div>
         </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
