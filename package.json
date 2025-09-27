@@ -9,13 +9,18 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.2.8",
+    "@react-native-async-storage/async-storage": "^1.24.0",
+    "@tanstack/react-query": "^5.90.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.544.0",
     "next": "15.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "viem": "^2.37.8",
+    "wagmi": "^2.17.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
