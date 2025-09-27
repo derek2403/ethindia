@@ -102,14 +102,16 @@ export default function LandingPage() {
       </Head>
 
       <AuroraBackground className="relative isolate grid h-dvh grid-rows-[auto,1fr] overflow-hidden bg-black">
-        {/* Header and Payment Cards */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="flex flex-col items-center gap-3 max-w-4xl w-full px-4">
-            {/* Header */}
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-white text-center max-w-3xl leading-tight">
+        {/* Main Heading - Clear positioning */}
+        <div className="pointer-events-none absolute top-1/4 left-0 right-0 flex items-center justify-center z-30">
+            <h1 className="text-lg md:text-2xl lg:text-5xl font-black text-center max-w-4xl leading-tight text-white">
             Any tokens. Any chains. Both ways.
-            </h1>
-            
+          </h1>
+        </div>
+
+        {/* Payment Cards */}
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 flex items-center justify-center pb-20">
+          <div className="flex flex-col items-center gap-3 max-w-4xl w-full px-4">
             {/* Payment Cards Container */}
             <div className="flex gap-6 flex-col lg:flex-row w-full max-w-4xl justify-center">
               {/* Payment Breakdown Card */}
