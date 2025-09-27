@@ -37,9 +37,9 @@ const TransferSummary = ({ transferAmounts, tokenPrices = {} }) => {
                           <span className="text-white/70">{symbol}:</span>
                           <span className="font-medium text-white">{amount.toFixed(4)}</span>
                         </div>
-                        {tokenPrice > 0 && (
+                        {tokenPrice > 0 && usdValue > 0 && (
                           <div className="flex justify-end">
-                            <span className="text-xs text-white/60">${usdValue.toFixed(2)}</span>
+                            <span className="text-xs text-white/60">${Number(usdValue).toFixed(2)}</span>
                           </div>
                         )}
                       </div>
@@ -56,7 +56,7 @@ const TransferSummary = ({ transferAmounts, tokenPrices = {} }) => {
                       <div className="pt-2 mt-2 border-t border-white/20">
                         <div className="flex justify-between text-sm font-medium">
                           <span className="text-white">Total:</span>
-                          <span className="text-white">${chainTotal.toFixed(2)}</span>
+                          <span className="text-white">${Number(chainTotal).toFixed(2)}</span>
                         </div>
                       </div>
                     ) : null;

@@ -238,7 +238,7 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
             min="0"
             max={(balanceNum * price).toFixed(2)}
             step="0.01"
-            value={transferAmount * price || ''}
+            value={transferAmount * price ? (transferAmount * price).toFixed(2) : ''}
             onChange={(e) => handleUsdInputChange(parseFloat(e.target.value) || 0)}
             style={{
               width: '100%',
