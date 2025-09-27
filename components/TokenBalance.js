@@ -1,5 +1,6 @@
 import { useAccount, useBalance } from 'wagmi';
 import { formatUnits } from 'viem';
+import { BorderBeam } from "@/components/ui/border-beam";
 
 const TOKENS = [
   {
@@ -50,11 +51,18 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts 
       return parseFloat(formatUnits(balance.value, decimals)).toFixed(4);
     };
   
-    if (!isConnected) return <p>Please connect your wallet</p>;
+    if (!isConnected) return <p className="text-white/80 text-center">Please connect your wallet</p>;
   
     return (
-      <div className="p-6 max-w-2xl mx-auto bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">Token Balances & Transfer</h2>
+      <div className="glass-card flex flex-col justify-start p-6 relative max-w-4xl mx-auto w-full" style={{ width: '100%', maxWidth: '800px' }}>
+        <BorderBeam 
+          size={120}
+          duration={4}
+          colorFrom="#ffffff"
+          colorTo="#ffffff80"
+          delay={0}
+        />
+        <h2 className="text-2xl font-bold mb-6 text-white">Token Balances & Transfer</h2>
         
         <div className="space-y-6">
           {TOKENS.map(token => {
@@ -64,10 +72,10 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts 
             const transferAmount = transferAmounts[token.symbol] || 0;
   
             return (
-              <div key={token.symbol} className="border border-gray-200 rounded-lg p-4">
+              <div key={token.symbol} className="bg-white/5 rounded-lg p-4 border border-white/10">
                 <div className="flex justify-between items-center mb-3">
-                  <label>Transfer Amount</label>
-                  <span>{transferAmount.toFixed(4)} {token.symbol}</span>
+                  <label className="text-white/90">Transfer Amount</label>
+                  <span className="text-white font-medium">{transferAmount.toFixed(4)} {token.symbol}</span>
                 </div>
                 <input
                   type="range"
@@ -85,14 +93,14 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts 
                       key={p}
                       onClick={() => handleSliderChange(token.symbol, (balanceNum * p) / 100)}
                       disabled={balanceNum === 0}
-                      className="px-3 py-1 text-xs bg-gray-100 rounded"
+                      className="px-3 py-1 text-xs bg-white/10 text-white/80 hover:bg-white/20 disabled:bg-white/5 disabled:text-white/40 rounded transition-colors"
                     >
                       {p}%
                     </button>
                   ))}
                 </div>
                 {transferAmount > 0 && (
-                  <div className="mt-2 text-sm text-blue-600">
+                  <div className="mt-2 text-sm text-white/70">
                     Selected: {transferAmount.toFixed(4)} {token.symbol} 
                     ({((transferAmount / balanceNum) * 100).toFixed(1)}%)
                   </div>
@@ -103,19 +111,19 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts 
         </div>
   
         {/* Transfer Summary */}
-        <div className="mt-8 p-4 bg-gray-50 rounded-lg">
-          <h3 className="font-semibold mb-3">Transfer Summary</h3>
+        <div className="mt-8 p-4 bg-white/5 rounded-lg border border-white/10">
+          <h3 className="font-semibold mb-3 text-white">Transfer Summary</h3>
           <div className="space-y-2">
             {Object.entries(transferAmounts).map(([symbol, amount]) =>
               amount > 0 ? (
                 <div key={symbol} className="flex justify-between text-sm">
-                  <span>{symbol}:</span>
-                  <span className="font-medium">{amount.toFixed(4)}</span>
+                  <span className="text-white/70">{symbol}:</span>
+                  <span className="font-medium text-white">{amount.toFixed(4)}</span>
                 </div>
               ) : null
             )}
             {Object.values(transferAmounts).every(amount => !amount || amount === 0) && (
-              <p className="text-gray-500 text-sm text-center">
+              <p className="text-white/60 text-sm text-center">
                 No tokens selected for transfer
               </p>
             )}

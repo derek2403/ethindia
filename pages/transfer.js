@@ -9,7 +9,7 @@ export default function Transfer() {
   return (
     <div>
       <Header />
-      <main className="p-4">
+      <main className="p-4 max-w-6xl mx-auto">
         <TokenBalance 
           transferAmounts={transferAmounts}
           setTransferAmounts={setTransferAmounts}

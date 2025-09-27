@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCapabilities, useSendCalls, useAccount, useBalance } from 'wagmi';
 import { parseEther, parseUnits } from 'viem';
+import { BorderBeam } from "@/components/ui/border-beam";
 
 // Token configurations matching TokenBalance.js
 const TOKENS = [
@@ -112,8 +113,15 @@ export default function AtomicTransfer({ transferAmounts = {} }) {
 
   if (!isConnected) {
     return (
-      <div className="p-6 max-w-md mx-auto bg-yellow-50 rounded-lg">
-        <p className="text-yellow-800">
+      <div className="glass-card flex flex-col justify-start p-6 relative max-w-4xl mx-auto w-full" style={{ width: '100%', maxWidth: '800px' }}>
+        <BorderBeam 
+          size={120}
+          duration={4}
+          colorFrom="#ffffff80"
+          colorTo="#ffffff"
+          delay={1}
+        />
+        <p className="text-white/80">
           Please connect your wallet to use atomic transfers
         </p>
       </div>
@@ -125,13 +133,20 @@ export default function AtomicTransfer({ transferAmounts = {} }) {
   const hasTokensSelected = tokensToTransfer.length > 0;
 
   return (
-    <div className="p-6 max-w-lg mx-auto bg-white rounded-lg shadow-lg mt-6">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Atomic Transfer</h2>
+    <div className="glass-card flex flex-col justify-start p-6 relative max-w-4xl mx-auto mt-6 w-full" style={{ width: '100%', maxWidth: '800px' }}>
+      <BorderBeam 
+        size={120}
+        duration={4}
+        colorFrom="#ffffff80"
+        colorTo="#ffffff"
+        delay={2}
+      />
+      <h2 className="text-2xl font-bold mb-6 text-white">Atomic Transfer</h2>
 
-      <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-        <h3 className="text-lg font-semibold mb-2">Connected Wallet</h3>
-        <p className="text-sm text-gray-600">Address: {address}</p>
-        <p className="text-sm text-gray-600">
+      <div className="mb-6 p-4 bg-white/5 rounded-lg border border-white/10">
+        <h3 className="text-lg font-semibold mb-2 text-white">Connected Wallet</h3>
+        <p className="text-sm text-white/70">Address: {address}</p>
+        <p className="text-sm text-white/70">
           Balance:{' '}
           {balance
             ? `${parseFloat(balance.formatted).toFixed(4)} ${balance.symbol}`
@@ -140,35 +155,35 @@ export default function AtomicTransfer({ transferAmounts = {} }) {
       </div>
 
       {/* Transfer Summary */}
-      <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-        <h3 className="text-lg font-semibold mb-3 text-blue-800">Transfer Summary</h3>
+      <div className="mb-6 p-4 bg-white/5 rounded-lg border border-white/10">
+        <h3 className="text-lg font-semibold mb-3 text-white">Transfer Summary</h3>
         {hasTokensSelected ? (
           <div className="space-y-2">
             {tokensToTransfer.map(([symbol, amount]) => (
               <div key={symbol} className="flex justify-between text-sm">
-                <span className="text-blue-700">{symbol}:</span>
-                <span className="font-medium text-blue-800">{amount.toFixed(4)}</span>
+                <span className="text-white/70">{symbol}:</span>
+                <span className="font-medium text-white">{amount.toFixed(4)}</span>
               </div>
             ))}
-            <div className="pt-2 border-t border-blue-300">
-              <p className="text-xs text-blue-600">
+            <div className="pt-2 border-t border-white/20">
+              <p className="text-xs text-white/60">
                 Recipient: 0x3C1e...1Cf0A
               </p>
             </div>
           </div>
         ) : (
-          <p className="text-blue-600 text-sm">No tokens selected for transfer. Use the sliders above to choose amounts.</p>
+          <p className="text-white/70 text-sm">No tokens selected for transfer. Use the sliders above to choose amounts.</p>
         )}
       </div>
 
       {/* EIP-5792 Support Status */}
       <div className="mb-4 p-3 rounded-lg text-sm">
         {capabilities && Object.keys(capabilities).length > 0 ? (
-          <div className="bg-green-50 text-green-700">
+          <div className="bg-white/10 text-white/90 border border-white/20 rounded-lg p-3">
             ✅ EIP-5792 capabilities detected - Atomic transfers supported
           </div>
         ) : (
-          <div className="bg-yellow-50 text-yellow-700">
+          <div className="bg-white/5 text-white/80 border border-white/10 rounded-lg p-3">
             ⚠️ No EIP-5792 capabilities detected - Will attempt regular batch
             transfer
           </div>
@@ -178,7 +193,7 @@ export default function AtomicTransfer({ transferAmounts = {} }) {
       <button
         onClick={handleTransfer}
         disabled={isLoading || isPending || !hasTokensSelected}
-        className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium rounded-lg transition-colors duration-200"
+        className="w-full px-6 py-3 bg-white/10 hover:bg-white/20 disabled:bg-white/5 disabled:text-white/40 text-white font-medium rounded-lg border border-white/20 hover:border-white/30 transition-all duration-200"
       >
         {isLoading || isPending
           ? 'Sending Atomic Transfer...'
@@ -188,9 +203,9 @@ export default function AtomicTransfer({ transferAmounts = {} }) {
       </button>
 
       {error && (
-        <div className="mt-4 p-4 bg-red-50 rounded-lg">
-          <p className="text-red-800 font-medium">Error:</p>
-          <p className="text-sm text-red-600">{error.message}</p>
+        <div className="mt-4 p-4 bg-white/5 rounded-lg border border-red-400/30">
+          <p className="text-red-300 font-medium">Error:</p>
+          <p className="text-sm text-red-200">{error.message}</p>
         </div>
       )}
     </div>
