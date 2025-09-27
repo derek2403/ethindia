@@ -345,9 +345,6 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
       />
       <h2 className="text-2xl font-bold mb-6 text-white">
         Multi-Chain Token Balances
-        <span className="text-sm font-normal text-white/70 ml-2">
-          (Sepolia • Flow EVM • Hedera)
-        </span>
       </h2>
 
       <div style={{
@@ -357,6 +354,45 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
         padding: '24px',
         backdropFilter: 'blur(8px)'
       }}>
+        {/* Payment Summary */}
+        {maxPaymentAmount && (
+          <div className="mb-6 pb-6 border-b border-white/10">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-white">Payment Summary</h3>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-white">
+                  ${currentTotalUSD.toFixed(2)} / ${maxPaymentAmount.toFixed(2)}
+                </div>
+                <div className="text-sm text-white/70">
+                  ${(maxPaymentAmount - currentTotalUSD).toFixed(2)} remaining
+                </div>
+              </div>
+            </div>
+            
+            {/* Progress Bar */}
+            <div className="mb-4">
+              <div className="w-full bg-white/10 rounded-full h-2">
+                <div 
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+                  style={{ 
+                    width: `${Math.min((currentTotalUSD / maxPaymentAmount) * 100, 100)}%` 
+                  }}
+                ></div>
+              </div>
+              <div className="flex justify-between text-xs text-white/60 mt-1">
+                <span>$0</span>
+                <span>${maxPaymentAmount}</span>
+              </div>
+            </div>
+            
+            {currentTotalUSD >= maxPaymentAmount && (
+              <div className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg p-2">
+                ⚠️ Payment limit reached. Remove some tokens to add more.
+              </div>
+            )}
+          </div>
+        )}
+
         {allTokens.map((token, index) => (
           <TokenRow
             key={`${token.symbol}_${token.chain.chainId}`}

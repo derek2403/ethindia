@@ -305,45 +305,6 @@ export default function Transfer() {
             </div>
           )}
 
-          {/* Payment Limit Display */}
-          <div className="w-full">
-            <div className="glass-card flex flex-col justify-start p-4 relative max-w-4xl mx-auto w-full">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-white">Payment Summary</h3>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-white">
-                    ${calculateTotalUSDValue().toFixed(2)} / ${MAX_PAYMENT_AMOUNT.toFixed(2)}
-                  </div>
-                  <div className="text-sm text-white/70">
-                    ${(MAX_PAYMENT_AMOUNT - calculateTotalUSDValue()).toFixed(2)} remaining
-                  </div>
-                </div>
-              </div>
-              
-              {/* Progress Bar */}
-              <div className="mt-4">
-                <div className="w-full bg-white/10 rounded-full h-2">
-                  <div 
-                    className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
-                    style={{ 
-                      width: `${Math.min((calculateTotalUSDValue() / MAX_PAYMENT_AMOUNT) * 100, 100)}%` 
-                    }}
-                  ></div>
-                </div>
-                <div className="flex justify-between text-xs text-white/60 mt-1">
-                  <span>$0</span>
-                  <span>${MAX_PAYMENT_AMOUNT}</span>
-                </div>
-              </div>
-              
-              {calculateTotalUSDValue() >= MAX_PAYMENT_AMOUNT && (
-                <div className="mt-3 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg p-2">
-                  ⚠️ Payment limit reached. Remove some tokens to add more.
-                </div>
-              )}
-            </div>
-          </div>
-
           <div className="w-full">
             <TokenBalance 
               transferAmounts={transferAmounts}
