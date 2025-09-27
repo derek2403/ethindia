@@ -23,7 +23,7 @@ ChartJS.register(ArcElement, Tooltip, Legend)
 const QRPage = () => {
   const { address, isConnected } = useAccount()
   const [selectedChains, setSelectedChains] = useState({})
-  const [currentChain, setCurrentChain] = useState('mainnet')
+  const [currentChain, setCurrentChain] = useState('sepolia')
   const [qrDataUrl, setQrDataUrl] = useState('')
   const [showTokenModal, setShowTokenModal] = useState(false)
   const [showQRModal, setShowQRModal] = useState(false)
@@ -32,25 +32,16 @@ const QRPage = () => {
 
   // Available chains with SVG icons
   const chains = [
-    { id: 'mainnet', name: 'Ethereum Mainnet', icon: '/icons/ethereum-eth-logo.svg' },
-    { id: 'polygon', name: 'Polygon', icon: '/icons/polygon-matic-logo.svg' },
-    { id: 'optimism', name: 'Optimism', icon: '/icons/ethereum-eth-logo.svg' },
-    { id: 'arbitrum', name: 'Arbitrum', icon: '/icons/arbitrum-arb-logo.svg' },
-    { id: 'base', name: 'Base', icon: '/icons/ethereum-eth-logo.svg' },
     { id: 'sepolia', name: 'Sepolia', icon: '/icons/ethereum-eth-logo.svg' },
     { id: 'flow', name: 'Flow', icon: '/icons/flow-flow-logo.svg' },
-    { id: 'hedera', name: 'Hedera', icon: '/icons/hedera-hbar-logo.svg' }
+    { id: 'hedera', name: 'Hedera', icon: '/icons/hedera-hbar-logo.svg' },
+    { id: 'optimism', name: 'Optimism', icon: '/icons/optimism-ethereum-op-logo.svg' },
+    { id: 'polygon', name: 'Polygon', icon: '/icons/polygon-matic-logo.svg' },
+    { id: 'arbitrum', name: 'Arbitrum', icon: '/icons/arbitrum-arb-logo.svg' }
   ]
 
   // Common tokens for each chain with SVG icons and consistent styling
   const tokensByChain = {
-    mainnet: [
-      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#26A17B' },
-      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', chartColor: '#F7931A' },
-      { name: 'DAI', fullName: 'Dai Stablecoin', icon: '/icons/multi-collateral-dai-dai-logo.svg', chartColor: '#F5AC37' }
-    ],
     polygon: [
       { name: 'MATIC', fullName: 'Polygon', icon: '/icons/polygon-matic-logo.svg', chartColor: '#8247E5' },
       { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' },
@@ -72,14 +63,10 @@ const QRPage = () => {
       { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', chartColor: '#26A17B' },
       { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', chartColor: '#F7931A' }
     ],
-    base: [
-      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
-      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', chartColor: '#2775CA' }
-    ],
     sepolia: [
       { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#627EEA' },
       { name: 'PYUSD', fullName: 'PayPal USD', icon: '/icons/paypal-usd-pyusd-logo.svg', chartColor: '#0070BA' },
-      { name: 'LINK', fullName: 'Chainlink', icon: '/icons/ethereum-eth-logo.svg', chartColor: '#375BD2' }
+      { name: 'LINK', fullName: 'Chainlink', icon: '/icons/chainlink-link-logo.svg', chartColor: '#375BD2' }
     ],
     flow: [
       { name: 'FLOW', fullName: 'Flow', icon: '/icons/flow-flow-logo.svg', chartColor: '#00EF8B' }
@@ -204,7 +191,7 @@ const QRPage = () => {
 
   const resetSelection = () => {
     setSelectedChains({})
-    setCurrentChain('mainnet')
+    setCurrentChain('sepolia')
     setSelectedToken('')
     setTokenAllocation(10)
     setQrDataUrl('')
