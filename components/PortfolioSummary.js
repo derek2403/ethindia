@@ -20,7 +20,7 @@ const PortfolioSummary = ({
           <div className="w-4 h-4 rounded-full bg-white/10 border border-white/10 flex items-center justify-center backdrop-blur-sm">
             <TrendingUp className="w-2.5 h-2.5 text-white/70" />
           </div>
-          <h3 className="text-sm font-bold text-white/90">Portfolio Summary</h3>
+          <h3 className="text-sm font-bold text-white/90">Payment Summary</h3>
         </div>
         
         <div className="space-y-1 max-h-20 overflow-y-auto">
