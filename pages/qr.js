@@ -657,34 +657,34 @@ const QRPage = () => {
       {/* Token Allocation Modal - Outside main content for proper layering */}
       {showTokenModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
-          <div className="glass-card max-w-md w-full p-8">
-            <div className="text-center mb-8">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
-                <Plus className="w-8 h-8 text-white/70" />
+          <div className="glass-card max-w-sm w-full p-6">
+            <div className="text-center mb-6">
+              <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                <Plus className="w-6 h-6 text-white/70" />
               </div>
-              <h3 className="text-2xl font-bold text-white/90 mb-2">
+              <h3 className="text-xl font-bold text-white/90 mb-2">
                 Add {selectedToken} to Portfolio
               </h3>
-              <p className="text-white/70">
+              <p className="text-sm text-white/70">
                 Set allocation percentage for {selectedToken} on {chains.find(c => c.id === currentChain)?.name}
               </p>
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-6">
               {/* Current Allocation Display */}
-              <div className="text-center bg-white/5 border border-white/20 rounded-xl p-6">
-                <div className="text-6xl font-bold text-white/90 mb-3">
+              <div className="text-center bg-white/5 border border-white/20 rounded-lg p-4">
+                <div className="text-5xl font-bold text-white/90 mb-2">
                   {tokenAllocation}%
                 </div>
-                <div className="text-sm text-white/60">
+                <div className="text-xs text-white/60">
                   Remaining: <span className="font-medium text-white/80">{(100 - totalAllocation).toFixed(1)}%</span>
                 </div>
               </div>
 
               {/* Allocation Slider */}
-              <div className="space-y-6">
-                <div className="space-y-4">
-                  <label className="text-sm font-medium text-white/80">Allocation Percentage</label>
+              <div className="space-y-4">
+                <div className="space-y-3">
+                  <label className="text-xs font-medium text-white/80">Allocation Percentage</label>
                   <div className="relative">
                     <input
                       type="range"
@@ -698,7 +698,7 @@ const QRPage = () => {
                         background: `linear-gradient(to right, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.4) ${(tokenAllocation / Math.min(100 - totalAllocation, 100)) * 100}%, rgba(255, 255, 255, 0.1) ${(tokenAllocation / Math.min(100 - totalAllocation, 100)) * 100}%, rgba(255, 255, 255, 0.1) 100%)`
                       }}
                     />
-                    <div className="flex justify-between text-xs text-white/50 mt-2">
+                    <div className="flex justify-between text-xs text-white/50 mt-1">
                       <span>0.5%</span>
                       <span>{Math.min(100 - totalAllocation, 100)}%</span>
                     </div>
@@ -707,13 +707,13 @@ const QRPage = () => {
                 
                 {/* Quick percentage buttons */}
                 <div>
-                  <label className="text-sm font-medium text-white/80 block mb-3">Quick Select</label>
-                  <div className="grid grid-cols-4 gap-2">
+                  <label className="text-xs font-medium text-white/80 block mb-2">Quick Select</label>
+                  <div className="grid grid-cols-4 gap-1.5">
                     {[5, 10, 25, 50].filter(val => val <= (100 - totalAllocation)).map(percentage => (
                       <button
                         key={percentage}
                         onClick={() => setTokenAllocation(percentage)}
-                        className={`px-3 py-2 text-sm rounded-lg transition-all duration-200 border font-medium ${
+                        className={`px-2 py-1.5 text-xs rounded-md transition-all duration-200 border font-medium ${
                           tokenAllocation === percentage
                             ? 'bg-white/20 border-white/40 text-white'
                             : 'bg-white/10 hover:bg-white/20 text-white/80 hover:text-white border-white/20 hover:border-white/40'
@@ -727,17 +727,17 @@ const QRPage = () => {
               </div>
 
               {/* Modal Actions */}
-              <div className="flex space-x-4 pt-6">
+              <div className="flex space-x-3 pt-4">
                 <button
                   onClick={() => setShowTokenModal(false)}
-                  className="flex-1 px-6 py-3 bg-white/10 text-white/80 rounded-xl hover:bg-white/20 transition-all duration-200 font-medium border border-white/20 hover:border-white/40"
+                  className="flex-1 px-4 py-2.5 bg-white/10 text-white/80 rounded-lg hover:bg-white/20 transition-all duration-200 font-medium border border-white/20 hover:border-white/40 text-sm"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={addTokenToPortfolio}
                   disabled={tokenAllocation <= 0 || (totalAllocation + tokenAllocation > 100)}
-                  className="flex-1 px-6 py-3 bg-white/20 border border-white/30 text-white rounded-xl hover:bg-white/30 disabled:bg-white/5 disabled:border-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-all duration-200 font-medium backdrop-blur-sm"
+                  className="flex-1 px-4 py-2.5 bg-white/20 border border-white/30 text-white rounded-lg hover:bg-white/30 disabled:bg-white/5 disabled:border-white/10 disabled:text-white/40 disabled:cursor-not-allowed transition-all duration-200 font-medium backdrop-blur-sm text-sm"
                 >
                   Add to Portfolio
                 </button>
@@ -745,12 +745,12 @@ const QRPage = () => {
 
               {/* Warning */}
               {totalAllocation + tokenAllocation > 100 && (
-                <div className="bg-white/5 border border-white/20 rounded-lg p-3 backdrop-blur-sm">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                      <X className="w-3 h-3 text-white/70" />
+                <div className="bg-white/5 border border-white/20 rounded-md p-2.5 backdrop-blur-sm">
+                  <div className="flex items-center space-x-1.5">
+                    <div className="w-4 h-4 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                      <X className="w-2.5 h-2.5 text-white/70" />
                     </div>
-                    <p className="text-sm text-white/70">
+                    <p className="text-xs text-white/70">
                       This allocation would exceed 100%. Please reduce the percentage.
                     </p>
                   </div>
