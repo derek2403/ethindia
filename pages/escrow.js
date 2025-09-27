@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useAccount, useWriteContract, useReadContract } from 'wagmi';
+import { useAccount, useWriteContract, useReadContract, useChainId, useSwitchChain } from 'wagmi';
 import { parseEther, parseUnits, formatEther, isAddress, maxUint256 } from 'viem';
 import { Header } from '../components/Header';
 import ABI from '../lib/ABI.json';
+import { CHAIN_CONFIGS, getChainConfig, getAllTokensForChain } from '../lib/chainConfigs';
 
-const CONTRACT_ADDRESS = '0x9105515a9795ED91AbA6118E39f037636fACe84E';
 const ETH_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 // Extended ERC20 ABI with decimals
@@ -30,9 +30,17 @@ const ERC20_ABI = [
 
 export default function Escrow() {
   const { address, isConnected } = useAccount();
+  const currentChainId = useChainId();
+  const { switchChain } = useSwitchChain();
+  const [selectedChainId, setSelectedChainId] = useState(11155111); // Default to Ethereum Sepolia
   const [merchantAddress, setMerchantAddress] = useState('');
   const [viewAddress, setViewAddress] = useState('');
   const [activeTab, setActiveTab] = useState('deposit');
+  
+  // Get current chain config and contract address
+  const selectedChainConfig = getChainConfig(selectedChainId);
+  const contractAddress = selectedChainConfig?.escrowAddress;
+  const availableTokens = getAllTokensForChain(selectedChainId);
   
   // Multi-token deposit state
   const [tokenSelections, setTokenSelections] = useState([
@@ -44,6 +52,27 @@ export default function Escrow() {
       tokenDecimals: 18 
     }
   ]);
+
+  // Update selected chain when wallet chain changes
+  useEffect(() => {
+    if (currentChainId && CHAIN_CONFIGS.find(c => c.chainId === currentChainId)) {
+      setSelectedChainId(currentChainId);
+    }
+  }, [currentChainId]);
+
+  // Reset token selections when chain changes
+  useEffect(() => {
+    const nativeToken = availableTokens.find(t => t.isNative);
+    setTokenSelections([
+      { 
+        id: 1, 
+        tokenAddress: nativeToken?.address || ETH_ADDRESS, 
+        amount: '', 
+        customTokenAddress: '', 
+        tokenDecimals: nativeToken?.decimals || 18 
+      }
+    ]);
+  }, [selectedChainId]);
 
   // Helper functions for token selections
   const addTokenSelection = () => {
@@ -75,16 +104,8 @@ export default function Escrow() {
 
   // Known token decimals
   const getKnownDecimals = (tokenAddress) => {
-    switch (tokenAddress) {
-      case ETH_ADDRESS:
-        return 18;
-      case '0x5fd84259d66Cd46123540766Be93DFE6D43130D7': // USDC OP Sepolia
-        return 6;
-      case '0x68f180fcCe6836688e9084f035309E29Bf0A2095': // WBTC OP Sepolia
-        return 8;
-      default:
-        return 18; // Default for unknown tokens
-    }
+    const token = availableTokens.find(t => t.address === tokenAddress);
+    return token ? token.decimals : 18; // Default for unknown tokens
   };
 
   // Update decimals when token selections change
@@ -128,12 +149,12 @@ export default function Escrow() {
 
   // View escrow data
   const { data: escrowData, refetch: refetchEscrow } = useReadContract({
-    address: CONTRACT_ADDRESS,
+    address: contractAddress,
     abi: ABI,
     functionName: 'viewEscrow',
     args: [viewAddress || address],
     query: {
-      enabled: !!viewAddress || !!address,
+      enabled: (!!viewAddress || !!address) && !!contractAddress,
     }
   });
 
@@ -212,7 +233,7 @@ export default function Escrow() {
     });
     
     writeContract({
-      address: CONTRACT_ADDRESS,
+      address: contractAddress,
       abi: ABI,
       functionName: 'deposit',
       args: [
@@ -226,7 +247,7 @@ export default function Escrow() {
 
   const handleWithdraw = () => {
     writeContract({
-      address: CONTRACT_ADDRESS,
+      address: contractAddress,
       abi: ABI,
       functionName: 'withdraw',
     });
@@ -247,7 +268,7 @@ export default function Escrow() {
       abi: ERC20_ABI,
       functionName: 'approve',
       args: [
-        CONTRACT_ADDRESS,
+        contractAddress,
         maxUint256 // Approve maximum amount
       ],
     });
@@ -284,6 +305,59 @@ export default function Escrow() {
           </div>
         ) : (
           <div className="max-w-4xl mx-auto">
+            {/* Chain Selector */}
+            <div className="bg-white rounded-lg shadow p-6 mb-6">
+              <h3 className="text-lg font-semibold mb-4">Select Network</h3>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                {CHAIN_CONFIGS.map((chain) => (
+                  <button
+                    key={chain.chainId}
+                    onClick={() => {
+                      setSelectedChainId(chain.chainId);
+                      if (currentChainId !== chain.chainId) {
+                        switchChain({ chainId: chain.chainId });
+                      }
+                    }}
+                    className={`p-4 rounded-lg border-2 transition-all duration-200 ${
+                      selectedChainId === chain.chainId
+                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    <div className="flex flex-col items-center space-y-2">
+                      <span className="text-2xl">{chain.icon}</span>
+                      <span className="font-medium text-sm text-center">{chain.name}</span>
+                      {currentChainId !== chain.chainId && selectedChainId === chain.chainId && (
+                        <span className="text-xs text-orange-600">Click to switch network</span>
+                      )}
+                      {currentChainId === chain.chainId && (
+                        <span className="text-xs text-green-600">✅ Connected</span>
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
+              
+              {/* Contract Address Display */}
+              {contractAddress && (
+                <div className="mt-4 p-3 bg-gray-50 rounded-md">
+                  <p className="text-sm text-gray-600">
+                    <strong>Escrow Contract:</strong> 
+                    <span className="font-mono ml-2">{contractAddress}</span>
+                  </p>
+                </div>
+              )}
+
+              {/* Chain Mismatch Warning */}
+              {currentChainId !== selectedChainId && (
+                <div className="mt-4 p-4 bg-orange-50 border border-orange-200 rounded-md">
+                  <p className="text-orange-800 text-sm">
+                    ⚠️ Your wallet is connected to a different network. Please switch to <strong>{selectedChainConfig?.name}</strong> to use this escrow contract.
+                  </p>
+                </div>
+              )}
+            </div>
+
             {/* Navigation Tabs */}
             <div className="flex space-x-1 bg-gray-200 p-1 rounded-lg mb-6">
               <button
@@ -396,9 +470,11 @@ export default function Escrow() {
                                 onChange={(e) => updateTokenSelection(selection.id, 'tokenAddress', e.target.value)}
                                 className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                               >
-                                <option value={ETH_ADDRESS}>ETH</option>
-                                <option value="0x5fd84259d66Cd46123540766Be93DFE6D43130D7">USDC (OP Sepolia)</option>
-                                <option value="0x68f180fcCe6836688e9084f035309E29Bf0A2095">WBTC (OP Sepolia)</option>
+                                {availableTokens.map((token) => (
+                                  <option key={token.address} value={token.address}>
+                                    {token.symbol} {!token.isNative && `(${selectedChainConfig?.name})`}
+                                  </option>
+                                ))}
                                 <option value="other">Custom Token Address</option>
                               </select>
                             </div>
@@ -462,10 +538,8 @@ export default function Escrow() {
                     <h4 className="font-medium text-gray-800 mb-2">Deposit Summary</h4>
                     {tokenSelections.map((selection, index) => {
                       const currentTokenAddress = getCurrentTokenAddress(selection);
-                      const tokenName = currentTokenAddress === ETH_ADDRESS ? 'ETH' : 
-                        currentTokenAddress === '0x5fd84259d66Cd46123540766Be93DFE6D43130D7' ? 'USDC' :
-                        currentTokenAddress === '0x68f180fcCe6836688e9084f035309E29Bf0A2095' ? 'WBTC' :
-                        `Token ${index + 1}`;
+                      const token = availableTokens.find(t => t.address === currentTokenAddress);
+                      const tokenName = token ? token.symbol : `Token ${index + 1}`;
                       
                       return selection.amount ? (
                         <div key={selection.id} className="flex justify-between text-sm">
@@ -492,13 +566,15 @@ export default function Escrow() {
                   {/* Instructions */}
                   <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
                     <p className="text-sm text-blue-800">
-                      <strong>Multi-Token Deposit Instructions:</strong> 
-                      <br />1. Add multiple tokens using "+ Add Token" button
-                      <br />2. For each ERC20 token, click individual "Approve" buttons first
-                      <br />3. Enter amounts for all selected tokens
-                      <br />4. Click "Deposit" to send all tokens in one transaction
+                      <strong>Multi-Chain Multi-Token Escrow Instructions:</strong> 
+                      <br />1. <strong>Select Network:</strong> Choose your preferred blockchain network above
+                      <br />2. <strong>Switch Wallet:</strong> Ensure your wallet is connected to the selected network
+                      <br />3. <strong>Add Tokens:</strong> Use "+ Add Token" to deposit multiple tokens at once
+                      <br />4. <strong>Approve Tokens:</strong> For ERC20 tokens, click "Approve" buttons first
+                      <br />5. <strong>Deposit:</strong> Enter amounts and click "Deposit" to send all tokens in one transaction
                       <br /><br />
-                      <strong>✨ Batch Deposit Benefits:</strong> Save gas fees by depositing multiple tokens at once!
+                      <strong>🌐 Multi-Chain Support:</strong> Deploy across Ethereum, Arbitrum, Flow EVM, and Hedera!
+                      <br /><strong>✨ Batch Deposit Benefits:</strong> Save gas fees by depositing multiple tokens at once!
                     </p>
                   </div>
                 </div>
@@ -533,19 +609,23 @@ export default function Escrow() {
                 {escrowData && escrowData[0]?.length > 0 ? (
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold">Escrow Balances:</h3>
-                    {escrowData[0].map((token, index) => (
-                      <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-md">
-                        <span className="font-medium">
-                          {token === ETH_ADDRESS ? 'ETH' : `Token: ${token}`}
-                        </span>
-                        <span className="text-lg">
-                          {token === ETH_ADDRESS 
-                            ? formatEther(escrowData[1][index]) + ' ETH'
-                            : escrowData[1][index].toString()
-                          }
-                        </span>
-                      </div>
-                    ))}
+                    {escrowData[0].map((token, index) => {
+                      const tokenConfig = availableTokens.find(t => t.address === token);
+                      const tokenName = tokenConfig ? tokenConfig.symbol : `Token: ${token}`;
+                      const isNativeToken = token === ETH_ADDRESS;
+                      
+                      return (
+                        <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-md">
+                          <span className="font-medium">{tokenName}</span>
+                          <span className="text-lg">
+                            {isNativeToken 
+                              ? formatEther(escrowData[1][index]) + ` ${selectedChainConfig?.nativeToken.symbol || 'ETH'}`
+                              : `${escrowData[1][index].toString()} ${tokenName}`
+                            }
+                          </span>
+                        </div>
+                      );
+                    })}
                   </div>
                 ) : (
                   <p className="text-gray-600">No escrow balance found for this address.</p>
@@ -565,19 +645,23 @@ export default function Escrow() {
                   <div className="mb-6">
                     <h3 className="text-lg font-semibold mb-3">Your Current Balance:</h3>
                     <div className="space-y-2">
-                      {escrowData[0].map((token, index) => (
-                        <div key={index} className="flex justify-between items-center p-3 bg-green-50 rounded-md">
-                          <span className="font-medium">
-                            {token === ETH_ADDRESS ? 'ETH' : `Token: ${token}`}
-                          </span>
-                          <span className="text-lg text-green-600">
-                            {token === ETH_ADDRESS 
-                              ? formatEther(escrowData[1][index]) + ' ETH'
-                              : escrowData[1][index].toString()
-                            }
-                          </span>
-                        </div>
-                      ))}
+                      {escrowData[0].map((token, index) => {
+                        const tokenConfig = availableTokens.find(t => t.address === token);
+                        const tokenName = tokenConfig ? tokenConfig.symbol : `Token: ${token}`;
+                        const isNativeToken = token === ETH_ADDRESS;
+                        
+                        return (
+                          <div key={index} className="flex justify-between items-center p-3 bg-green-50 rounded-md">
+                            <span className="font-medium">{tokenName}</span>
+                            <span className="text-lg text-green-600">
+                              {isNativeToken 
+                                ? formatEther(escrowData[1][index]) + ` ${selectedChainConfig?.nativeToken.symbol || 'ETH'}`
+                                : `${escrowData[1][index].toString()} ${tokenName}`
+                              }
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 ) : (

@@ -36,7 +36,7 @@
     "@eslint/eslintrc": "^3",
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "@tailwindcss/postcss": "^4",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.6.1",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
     "hardhat": "^2.26.3",
