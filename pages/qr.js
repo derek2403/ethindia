@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import QRCode from 'qrcode'
+import Image from 'next/image'
 import { Header } from '@/components/Header'
 import {
   Chart as ChartJS,
@@ -38,53 +39,53 @@ const QRPage = () => {
   const [selectedToken, setSelectedToken] = useState('')
   const [tokenAllocation, setTokenAllocation] = useState(10)
 
-  // Available chains with Lucide icons
+  // Available chains with SVG icons
   const chains = [
-    { id: 'mainnet', name: 'Ethereum Mainnet', icon: Layers3, color: 'text-blue-400' },
-    { id: 'polygon', name: 'Polygon', icon: Layers3, color: 'text-purple-400' },
-    { id: 'optimism', name: 'Optimism', icon: Layers3, color: 'text-red-400' },
-    { id: 'arbitrum', name: 'Arbitrum', icon: Layers3, color: 'text-blue-500' },
-    { id: 'base', name: 'Base', icon: Layers3, color: 'text-indigo-400' },
-    { id: 'sepolia', name: 'Sepolia', icon: Layers3, color: 'text-yellow-400' }
+    { id: 'mainnet', name: 'Ethereum Mainnet', icon: '/icons/ethereum-eth-logo.svg' },
+    { id: 'polygon', name: 'Polygon', icon: '/icons/polygon-matic-logo.svg' },
+    { id: 'optimism', name: 'Optimism', icon: '/icons/ethereum-eth-logo.svg' },
+    { id: 'arbitrum', name: 'Arbitrum', icon: '/icons/arbitrum-arb-logo.svg' },
+    { id: 'base', name: 'Base', icon: '/icons/ethereum-eth-logo.svg' },
+    { id: 'sepolia', name: 'Sepolia', icon: '/icons/ethereum-eth-logo.svg' }
   ]
 
-  // Common tokens for each chain with Lucide icons and theme colors
+  // Common tokens for each chain with SVG icons and theme colors
   const tokensByChain = {
     mainnet: [
-      { name: 'ETH', fullName: 'Ethereum', icon: Layers3, color: 'text-blue-400', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'USDC', fullName: 'USD Coin', icon: DollarSign, color: 'text-blue-300', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: Banknote, color: 'text-green-400', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
-      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: Bitcoin, color: 'text-orange-400', bgColor: 'bg-orange-500/20', chartColor: '#F7931A' },
-      { name: 'DAI', fullName: 'Dai Stablecoin', icon: Coins, color: 'text-yellow-400', bgColor: 'bg-yellow-500/20', chartColor: '#F5AC37' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
+      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
+      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', bgColor: 'bg-orange-500/20', chartColor: '#F7931A' },
+      { name: 'DAI', fullName: 'Dai Stablecoin', icon: '/icons/multi-collateral-dai-dai-logo.svg', bgColor: 'bg-yellow-500/20', chartColor: '#F5AC37' }
     ],
     polygon: [
-      { name: 'MATIC', fullName: 'Polygon', icon: Layers3, color: 'text-purple-400', bgColor: 'bg-purple-500/20', chartColor: '#8247E5' },
-      { name: 'USDC', fullName: 'USD Coin', icon: DollarSign, color: 'text-blue-300', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: Banknote, color: 'text-green-400', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
-      { name: 'WETH', fullName: 'Wrapped Ethereum', icon: Layers3, color: 'text-blue-400', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'DAI', fullName: 'Dai Stablecoin', icon: Coins, color: 'text-yellow-400', bgColor: 'bg-yellow-500/20', chartColor: '#F5AC37' }
+      { name: 'MATIC', fullName: 'Polygon', icon: '/icons/polygon-matic-logo.svg', bgColor: 'bg-purple-500/20', chartColor: '#8247E5' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
+      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
+      { name: 'WETH', fullName: 'Wrapped Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
+      { name: 'DAI', fullName: 'Dai Stablecoin', icon: '/icons/multi-collateral-dai-dai-logo.svg', bgColor: 'bg-yellow-500/20', chartColor: '#F5AC37' }
     ],
     optimism: [
-      { name: 'ETH', fullName: 'Ethereum', icon: Layers3, color: 'text-blue-400', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'USDC', fullName: 'USD Coin', icon: DollarSign, color: 'text-blue-300', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: Banknote, color: 'text-green-400', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
-      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: Bitcoin, color: 'text-orange-400', bgColor: 'bg-orange-500/20', chartColor: '#F7931A' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
+      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
+      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', bgColor: 'bg-orange-500/20', chartColor: '#F7931A' }
     ],
     arbitrum: [
-      { name: 'ETH', fullName: 'Ethereum', icon: Layers3, color: 'text-blue-400', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'ARB', fullName: 'Arbitrum', icon: Layers3, color: 'text-blue-500', bgColor: 'bg-blue-600/20', chartColor: '#28A0F0' },
-      { name: 'USDC', fullName: 'USD Coin', icon: DollarSign, color: 'text-blue-300', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
-      { name: 'USDT', fullName: 'Tether', icon: Banknote, color: 'text-green-400', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
-      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: Bitcoin, color: 'text-orange-400', bgColor: 'bg-orange-500/20', chartColor: '#F7931A' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
+      { name: 'ARB', fullName: 'Arbitrum', icon: '/icons/arbitrum-arb-logo.svg', bgColor: 'bg-blue-600/20', chartColor: '#28A0F0' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
+      { name: 'USDT', fullName: 'Tether', icon: '/icons/tether-usdt-logo.svg', bgColor: 'bg-green-500/20', chartColor: '#26A17B' },
+      { name: 'WBTC', fullName: 'Wrapped Bitcoin', icon: '/icons/bitcoin-btc-logo.svg', bgColor: 'bg-orange-500/20', chartColor: '#F7931A' }
     ],
     base: [
-      { name: 'ETH', fullName: 'Ethereum', icon: Layers3, color: 'text-blue-400', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'USDC', fullName: 'USD Coin', icon: DollarSign, color: 'text-blue-300', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' }
     ],
     sepolia: [
-      { name: 'ETH', fullName: 'Ethereum', icon: Layers3, color: 'text-blue-400', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
-      { name: 'USDC', fullName: 'USD Coin', icon: DollarSign, color: 'text-blue-300', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
-      { name: 'DAI', fullName: 'Dai Stablecoin', icon: Coins, color: 'text-yellow-400', bgColor: 'bg-yellow-500/20', chartColor: '#F5AC37' }
+      { name: 'ETH', fullName: 'Ethereum', icon: '/icons/ethereum-eth-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#627EEA' },
+      { name: 'USDC', fullName: 'USD Coin', icon: '/icons/usd-coin-usdc-logo.svg', bgColor: 'bg-blue-500/20', chartColor: '#2775CA' },
+      { name: 'DAI', fullName: 'Dai Stablecoin', icon: '/icons/multi-collateral-dai-dai-logo.svg', bgColor: 'bg-yellow-500/20', chartColor: '#F5AC37' }
     ]
   }
 
@@ -286,8 +287,14 @@ const QRPage = () => {
                           : 'bg-white/5 hover:bg-white/10 text-white/80 border border-white/20 backdrop-blur-sm hover:border-white/40'
                       }`}
                     >
-                      <div className="relative w-6 h-6 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center">
-                        <chain.icon className={`w-4 h-4 ${chain.color}`} />
+                      <div className="relative w-6 h-6 flex-shrink-0 rounded-full bg-white/10 flex items-center justify-center p-1">
+                        <Image
+                          src={chain.icon}
+                          alt={chain.name}
+                          width={16}
+                          height={16}
+                          className="w-4 h-4"
+                        />
                       </div>
                       <div className="flex-1">
                         <div className="font-medium">{chain.name}</div>
@@ -317,8 +324,14 @@ const QRPage = () => {
                         {Object.entries(selectedChains).map(([chainId, tokens]) => (
                           <div key={chainId} className="space-y-1">
                             <div className="text-xs font-medium text-blue-400 flex items-center gap-1">
-                              <div className="w-2.5 h-2.5 rounded-full bg-white/10 flex items-center justify-center">
-                                <Layers3 className="w-1.5 h-1.5 text-blue-400" />
+                              <div className="w-2.5 h-2.5 rounded-full bg-white/10 flex items-center justify-center p-0.5">
+                                <Image
+                                  src={chains.find(c => c.id === chainId)?.icon || '/icons/ethereum-eth-logo.svg'}
+                                  alt={chains.find(c => c.id === chainId)?.name || chainId}
+                                  width={10}
+                                  height={10}
+                                  className="w-1.5 h-1.5"
+                                />
                               </div>
                               {chains.find(c => c.id === chainId)?.name}
                             </div>
@@ -328,8 +341,14 @@ const QRPage = () => {
                                 <div key={tokenName} className="flex justify-between items-center bg-white/5 border border-white/10 p-1.5 rounded">
                                   <div className="flex items-center gap-1">
                                     {token && (
-                                      <div className={`w-3 h-3 rounded-full ${token.bgColor} flex items-center justify-center`}>
-                                        <token.icon className={`w-2 h-2 ${token.color}`} />
+                                      <div className={`w-3 h-3 rounded-full ${token.bgColor} flex items-center justify-center p-0.5`}>
+                                        <Image
+                                          src={token.icon}
+                                          alt={token.name}
+                                          width={8}
+                                          height={8}
+                                          className="w-2 h-2"
+                                        />
                                       </div>
                                     )}
                                     <span className="text-xs font-medium text-white/90">{tokenName}</span>
@@ -441,8 +460,14 @@ const QRPage = () => {
                         }`}
                       >
                         <div className="relative w-10 h-10 flex-shrink-0">
-                          <div className={`w-10 h-10 rounded-full ${token.bgColor} border border-white/20 flex items-center justify-center`}>
-                            <token.icon className={`w-5 h-5 ${token.color}`} />
+                          <div className={`w-10 h-10 rounded-full ${token.bgColor} border border-white/20 flex items-center justify-center p-2`}>
+                            <Image
+                              src={token.icon}
+                              alt={token.name}
+                              width={20}
+                              height={20}
+                              className="w-6 h-6"
+                            />
                           </div>
                           {isSelected && (
                             <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full flex items-center justify-center">
