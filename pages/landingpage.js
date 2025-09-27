@@ -91,7 +91,7 @@ export default function LandingPage() {
                       tokenAlt="HBAR" 
                       chainAlt="Hedera"
                     />
-                    <span className="text-white/90 text-sm">Hedera</span>
+                    <span className="text-white/90 text-sm">HBAR on Hedera</span>
                   </div>
                   <span className="text-white font-medium">$10</span>
                 </div>
@@ -105,7 +105,7 @@ export default function LandingPage() {
                       tokenAlt="FLOW" 
                       chainAlt="Flow"
                     />
-                    <span className="text-white/90 text-sm">Flow</span>
+                    <span className="text-white/90 text-sm">FLOW on Flow</span>
                   </div>
                   <span className="text-white font-medium">$20</span>
                 </div>
@@ -119,7 +119,7 @@ export default function LandingPage() {
                       tokenAlt="USDC" 
                       chainAlt="Arbitrum"
                     />
-                    <span className="text-white/90 text-sm">Arbitrum</span>
+                    <span className="text-white/90 text-sm">USDC on Arbitrum</span>
                   </div>
                   <span className="text-white font-medium">$50</span>
                 </div>
@@ -128,7 +128,7 @@ export default function LandingPage() {
                 <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
                   <div className="flex items-center gap-3">
                     <TokenIcon src="/icons/paypal-usd-pyusd-logo.svg" alt="PYUSD" />
-                    <span className="text-white/90 text-sm">PayPal USD</span>
+                    <span className="text-white/90 text-sm">PYUSD (PayPal)</span>
                   </div>
                   <span className="text-white font-medium">$20</span>
                 </div>
@@ -263,7 +263,7 @@ export default function LandingPage() {
                       tokenAlt="ETH" 
                       chainAlt="Ethereum"
                     />
-                    <span className="text-white/90 text-sm">Ethereum</span>
+                    <span className="text-white/90 text-sm">ETH on Ethereum</span>
                   </div>
                   <span className="text-white font-medium">$70</span>
                 </div>
@@ -277,7 +277,7 @@ export default function LandingPage() {
                       tokenAlt="SOL" 
                       chainAlt="Solana"
                     />
-                    <span className="text-white/90 text-sm">Solana</span>
+                    <span className="text-white/90 text-sm">SOL on Solana</span>
                   </div>
                   <span className="text-white font-medium">$30</span>
                 </div>
