@@ -2,7 +2,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export const Header = () => {
   return (
-    <header className="flex justify-end items-center p-4">
+    <header className="flex justify-end items-center p-2 pr-16">
       <div className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-2xl p-1">
         <ConnectButton.Custom>
           {({ account, chain, openAccountModal, openChainModal, openConnectModal, authenticationStatus, mounted }) => {
