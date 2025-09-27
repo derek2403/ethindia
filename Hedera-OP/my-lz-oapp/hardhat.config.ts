@@ -54,21 +54,20 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        'arbitrum-sepolia': {
-            eid: EndpointId.ARBSEP_V2_TESTNET,
-            url: process.env.RPC_URL_ARB_SEPOLIA || 'https://arbitrum-sepolia.gateway.tenderly.co',
-            accounts,
+        // the network you are deploying to or are already on
+        // Hedera Testnet (EID=40285)
+        'hedera-testnet': {
+          eid: EndpointId.HEDERA_V2_TESTNET,
+          url: process.env.RPC_URL_HEDERA || 'https://testnet.hashio.io/api',
+          accounts,
         },
-        'base-sepolia': {
-            eid: EndpointId.BASESEP_V2_TESTNET,
-            url: process.env.RPC_URL_BASE_SEPOLIA || 'https://base-sepolia.gateway.tenderly.co',
-            accounts,
+        // another network you want to connect to
+        'sepolia': {
+          eid: EndpointId.SEPOLIA_V2_TESTNET,
+          url: process.env.RPC_URL_SEPOLIA || 'https://eth-sepolia.g.alchemy.com/v2/FgSucpeM2ptJ9lxAtCUQ5AqtJl4W8kzN',
+          accounts,
         },
-        hardhat: {
-            // Need this for testing because TestHelperOz5.sol is exceeding the compiled contract size limit
-            allowUnlimitedContractSize: true,
-        },
-    },
+      },
     namedAccounts: {
         deployer: {
             default: 0, // wallet address of index[0], of the mnemonic in .env
