@@ -1,0 +1,716 @@
+{
+  "address": "0x22F6da0D9C65715DA3c985a2Bd7A5c134E6999e5",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "InsufficientBalance",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "TransferFailed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ZeroAmount",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "ERC20Deposited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "NativeDeposited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Withdrawn",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "depositERC20",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "depositNative",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "deposits",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "emergencyWithdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getDeposit",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "user",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Escrow.Deposit",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTotalDepositCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "getUserBalance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getUserDepositCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "userDeposits",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userTokenBalances",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawERC20",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawNative",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    }
+  ],
+  "transactionHash": "0x2a16788bf205eb91ed00f6b10531ceb4df01dae8459d1e8eb6cc90a7b4a4a88e",
+  "receipt": {
+    "to": null,
+    "from": "0xf1a7b4b4B16fc24650D3dC96d5112b5c1F309092",
+    "contractAddress": "0x22F6da0D9C65715DA3c985a2Bd7A5c134E6999e5",
+    "transactionIndex": 62,
+    "gasUsed": "773594",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000000000000004000000000000000000000000001000000000000000000000000000000000000000000000000000000000000001020000000000000000000000000000000000020000000000000000000800000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000040000000020000000000000000000000000000000000000000000000000000000400000000000",
+    "blockHash": "0x217bfa6ae5fdd5157beaadb97f5c3c55a3905996bae662fc1a89d1fd4404f74a",
+    "transactionHash": "0x2a16788bf205eb91ed00f6b10531ceb4df01dae8459d1e8eb6cc90a7b4a4a88e",
+    "logs": [
+      {
+        "transactionIndex": 62,
+        "blockNumber": 9290982,
+        "transactionHash": "0x2a16788bf205eb91ed00f6b10531ceb4df01dae8459d1e8eb6cc90a7b4a4a88e",
+        "address": "0x22F6da0D9C65715DA3c985a2Bd7A5c134E6999e5",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x000000000000000000000000f1a7b4b4b16fc24650d3dc96d5112b5c1f309092"
+        ],
+        "data": "0x",
+        "logIndex": 64,
+        "blockHash": "0x217bfa6ae5fdd5157beaadb97f5c3c55a3905996bae662fc1a89d1fd4404f74a"
+      }
+    ],
+    "blockNumber": 9290982,
+    "cumulativeGasUsed": "21292514",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "bb217b4179fa5461c976fe4ff586221c",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.22+commit.4fc1097e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"InsufficientBalance\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"TransferFailed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ZeroAmount\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"ERC20Deposited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"NativeDeposited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Withdrawn\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"depositERC20\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"depositNative\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"deposits\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"}],\"name\":\"emergencyWithdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"getDeposit\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"}],\"internalType\":\"struct Escrow.Deposit\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getTotalDepositCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getUserBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"getUserDepositCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"userDeposits\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"userTokenBalances\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdrawERC20\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdrawNative\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"stateMutability\":\"payable\",\"type\":\"receive\"}],\"devdoc\":{\"errors\":{\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}]},\"kind\":\"dev\",\"methods\":{\"depositERC20(address,uint256)\":{\"params\":{\"amount\":\"The amount to deposit\",\"token\":\"The token contract address\"}},\"emergencyWithdraw(address,address)\":{\"params\":{\"to\":\"The recipient address\",\"token\":\"The token address (address(0) for native)\"}},\"getDeposit(uint256)\":{\"params\":{\"index\":\"The deposit index\"}},\"getUserBalance(address,address)\":{\"params\":{\"token\":\"The token address (address(0) for native)\",\"user\":\"The user address\"}},\"getUserDepositCount(address)\":{\"params\":{\"user\":\"The user address\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"},\"withdrawERC20(address,address,uint256)\":{\"params\":{\"amount\":\"The amount to withdraw\",\"token\":\"The token contract address\",\"user\":\"The user to withdraw for\"}},\"withdrawNative(address,uint256)\":{\"params\":{\"amount\":\"The amount to withdraw\",\"user\":\"The user to withdraw for\"}}},\"title\":\"Escrow - Receives token and native deposits from minimal wallets\",\"version\":1},\"userdoc\":{\"errors\":{\"InsufficientBalance()\":[{\"notice\":\"Errors\"}]},\"events\":{\"NativeDeposited(address,uint256)\":{\"notice\":\"Events\"}},\"kind\":\"user\",\"methods\":{\"depositERC20(address,uint256)\":{\"notice\":\"Deposit ERC-20 tokens\"},\"depositNative()\":{\"notice\":\"Deposit native currency (ETH/HBAR/FLOW)\"},\"deposits(uint256)\":{\"notice\":\"Array of all deposits\"},\"emergencyWithdraw(address,address)\":{\"notice\":\"Emergency withdrawal of all funds (owner only)\"},\"getDeposit(uint256)\":{\"notice\":\"Get deposit details by index\"},\"getTotalDepositCount()\":{\"notice\":\"Get total deposit count\"},\"getUserBalance(address,address)\":{\"notice\":\"Get user's balance for a specific token\"},\"getUserDepositCount(address)\":{\"notice\":\"Get user's deposit count\"},\"userDeposits(address,uint256)\":{\"notice\":\"Mapping from user to their deposit indices\"},\"userTokenBalances(address,address)\":{\"notice\":\"Mapping from user to token to total deposited amount\"},\"withdrawERC20(address,address,uint256)\":{\"notice\":\"Withdraw ERC-20 tokens (owner only)\"},\"withdrawNative(address,uint256)\":{\"notice\":\"Withdraw native currency (owner only)\"}},\"notice\":\"Holds user funds deposited via session keys for future use\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Escrow.sol\":\"Escrow\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[],\"viaIR\":true},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Context} from \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The initial owner is set to the address provided by the deployer. This can\\n * later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    /**\\n     * @dev The caller account is not authorized to perform an operation.\\n     */\\n    error OwnableUnauthorizedAccount(address account);\\n\\n    /**\\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\\n     */\\n    error OwnableInvalidOwner(address owner);\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\\n     */\\n    constructor(address initialOwner) {\\n        if (initialOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        if (owner() != _msgSender()) {\\n            revert OwnableUnauthorizedAccount(_msgSender());\\n        }\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\"},\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.4.0) (token/ERC20/IERC20.sol)\\n\\npragma solidity >=0.4.16;\\n\\n/**\\n * @dev Interface of the ERC-20 standard as defined in the ERC.\\n */\\ninterface IERC20 {\\n    /**\\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\\n     * another (`to`).\\n     *\\n     * Note that `value` may be zero.\\n     */\\n    event Transfer(address indexed from, address indexed to, uint256 value);\\n\\n    /**\\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\\n     * a call to {approve}. `value` is the new allowance.\\n     */\\n    event Approval(address indexed owner, address indexed spender, uint256 value);\\n\\n    /**\\n     * @dev Returns the value of tokens in existence.\\n     */\\n    function totalSupply() external view returns (uint256);\\n\\n    /**\\n     * @dev Returns the value of tokens owned by `account`.\\n     */\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from the caller's account to `to`.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transfer(address to, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Returns the remaining number of tokens that `spender` will be\\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\\n     * zero by default.\\n     *\\n     * This value changes when {approve} or {transferFrom} are called.\\n     */\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    /**\\n     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the\\n     * caller's tokens.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\\n     * that someone may use both the old and the new allowance by unfortunate\\n     * transaction ordering. One possible solution to mitigate this race\\n     * condition is to first reduce the spender's allowance to 0 and set the\\n     * desired value afterwards:\\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\\n     *\\n     * Emits an {Approval} event.\\n     */\\n    function approve(address spender, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from `from` to `to` using the\\n     * allowance mechanism. `value` is then deducted from the caller's\\n     * allowance.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transferFrom(address from, address to, uint256 value) external returns (bool);\\n}\\n\",\"keccak256\":\"0x74ed01eb66b923d0d0cfe3be84604ac04b76482a55f9dd655e1ef4d367f95bc2\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\"},\"contracts/Escrow.sol\":{\"content\":\"// SPDX-License-Identifier: UNLICENSED\\npragma solidity ^0.8.22;\\n\\nimport { IERC20 } from \\\"@openzeppelin/contracts/token/ERC20/IERC20.sol\\\";\\nimport { Ownable } from \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\n\\n/// @title Escrow - Receives token and native deposits from minimal wallets\\n/// @notice Holds user funds deposited via session keys for future use\\ncontract Escrow is Ownable {\\n    /// @notice Deposit records\\n    struct Deposit {\\n        address user;\\n        address token; // address(0) for native currency\\n        uint256 amount;\\n        uint256 timestamp;\\n    }\\n\\n    /// @notice Array of all deposits\\n    Deposit[] public deposits;\\n\\n    /// @notice Mapping from user to their deposit indices\\n    mapping(address => uint256[]) public userDeposits;\\n\\n    /// @notice Mapping from user to token to total deposited amount\\n    mapping(address => mapping(address => uint256)) public userTokenBalances;\\n\\n    /// @notice Events\\n    event NativeDeposited(address indexed user, uint256 amount);\\n    event ERC20Deposited(address indexed user, address indexed token, uint256 amount);\\n    event Withdrawn(address indexed user, address indexed token, uint256 amount);\\n\\n    /// @notice Errors\\n    error InsufficientBalance();\\n    error TransferFailed();\\n    error ZeroAmount();\\n\\n    constructor() Ownable(msg.sender) {}\\n\\n    /// @notice Deposit native currency (ETH/HBAR/FLOW)\\n    function depositNative() external payable {\\n        if (msg.value == 0) revert ZeroAmount();\\n\\n        // Record deposit\\n        deposits.push(Deposit({\\n            user: msg.sender,\\n            token: address(0),\\n            amount: msg.value,\\n            timestamp: block.timestamp\\n        }));\\n\\n        uint256 depositIndex = deposits.length - 1;\\n        userDeposits[msg.sender].push(depositIndex);\\n        userTokenBalances[msg.sender][address(0)] += msg.value;\\n\\n        emit NativeDeposited(msg.sender, msg.value);\\n    }\\n\\n    /// @notice Deposit ERC-20 tokens\\n    /// @param token The token contract address\\n    /// @param amount The amount to deposit\\n    function depositERC20(address token, uint256 amount) external {\\n        if (amount == 0) revert ZeroAmount();\\n        require(token != address(0), \\\"Invalid token address\\\");\\n\\n        // Transfer tokens from sender to this contract\\n        IERC20 tokenContract = IERC20(token);\\n        if (!tokenContract.transferFrom(msg.sender, address(this), amount)) revert TransferFailed();\\n\\n        // Record deposit\\n        deposits.push(Deposit({\\n            user: msg.sender,\\n            token: token,\\n            amount: amount,\\n            timestamp: block.timestamp\\n        }));\\n\\n        uint256 depositIndex = deposits.length - 1;\\n        userDeposits[msg.sender].push(depositIndex);\\n        userTokenBalances[msg.sender][token] += amount;\\n\\n        emit ERC20Deposited(msg.sender, token, amount);\\n    }\\n\\n    /// @notice Withdraw native currency (owner only)\\n    /// @param user The user to withdraw for\\n    /// @param amount The amount to withdraw\\n    function withdrawNative(address user, uint256 amount) external onlyOwner {\\n        if (userTokenBalances[user][address(0)] < amount) revert InsufficientBalance();\\n        if (address(this).balance < amount) revert InsufficientBalance();\\n\\n        userTokenBalances[user][address(0)] -= amount;\\n\\n        (bool success,) = payable(user).call{value: amount}(\\\"\\\");\\n        if (!success) revert TransferFailed();\\n\\n        emit Withdrawn(user, address(0), amount);\\n    }\\n\\n    /// @notice Withdraw ERC-20 tokens (owner only)\\n    /// @param user The user to withdraw for\\n    /// @param token The token contract address\\n    /// @param amount The amount to withdraw\\n    function withdrawERC20(address user, address token, uint256 amount) external onlyOwner {\\n        if (userTokenBalances[user][token] < amount) revert InsufficientBalance();\\n\\n        userTokenBalances[user][token] -= amount;\\n\\n        IERC20 tokenContract = IERC20(token);\\n        if (!tokenContract.transfer(user, amount)) revert TransferFailed();\\n\\n        emit Withdrawn(user, token, amount);\\n    }\\n\\n    /// @notice Get user's balance for a specific token\\n    /// @param user The user address\\n    /// @param token The token address (address(0) for native)\\n    function getUserBalance(address user, address token) external view returns (uint256) {\\n        return userTokenBalances[user][token];\\n    }\\n\\n    /// @notice Get user's deposit count\\n    /// @param user The user address\\n    function getUserDepositCount(address user) external view returns (uint256) {\\n        return userDeposits[user].length;\\n    }\\n\\n    /// @notice Get total deposit count\\n    function getTotalDepositCount() external view returns (uint256) {\\n        return deposits.length;\\n    }\\n\\n    /// @notice Get deposit details by index\\n    /// @param index The deposit index\\n    function getDeposit(uint256 index) external view returns (Deposit memory) {\\n        require(index < deposits.length, \\\"Invalid index\\\");\\n        return deposits[index];\\n    }\\n\\n    /// @notice Emergency withdrawal of all funds (owner only)\\n    /// @param token The token address (address(0) for native)\\n    /// @param to The recipient address\\n    function emergencyWithdraw(address token, address to) external onlyOwner {\\n        if (token == address(0)) {\\n            // Withdraw all native currency\\n            uint256 balance = address(this).balance;\\n            (bool success,) = payable(to).call{value: balance}(\\\"\\\");\\n            if (!success) revert TransferFailed();\\n        } else {\\n            // Withdraw all tokens\\n            IERC20 tokenContract = IERC20(token);\\n            uint256 balance = tokenContract.balanceOf(address(this));\\n            if (!tokenContract.transfer(to, balance)) revert TransferFailed();\\n        }\\n    }\\n\\n    /// @notice Receive native currency\\n    receive() external payable {\\n        if (msg.value == 0) revert ZeroAmount();\\n\\n        // Record deposit\\n        deposits.push(Deposit({\\n            user: msg.sender,\\n            token: address(0),\\n            amount: msg.value,\\n            timestamp: block.timestamp\\n        }));\\n\\n        uint256 depositIndex = deposits.length - 1;\\n        userDeposits[msg.sender].push(depositIndex);\\n        userTokenBalances[msg.sender][address(0)] += msg.value;\\n\\n        emit NativeDeposited(msg.sender, msg.value);\\n    }\\n}\\n\",\"keccak256\":\"0xd92397372790c58d957f54f96cd887cc3e7622ec29adf5692f5d7e53c9835e49\",\"license\":\"UNLICENSED\"}},\"version\":1}",
+  "bytecode": "0x6080806040523461007a5733156100645760008054336001600160a01b03198216811783556040519290916001600160a01b0316907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09080a3610c8f90816100808239f35b631e4fbdf760e01b815260006004820152602490fd5b600080fdfe60406080815260049081361015610028575b5050361561001e57600080fd5b610026610b65565b005b600091823560e01c806307b18bde1461086d57806308f43333146108175780631bae91a4146107df57806344004cc1146106a357806345f2d105146105095780636382d9ad146105525780636805d6ad14610509578063715018a6146104af5780638da5cb5b1461048757806397feb926146102dc5780639f9fb96814610203578063a264eb4e146101e0578063b02c43d01461017d578063db6b5246146101635763f2fde38b146100da5750610011565b3461015f57602036600319011261015f576100f3610934565b906100fc610c2d565b6001600160a01b0391821692831561014957505082546001600160a01b0319811683178455167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08380a380f35b51631e4fbdf760e01b8152908101849052602490fd5b8280fd5b838060031936011261017a57610177610b65565b80f35b80fd5b503461015f57602036600319011261015f57359160015483101561017a57506101a7608092610993565b5080546001820154600283015460039093015484516001600160a01b039384168152919092166020820152928301919091526060820152f35b5050346101ff57816003193601126101ff576020906001549051908152f35b5080fd5b508290346101ff5760203660031901126101ff5780359160608451610227816109f0565b828152826020820152828682015201526001548210156102a95760808361024d84610993565b509080519061025b826109f0565b60018060a01b03928381541693848452806001830154166020850190815260606003600285015494868801958652015495019485528351958652511660208501525190830152516060820152f35b606490602084519162461bcd60e51b8352820152600d60248201526c092dcecc2d8d2c840d2dcc8caf609b1b6044820152fd5b509190346101ff57806003193601126101ff576102f7610934565b602435908115610477576001600160a01b031691821561043d5780516323b872dd60e01b815233868201523060248201526044810183905260209190828160648189895af1908115610433578691610406575b50156103f757610376815161035e816109f0565b33815285848201528483820152426060820152610a9c565b60015460001981019081116103e457906103bb7fe33e9822e3317b004d587136bab2627ea1ecfbba4eb79abddd0a56cfdd09c0e1939233885260028452828820610b23565b3386526003825280862085875282528086206103d8858254610b58565b9055519283523392a380f35b634e487b7160e01b865260118752602486fd5b516312171d8360e31b81528590fd5b6104269150833d851161042c575b61041e8183610a22565b810190610a84565b3861034a565b503d610414565b82513d88823e3d90fd5b5162461bcd60e51b81526020818601526015602482015274496e76616c696420746f6b656e206164647265737360581b6044820152606490fd5b8251631f2a200560e01b81528590fd5b5050346101ff57816003193601126101ff57905490516001600160a01b039091168152602090f35b833461017a578060031936011261017a576104c8610c2d565b80546001600160a01b03198116825581906001600160a01b03167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08280a380f35b5050346101ff57806003193601126101ff5780602092610527610934565b61052f61094f565b6001600160a01b0391821683526003865283832091168252845220549051908152f35b50903461015f578060031936011261015f5761056c610934565b8361057561094f565b9161057e610c2d565b6001600160a01b03908116806105b9575081809381924791165af16105a1610a44565b50156105ac57505080f35b516312171d8360e31b8152fd5b91505082516370a0823160e01b815230858201526020928382602481865afa91821561069957908492918892610662575b50855163a9059cbb60e01b81526001600160a01b0390911687820190815260208101929092529283918290899082906040015b03925af191821561065857859261063b575b5050156105ac57505080f35b6106519250803d1061042c5761041e8183610a22565b388061062f565b83513d87823e3d90fd5b8381949293503d8311610692575b61067a8183610a22565b8101031261068e579051839161061d6105ea565b8680fd5b503d610670565b85513d89823e3d90fd5b503461015f57606036600319011261015f576106bd610934565b906106c661094f565b92604435906106d3610c2d565b60018060a01b0392838516948588526020946003865283892097169687895285528383892054106107d057848461075592888b5260038352858b208a8c528352858b206107218382546109cd565b9055855163a9059cbb60e01b81526001600160a01b0390911685820190815260208101929092529283918291604090910190565b03818b8b5af19081156107c65788916107a9575b501561079b5750519081527fd1c19fbcd4551a5edfb66d43d2e337c04837afda3482b42bdf569a8fccdae5fb9190a380f35b90516312171d8360e31b8152fd5b6107c09150853d871161042c5761041e8183610a22565b38610769565b83513d8a823e3d90fd5b509051631e9acf1760e31b8152fd5b5050346101ff5760203660031901126101ff5760209181906001600160a01b03610807610934565b1681526002845220549051908152f35b5050346101ff57806003193601126101ff57610831610934565b6001600160a01b0316825260026020528082208054602435939084101561017a575060209261085f91610965565b91905490519160031b1c8152f35b508290346101ff57826003193601126101ff57610888610934565b9260243593610895610c2d565b60018060a01b0316918284526003602052818420848052602052848285205410610926578447106109265782845260036020528184208480526020528184206108df8682546109cd565b90558380808088875af16108f1610a44565b501561079b5750602083947fd1c19fbcd4551a5edfb66d43d2e337c04837afda3482b42bdf569a8fccdae5fb9251908152a380f35b9051631e9acf1760e31b8152fd5b600435906001600160a01b038216820361094a57565b600080fd5b602435906001600160a01b038216820361094a57565b805482101561097d5760005260206000200190600090565b634e487b7160e01b600052603260045260246000fd5b60015481101561097d57600160005260021b7fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf60190600090565b919082039182116109da57565b634e487b7160e01b600052601160045260246000fd5b6080810190811067ffffffffffffffff821117610a0c57604052565b634e487b7160e01b600052604160045260246000fd5b90601f8019910116810190811067ffffffffffffffff821117610a0c57604052565b3d15610a7f573d9067ffffffffffffffff8211610a0c5760405191610a73601f8201601f191660200184610a22565b82523d6000602084013e565b606090565b9081602091031261094a5751801515810361094a5790565b600154600160401b811015610a0c57806001610abb9201600155610993565b919091610b0d57606060039160018060a01b03808251166bffffffffffffffffffffffff60a01b9081875416178655600186019160208401511690825416179055604081015160028501550151910155565b634e487b7160e01b600052600060045260246000fd5b8054600160401b811015610a0c57610b4091600182018155610965565b819291549060031b91821b91600019901b1916179055565b919082018092116109da57565b3415610c1b5760408051610b78816109f0565b338152610b976000918260208201523484820152426060820152610a9c565b6001546000198101908111610c075790610bbc83923383526002602052838320610b23565b338152600360205281812081805260205220610bd9348254610b58565b9055513481527fb5d7700fb0cf415158b8db7cc7c39f0eab16a825c92e221404b4c8bb099b4bbb60203392a2565b634e487b7160e01b82526011600452602482fd5b604051631f2a200560e01b8152600490fd5b6000546001600160a01b03163303610c4157565b60405163118cdaa760e01b8152336004820152602490fdfea26469706673582212209fcfc192f044f6f077b47741bac67ff6c3a818e2d211e25ee70bbc3a7b91e95964736f6c63430008160033",
+  "deployedBytecode": "0x60406080815260049081361015610028575b5050361561001e57600080fd5b610026610b65565b005b600091823560e01c806307b18bde1461086d57806308f43333146108175780631bae91a4146107df57806344004cc1146106a357806345f2d105146105095780636382d9ad146105525780636805d6ad14610509578063715018a6146104af5780638da5cb5b1461048757806397feb926146102dc5780639f9fb96814610203578063a264eb4e146101e0578063b02c43d01461017d578063db6b5246146101635763f2fde38b146100da5750610011565b3461015f57602036600319011261015f576100f3610934565b906100fc610c2d565b6001600160a01b0391821692831561014957505082546001600160a01b0319811683178455167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08380a380f35b51631e4fbdf760e01b8152908101849052602490fd5b8280fd5b838060031936011261017a57610177610b65565b80f35b80fd5b503461015f57602036600319011261015f57359160015483101561017a57506101a7608092610993565b5080546001820154600283015460039093015484516001600160a01b039384168152919092166020820152928301919091526060820152f35b5050346101ff57816003193601126101ff576020906001549051908152f35b5080fd5b508290346101ff5760203660031901126101ff5780359160608451610227816109f0565b828152826020820152828682015201526001548210156102a95760808361024d84610993565b509080519061025b826109f0565b60018060a01b03928381541693848452806001830154166020850190815260606003600285015494868801958652015495019485528351958652511660208501525190830152516060820152f35b606490602084519162461bcd60e51b8352820152600d60248201526c092dcecc2d8d2c840d2dcc8caf609b1b6044820152fd5b509190346101ff57806003193601126101ff576102f7610934565b602435908115610477576001600160a01b031691821561043d5780516323b872dd60e01b815233868201523060248201526044810183905260209190828160648189895af1908115610433578691610406575b50156103f757610376815161035e816109f0565b33815285848201528483820152426060820152610a9c565b60015460001981019081116103e457906103bb7fe33e9822e3317b004d587136bab2627ea1ecfbba4eb79abddd0a56cfdd09c0e1939233885260028452828820610b23565b3386526003825280862085875282528086206103d8858254610b58565b9055519283523392a380f35b634e487b7160e01b865260118752602486fd5b516312171d8360e31b81528590fd5b6104269150833d851161042c575b61041e8183610a22565b810190610a84565b3861034a565b503d610414565b82513d88823e3d90fd5b5162461bcd60e51b81526020818601526015602482015274496e76616c696420746f6b656e206164647265737360581b6044820152606490fd5b8251631f2a200560e01b81528590fd5b5050346101ff57816003193601126101ff57905490516001600160a01b039091168152602090f35b833461017a578060031936011261017a576104c8610c2d565b80546001600160a01b03198116825581906001600160a01b03167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08280a380f35b5050346101ff57806003193601126101ff5780602092610527610934565b61052f61094f565b6001600160a01b0391821683526003865283832091168252845220549051908152f35b50903461015f578060031936011261015f5761056c610934565b8361057561094f565b9161057e610c2d565b6001600160a01b03908116806105b9575081809381924791165af16105a1610a44565b50156105ac57505080f35b516312171d8360e31b8152fd5b91505082516370a0823160e01b815230858201526020928382602481865afa91821561069957908492918892610662575b50855163a9059cbb60e01b81526001600160a01b0390911687820190815260208101929092529283918290899082906040015b03925af191821561065857859261063b575b5050156105ac57505080f35b6106519250803d1061042c5761041e8183610a22565b388061062f565b83513d87823e3d90fd5b8381949293503d8311610692575b61067a8183610a22565b8101031261068e579051839161061d6105ea565b8680fd5b503d610670565b85513d89823e3d90fd5b503461015f57606036600319011261015f576106bd610934565b906106c661094f565b92604435906106d3610c2d565b60018060a01b0392838516948588526020946003865283892097169687895285528383892054106107d057848461075592888b5260038352858b208a8c528352858b206107218382546109cd565b9055855163a9059cbb60e01b81526001600160a01b0390911685820190815260208101929092529283918291604090910190565b03818b8b5af19081156107c65788916107a9575b501561079b5750519081527fd1c19fbcd4551a5edfb66d43d2e337c04837afda3482b42bdf569a8fccdae5fb9190a380f35b90516312171d8360e31b8152fd5b6107c09150853d871161042c5761041e8183610a22565b38610769565b83513d8a823e3d90fd5b509051631e9acf1760e31b8152fd5b5050346101ff5760203660031901126101ff5760209181906001600160a01b03610807610934565b1681526002845220549051908152f35b5050346101ff57806003193601126101ff57610831610934565b6001600160a01b0316825260026020528082208054602435939084101561017a575060209261085f91610965565b91905490519160031b1c8152f35b508290346101ff57826003193601126101ff57610888610934565b9260243593610895610c2d565b60018060a01b0316918284526003602052818420848052602052848285205410610926578447106109265782845260036020528184208480526020528184206108df8682546109cd565b90558380808088875af16108f1610a44565b501561079b5750602083947fd1c19fbcd4551a5edfb66d43d2e337c04837afda3482b42bdf569a8fccdae5fb9251908152a380f35b9051631e9acf1760e31b8152fd5b600435906001600160a01b038216820361094a57565b600080fd5b602435906001600160a01b038216820361094a57565b805482101561097d5760005260206000200190600090565b634e487b7160e01b600052603260045260246000fd5b60015481101561097d57600160005260021b7fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf60190600090565b919082039182116109da57565b634e487b7160e01b600052601160045260246000fd5b6080810190811067ffffffffffffffff821117610a0c57604052565b634e487b7160e01b600052604160045260246000fd5b90601f8019910116810190811067ffffffffffffffff821117610a0c57604052565b3d15610a7f573d9067ffffffffffffffff8211610a0c5760405191610a73601f8201601f191660200184610a22565b82523d6000602084013e565b606090565b9081602091031261094a5751801515810361094a5790565b600154600160401b811015610a0c57806001610abb9201600155610993565b919091610b0d57606060039160018060a01b03808251166bffffffffffffffffffffffff60a01b9081875416178655600186019160208401511690825416179055604081015160028501550151910155565b634e487b7160e01b600052600060045260246000fd5b8054600160401b811015610a0c57610b4091600182018155610965565b819291549060031b91821b91600019901b1916179055565b919082018092116109da57565b3415610c1b5760408051610b78816109f0565b338152610b976000918260208201523484820152426060820152610a9c565b6001546000198101908111610c075790610bbc83923383526002602052838320610b23565b338152600360205281812081805260205220610bd9348254610b58565b9055513481527fb5d7700fb0cf415158b8db7cc7c39f0eab16a825c92e221404b4c8bb099b4bbb60203392a2565b634e487b7160e01b82526011600452602482fd5b604051631f2a200560e01b8152600490fd5b6000546001600160a01b03163303610c4157565b60405163118cdaa760e01b8152336004820152602490fdfea26469706673582212209fcfc192f044f6f077b47741bac67ff6c3a818e2d211e25ee70bbc3a7b91e95964736f6c63430008160033",
+  "devdoc": {
+    "errors": {
+      "OwnableInvalidOwner(address)": [
+        {
+          "details": "The owner is not a valid owner account. (eg. `address(0)`)"
+        }
+      ],
+      "OwnableUnauthorizedAccount(address)": [
+        {
+          "details": "The caller account is not authorized to perform an operation."
+        }
+      ]
+    },
+    "kind": "dev",
+    "methods": {
+      "depositERC20(address,uint256)": {
+        "params": {
+          "amount": "The amount to deposit",
+          "token": "The token contract address"
+        }
+      },
+      "emergencyWithdraw(address,address)": {
+        "params": {
+          "to": "The recipient address",
+          "token": "The token address (address(0) for native)"
+        }
+      },
+      "getDeposit(uint256)": {
+        "params": {
+          "index": "The deposit index"
+        }
+      },
+      "getUserBalance(address,address)": {
+        "params": {
+          "token": "The token address (address(0) for native)",
+          "user": "The user address"
+        }
+      },
+      "getUserDepositCount(address)": {
+        "params": {
+          "user": "The user address"
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      },
+      "withdrawERC20(address,address,uint256)": {
+        "params": {
+          "amount": "The amount to withdraw",
+          "token": "The token contract address",
+          "user": "The user to withdraw for"
+        }
+      },
+      "withdrawNative(address,uint256)": {
+        "params": {
+          "amount": "The amount to withdraw",
+          "user": "The user to withdraw for"
+        }
+      }
+    },
+    "title": "Escrow - Receives token and native deposits from minimal wallets",
+    "version": 1
+  },
+  "userdoc": {
+    "errors": {
+      "InsufficientBalance()": [
+        {
+          "notice": "Errors"
+        }
+      ]
+    },
+    "events": {
+      "NativeDeposited(address,uint256)": {
+        "notice": "Events"
+      }
+    },
+    "kind": "user",
+    "methods": {
+      "depositERC20(address,uint256)": {
+        "notice": "Deposit ERC-20 tokens"
+      },
+      "depositNative()": {
+        "notice": "Deposit native currency (ETH/HBAR/FLOW)"
+      },
+      "deposits(uint256)": {
+        "notice": "Array of all deposits"
+      },
+      "emergencyWithdraw(address,address)": {
+        "notice": "Emergency withdrawal of all funds (owner only)"
+      },
+      "getDeposit(uint256)": {
+        "notice": "Get deposit details by index"
+      },
+      "getTotalDepositCount()": {
+        "notice": "Get total deposit count"
+      },
+      "getUserBalance(address,address)": {
+        "notice": "Get user's balance for a specific token"
+      },
+      "getUserDepositCount(address)": {
+        "notice": "Get user's deposit count"
+      },
+      "userDeposits(address,uint256)": {
+        "notice": "Mapping from user to their deposit indices"
+      },
+      "userTokenBalances(address,address)": {
+        "notice": "Mapping from user to token to total deposited amount"
+      },
+      "withdrawERC20(address,address,uint256)": {
+        "notice": "Withdraw ERC-20 tokens (owner only)"
+      },
+      "withdrawNative(address,uint256)": {
+        "notice": "Withdraw native currency (owner only)"
+      }
+    },
+    "notice": "Holds user funds deposited via session keys for future use",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 1533,
+        "contract": "contracts/Escrow.sol:Escrow",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 9341,
+        "contract": "contracts/Escrow.sol:Escrow",
+        "label": "deposits",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_array(t_struct(Deposit)9336_storage)dyn_storage"
+      },
+      {
+        "astId": 9347,
+        "contract": "contracts/Escrow.sol:Escrow",
+        "label": "userDeposits",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_address,t_array(t_uint256)dyn_storage)"
+      },
+      {
+        "astId": 9354,
+        "contract": "contracts/Escrow.sol:Escrow",
+        "label": "userTokenBalances",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_struct(Deposit)9336_storage)dyn_storage": {
+        "base": "t_struct(Deposit)9336_storage",
+        "encoding": "dynamic_array",
+        "label": "struct Escrow.Deposit[]",
+        "numberOfBytes": "32"
+      },
+      "t_array(t_uint256)dyn_storage": {
+        "base": "t_uint256",
+        "encoding": "dynamic_array",
+        "label": "uint256[]",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_address,t_array(t_uint256)dyn_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256[])",
+        "numberOfBytes": "32",
+        "value": "t_array(t_uint256)dyn_storage"
+      },
+      "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => mapping(address => uint256))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_address,t_uint256)"
+      },
+      "t_mapping(t_address,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_struct(Deposit)9336_storage": {
+        "encoding": "inplace",
+        "label": "struct Escrow.Deposit",
+        "members": [
+          {
+            "astId": 9329,
+            "contract": "contracts/Escrow.sol:Escrow",
+            "label": "user",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address"
+          },
+          {
+            "astId": 9331,
+            "contract": "contracts/Escrow.sol:Escrow",
+            "label": "token",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address"
+          },
+          {
+            "astId": 9333,
+            "contract": "contracts/Escrow.sol:Escrow",
+            "label": "amount",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 9335,
+            "contract": "contracts/Escrow.sol:Escrow",
+            "label": "timestamp",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "128"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
