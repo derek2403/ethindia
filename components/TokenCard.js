@@ -7,7 +7,8 @@ const TokenCard = ({
   chainId, 
   userAddress, 
   transferAmounts, 
-  onTransferAmountChange 
+  onTransferAmountChange,
+  tokenPrice = null 
 }) => {
   const { balance, isLoading, error } = useTokenBalance(chainId, token.address, userAddress);
   const balanceFormatted = formatBalance(balance, token.decimals);
@@ -61,7 +62,18 @@ const TokenCard = ({
             <div className="text-lg font-semibold">
               {balanceFormatted} {token.symbol}
             </div>
-            <div className="text-xs text-gray-500">Available</div>
+            {tokenPrice ? (
+              <div className="space-y-1">
+                <div className="text-sm text-green-600 font-medium">
+                  ${tokenPrice.formatted}
+                </div>
+                <div className="text-xs text-gray-600">
+                  ≈ ${(balanceNum * tokenPrice.price).toFixed(2)} USD
+                </div>
+              </div>
+            ) : (
+              <div className="text-xs text-gray-500">Available</div>
+            )}
           </div>
         )}
       </div>
@@ -114,6 +126,11 @@ const TokenCard = ({
             <div className="mt-2 p-2 bg-blue-50 rounded border border-blue-200">
               <p className="text-xs text-blue-800">
                 Selected: <span className="font-semibold">{transferAmount.toFixed(4)} {token.symbol}</span>
+                {tokenPrice && (
+                  <span className="text-blue-600 ml-1">
+                    (≈ ${(transferAmount * tokenPrice.price).toFixed(2)} USD)
+                  </span>
+                )}
                 <span className="text-blue-600 ml-1">
                   ({((transferAmount/balanceNum)*100).toFixed(1)}% of balance)
                 </span>

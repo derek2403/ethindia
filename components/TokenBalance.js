@@ -5,7 +5,7 @@ import { createTransferKey } from '../lib/tokenUtils';
 import ChainSection from './ChainSection';
 import TransferSummary from './TransferSummary';
 
-export default function TokenBalance({ transferAmounts = {}, setTransferAmounts }) {
+export default function TokenBalance({ transferAmounts = {}, setTransferAmounts, tokenPrices = {}, pricesLoading = false, pricesError = null }) {
   const { address, isConnected } = useAccount();
 
   const handleTransferAmountChange = (tokenSymbol, chainId, value) => {
@@ -31,6 +31,8 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts 
           (Sepolia • Flow EVM • Hedera)
         </span>
       </h2>
+
+      
       
       <div className="space-y-8">
         {CHAIN_CONFIGS.map(chain => (
@@ -40,6 +42,7 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts 
             userAddress={address}
             transferAmounts={transferAmounts}
             onTransferAmountChange={handleTransferAmountChange}
+            tokenPrices={tokenPrices}
           />
         ))}
       </div>

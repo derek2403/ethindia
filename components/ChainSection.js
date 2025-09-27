@@ -5,7 +5,8 @@ const ChainSection = ({
   chain, 
   userAddress, 
   transferAmounts, 
-  onTransferAmountChange 
+  onTransferAmountChange,
+  tokenPrices = {} 
 }) => {
   // Get all tokens for this chain (native + ERC20s)
   const allTokens = [
@@ -34,6 +35,7 @@ const ChainSection = ({
             userAddress={userAddress}
             transferAmounts={transferAmounts}
             onTransferAmountChange={onTransferAmountChange}
+            tokenPrice={tokenPrices[token.symbol]}
           />
         ))}
       </div>
