@@ -22,8 +22,8 @@ export const Header = ({ showNavigation = false }) => {
       
       {/* Navigation - Absolutely centered */}
       {showNavigation && (
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <nav className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-2xl px-6 py-3">
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center h-full">
+          <nav className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-2xl px-6 py-2">
             <div className="flex items-center space-x-8">
               <Link href="/" className="text-white/80 hover:text-white transition-colors font-medium">
                 Home
