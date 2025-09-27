@@ -106,21 +106,29 @@ export default function LandingPage() {
       </Head>
 
       <AuroraBackground className="relative isolate grid h-dvh grid-rows-[auto,1fr] overflow-hidden bg-black">
-        {/* Payment Cards */}
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center gap-8 flex-col md:flex-row px-4 md:px-0">
-          {/* Payment Breakdown Card */}
-          <div className="glass-card flex flex-col justify-start p-6 relative">
-            <BorderBeam 
-              size={120}
-              duration={4}
-              colorFrom="#ffffff"
-              colorTo="#ffffff80"
-              delay={0}
-            />
-            <div className="text-white/90">
-              <h2 className="text-lg font-semibold text-white mb-6 text-center">$100 Payment Example</h2>
-              
-              <div className="space-y-3 mb-6">
+        {/* Header and Payment Cards */}
+        <div className="pointer-events-none absolute inset-0 flex items-start justify-center pt-32 md:pt-40">
+          <div className="flex flex-col items-center gap-8">
+            {/* Header */}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center max-w-4xl leading-tight">
+              Pay with any combination of any token on any chain.
+            </h1>
+            
+            {/* Payment Cards Container */}
+            <div className="flex gap-8 flex-col md:flex-row px-4 md:px-0">
+              {/* Payment Breakdown Card */}
+              <div className="glass-card flex flex-col justify-start p-6 relative">
+                <BorderBeam 
+                  size={120}
+                  duration={4}
+                  colorFrom="#ffffff"
+                  colorTo="#ffffff80"
+                  delay={0}
+                />
+                <div className="text-white/90">
+                  <h2 className="text-lg font-semibold text-white mb-6 text-center">$100 Payment Example</h2>
+                  
+                  <div className="space-y-3 mb-6">
                 {/* HBAR Payment */}
                 <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
                   <div className="flex items-center gap-3">
@@ -190,17 +198,17 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="border-t border-white/20 pt-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-semibold">Total Payment</span>
-                  <span className="text-white font-bold text-lg">$100.00</span>
+                  <div className="border-t border-white/20 pt-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-white font-semibold">Total Payment</span>
+                      <span className="text-white font-bold text-lg">$100.00</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Animated Transition Arrow */}
-          <div className="hidden md:flex items-center justify-center">
+              {/* Animated Transition Arrow */}
+              <div className="hidden md:flex items-center justify-center">
             <div className="relative flex items-center">
               {/* Flowing dots */}
               <div className="flex items-center gap-2">
@@ -247,10 +255,10 @@ export default function LandingPage() {
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-white/40 whitespace-nowrap">
               Swaps & Bridges
             </div>
-          </div>
+              </div>
 
-          {/* Mobile Transition (vertical) */}
-          <div className="md:hidden flex flex-col items-center justify-center">
+              {/* Mobile Transition (vertical) */}
+              <div className="md:hidden flex flex-col items-center justify-center">
             <div className="relative flex flex-col items-center">
               {/* Flowing dots */}
               <div className="flex flex-col items-center gap-2 my-2">
@@ -295,18 +303,18 @@ export default function LandingPage() {
             <div className="text-xs text-white/40 whitespace-nowrap">
               Swaps & Bridges
             </div>
-          </div>
+              </div>
 
-          {/* Merchant Received Card */}
-          <div className="glass-card flex flex-col justify-start p-6 relative">
-            <BorderBeam 
-              size={120}
-              duration={4}
-              colorFrom="#ffffff80"
-              colorTo="#ffffff"
-              delay={2}
-            />
-            <div className="text-white/90">
+              {/* Merchant Received Card */}
+              <div className="glass-card flex flex-col justify-start p-6 relative">
+                <BorderBeam 
+                  size={120}
+                  duration={4}
+                  colorFrom="#ffffff80"
+                  colorTo="#ffffff"
+                  delay={2}
+                />
+                <div className="text-white/90">
               <h2 className="text-lg font-semibold text-white mb-6 text-center">Merchant Receives</h2>
               
               <div className="space-y-3 mb-6">
@@ -345,15 +353,17 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="border-t border-white/20 pt-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-semibold">Total Received</span>
-                  <span className="text-white font-bold text-lg">$100.00</span>
-                </div>
-              </div>
+                  <div className="border-t border-white/20 pt-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-white font-semibold">Total Received</span>
+                      <span className="text-white font-bold text-lg">$100.00</span>
+                    </div>
+                  </div>
 
-              <div className="mt-4 text-xs text-white/60 text-center">
-                Customizable allocation rules
+                  <div className="mt-4 text-xs text-white/60 text-center">
+                    Customizable allocation rules
+                  </div>
+                </div>
               </div>
             </div>
           </div>
