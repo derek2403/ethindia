@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useAccount } from 'wagmi'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 import QRCode from 'qrcode'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Header } from '@/components/Header'
 import { Spotlight } from '@/components/ui/spotlight-new'
 import ChainSelector from '@/components/ChainSelector'
 import PortfolioChart from '@/components/PortfolioChart'
@@ -293,8 +293,13 @@ const MerchantPage = () => {
           xOffset={120}
         />
         <div className="relative z-10">
-        <Header />
-          <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+          {/* Simple header with just connect button */}
+          <div className="flex justify-end pt-8 pr-16">
+            <div className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-2xl p-1">
+              <ConnectButton />
+            </div>
+          </div>
+          <div className="flex items-center justify-center h-[calc(100vh-120px)]">
             <div className="glass-card p-8 text-center">
               <h1 className="text-2xl font-bold mb-4 text-white/90">Connect Your Wallet</h1>
               <p className="text-white/70">Please connect your wallet to set up payment claiming preferences</p>
@@ -321,8 +326,13 @@ const MerchantPage = () => {
         />
       </div>
       <div className="relative z-10">
-      <Header />
-        <div className="max-w-7xl mx-auto p-3 h-[calc(100vh-70px)]">
+        {/* Simple header with just connect button */}
+        <div className="flex justify-end pt-8 pr-16 pb-4">
+          <div className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-2xl p-1">
+            <ConnectButton />
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto p-3 h-[calc(100vh-120px)]">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 h-full">
             {/* Left Panel - Payment Chain Selection */}
