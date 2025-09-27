@@ -70,33 +70,27 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
 
   if (isLoading) {
     return (
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '200px 1fr 120px',
-        alignItems: 'center',
-        gap: '16px',
-        padding: '16px 0',
-        borderBottom: '1px solid rgba(255,255,255,0.1)',
-        opacity: 0.5
-      }}>
-        <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-          <TokenWithChain 
-            tokenSrc={token.logo} 
-            chainSrc={chain.icon} 
-            tokenAlt={token.symbol} 
-            chainAlt={chain.name}
-          />
-          <div>
-            <div style={{color: 'white', fontWeight: '600', fontSize: '14px'}}>
+      <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_120px] gap-4 md:gap-4 p-4 md:py-4 md:px-0 border-b border-white/10 rounded-lg md:rounded-none opacity-50">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="flex-shrink-0">
+            <TokenWithChain 
+              tokenSrc={token.logo} 
+              chainSrc={chain.icon} 
+              tokenAlt={token.symbol} 
+              chainAlt={chain.name}
+            />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="font-semibold text-sm text-white truncate">
               {token.symbol}
             </div>
-            <div style={{fontSize: '11px', color: '#9ca3af'}}>
+            <div className="text-xs text-gray-400">
               Loading balance...
             </div>
           </div>
         </div>
-        <div></div>
-        <div></div>
+        <div className="order-3 md:order-2"></div>
+        <div className="order-2 md:order-3"></div>
       </div>
     );
   }
@@ -123,59 +117,41 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
   };
 
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: '200px 1fr 120px',
-      alignItems: 'center',
-      gap: '16px',
-      padding: '16px 0',
-      borderBottom: '1px solid rgba(255,255,255,0.1)',
+    <div className="grid grid-cols-1 md:grid-cols-[200px_1fr_120px] gap-4 md:gap-4 p-4 md:py-4 md:px-0 border-b border-white/10 rounded-lg md:rounded-none" style={{
       background: transferAmount > 0 ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
-      borderRadius: transferAmount > 0 ? '6px' : '0',
-      paddingLeft: transferAmount > 0 ? '12px' : '0',
-      paddingRight: transferAmount > 0 ? '12px' : '0'
+      paddingLeft: transferAmount > 0 ? '12px' : '16px',
+      paddingRight: transferAmount > 0 ? '12px' : '16px'
     }}>
-      {/* Asset Info - Fixed width column */}
-      <div style={{display: 'flex', alignItems: 'center', gap: '12px'}}>
-        <TokenWithChain 
-          tokenSrc={token.logo} 
-          chainSrc={chain.icon} 
-          tokenAlt={token.symbol} 
-          chainAlt={chain.name}
-        />
-        <div>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            marginBottom: '2px'
-          }}>
-            <span style={{
-              fontWeight: '600',
-              fontSize: '14px',
-              color: transferAmount > 0 ? '#ffffff' : 'white'
-            }}>
+      {/* Asset Info - Responsive column */}
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="flex-shrink-0">
+          <TokenWithChain 
+            tokenSrc={token.logo} 
+            chainSrc={chain.icon} 
+            tokenAlt={token.symbol} 
+            chainAlt={chain.name}
+          />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
+            <span className="font-semibold text-sm text-white truncate">
               {token.symbol}
             </span>
             {price > 0 && (
-              <span style={{
-                fontSize: '12px',
-                color: '#6b7280',
-                fontWeight: '500'
-              }}>
+              <span className="text-xs text-gray-400 font-medium">
                 ${price.toFixed(2)}
               </span>
             )}
           </div>
-          <div>
-            <div style={{fontSize: '11px', color: '#9ca3af'}}>
+          <div className="space-y-1">
+            <div className="text-xs text-gray-400 truncate">
               Available: {balanceFormatted} {token.symbol}
               {balanceUsd > 0 && (
-                <span style={{color: '#6b7280'}}> (${balanceUsd.toFixed(2)})</span>
+                <span className="text-gray-500"> (${balanceUsd.toFixed(2)})</span>
               )}
             </div>
             {transferAmount > 0 && (
-              <div style={{fontSize: '11px', color: '#ef4444', marginTop: '1px'}}>
+              <div className="text-xs text-red-400">
                 Selected: {transferAmount.toFixed(4)} {token.symbol} (${(transferAmount * price).toFixed(2)})
               </div>
             )}
@@ -183,54 +159,32 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
         </div>
       </div>
 
-      {/* Slider - Flexible center column */}
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '4px',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%'
-      }}>
+      {/* Slider - Responsive column */}
+      <div className="flex flex-col gap-2 justify-center items-center w-full order-3 md:order-2">
         <input
           type="range"
           min="0"
           max="100"
           value={transferPercentage}
           onChange={(e) => handleSliderChange(Number(e.target.value))}
+          className="w-full h-1.5 rounded appearance-none cursor-pointer"
           style={{
-            width: '100%',
-            margin: '0',
-            cursor: 'pointer',
             accentColor: '#ffffff',
-            WebkitAppearance: 'none',
-            appearance: 'none',
-            background: `linear-gradient(to right, #ffffff 0%, #ffffff ${transferPercentage}%, rgba(255,255,255,0.2) ${transferPercentage}%, rgba(255,255,255,0.2) 100%)`,
-            height: '6px',
-            borderRadius: '3px'
+            background: `linear-gradient(to right, #ffffff 0%, #ffffff ${transferPercentage}%, rgba(255,255,255,0.2) ${transferPercentage}%, rgba(255,255,255,0.2) 100%)`
           }}
         />
 
-        <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#6b7280', width: '100%'}}>
+        <div className="flex justify-between text-xs text-gray-400 w-full">
           <span>0%</span>
           <span>50%</span>
           <span>100%</span>
         </div>
       </div>
 
-      {/* Allocation Display - Fixed width column */}
-      <div style={{textAlign: 'right'}}>
-        <div style={{position: 'relative', marginBottom: '4px'}}>
-          <span style={{
-            position: 'absolute',
-            left: '8px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            fontSize: '14px',
-            color: '#ffffff',
-            fontWeight: '600',
-            pointerEvents: 'none'
-          }}>
+      {/* USD Input - Responsive column */}
+      <div className="text-center md:text-right order-2 md:order-3">
+        <div className="relative mb-2">
+          <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-sm text-white font-semibold pointer-events-none">
             $
           </span>
           <input
@@ -240,34 +194,16 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
             step="0.01"
             value={transferAmount * price ? (transferAmount * price).toFixed(2) : ''}
             onChange={(e) => handleUsdInputChange(parseFloat(e.target.value) || 0)}
+            className="w-full sm:w-32 md:w-full pl-6 pr-2 py-2 text-sm font-semibold text-white bg-white/10 border border-white/20 rounded-lg text-right outline-none backdrop-blur-sm focus:border-white/40 focus:bg-white/15 transition-all"
             style={{
-              width: '100%',
-              padding: '8px 8px 8px 20px',
-              fontSize: '14px',
-              fontWeight: '600',
-              color: '#ffffff',
-              background: 'rgba(255, 255, 255, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '6px',
-              textAlign: 'right',
-              outline: 'none',
-              backdropFilter: 'blur(4px)',
               WebkitAppearance: 'none',
               MozAppearance: 'textfield'
-            }}
-            onFocus={(e) => {
-              e.target.style.border = '1px solid rgba(255, 255, 255, 0.4)';
-              e.target.style.background = 'rgba(255, 255, 255, 0.15)';
-            }}
-            onBlur={(e) => {
-              e.target.style.border = '1px solid rgba(255, 255, 255, 0.2)';
-              e.target.style.background = 'rgba(255, 255, 255, 0.1)';
             }}
             placeholder="0.00"
           />
         </div>
-        <div style={{fontSize: '12px', color: '#6b7280'}}>
-          Slider: {transferPercentage.toFixed(1)}% • {transferAmount.toFixed(4)} {token.symbol}
+        <div className="text-xs text-gray-400 truncate">
+          {transferPercentage.toFixed(1)}% • {transferAmount.toFixed(4)} {token.symbol}
         </div>
       </div>
     </div>
