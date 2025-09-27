@@ -9,6 +9,7 @@ import PortfolioChart from '@/components/PortfolioChart'
 import TokenGrid from '@/components/TokenGrid'
 import PortfolioSummary from '@/components/PortfolioSummary'
 import TokenModal from '@/components/TokenModal'
+import QRDisplay from '@/components/QRDisplay'
 import {
   Chart as ChartJS,
   ArcElement,
@@ -24,8 +25,8 @@ const QRPage = () => {
   const [selectedChains, setSelectedChains] = useState({})
   const [currentChain, setCurrentChain] = useState('mainnet')
   const [qrDataUrl, setQrDataUrl] = useState('')
-  const [isAddingTokens, setIsAddingTokens] = useState(true)
   const [showTokenModal, setShowTokenModal] = useState(false)
+  const [showQRModal, setShowQRModal] = useState(false)
   const [selectedToken, setSelectedToken] = useState('')
   const [tokenAllocation, setTokenAllocation] = useState(10)
 
@@ -180,7 +181,7 @@ const QRPage = () => {
     try {
       const qrCodeDataUrl = await QRCode.toDataURL(JSON.stringify(qrData))
       setQrDataUrl(qrCodeDataUrl)
-      setIsAddingTokens(false)
+      setShowQRModal(true)
     } catch (error) {
       console.error('Error generating QR code:', error)
       alert('Error generating QR code')
@@ -207,8 +208,8 @@ const QRPage = () => {
     setSelectedToken('')
     setTokenAllocation(10)
     setQrDataUrl('')
-    setIsAddingTokens(true)
     setShowTokenModal(false)
+    setShowQRModal(false)
   }
 
   const chartOptions = {
@@ -292,145 +293,48 @@ const QRPage = () => {
         <Header />
         <div className="max-w-7xl mx-auto p-3 h-[calc(100vh-70px)]">
 
-        {isAddingTokens ? (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 h-full">
-            {/* Left Panel - Chain Selection */}
-            <div className="lg:col-span-1 h-full flex flex-col">
-              <ChainSelector
-                chains={chains}
-                currentChain={currentChain}
-                setCurrentChain={setCurrentChain}
-                selectedChains={selectedChains}
-              />
-              <PortfolioSummary
-                selectedChains={selectedChains}
-                chains={chains}
-                tokensByChain={tokensByChain}
-                totalAllocation={totalAllocation}
-                removeToken={removeToken}
-              />
-            </div>
-
-            {/* Center Panel - Portfolio Allocation */}
-            <div className="lg:col-span-1 h-full">
-              <PortfolioChart
-                totalAllocation={totalAllocation}
-                chartData={chartData}
-                chartOptions={chartOptions}
-                generateQRCode={generateQRCode}
-                resetSelection={resetSelection}
-                selectedChains={selectedChains}
-              />
-            </div>
-
-            {/* Right Panel - Available Tokens */}
-            <div className="lg:col-span-1 h-full">
-              <TokenGrid
-                chains={chains}
-                currentChain={currentChain}
-                tokensByChain={tokensByChain}
-                selectedChains={selectedChains}
-                handleTokenClick={handleTokenClick}
-                totalAllocation={totalAllocation}
-              />
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 h-full">
+          {/* Left Panel - Chain Selection */}
+          <div className="lg:col-span-1 h-full flex flex-col">
+            <ChainSelector
+              chains={chains}
+              currentChain={currentChain}
+              setCurrentChain={setCurrentChain}
+              selectedChains={selectedChains}
+            />
+            <PortfolioSummary
+              selectedChains={selectedChains}
+              chains={chains}
+              tokensByChain={tokensByChain}
+              totalAllocation={totalAllocation}
+              removeToken={removeToken}
+            />
           </div>
-        ) : (
-          /* QR Code Display */
-              <div className="text-center space-y-8">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-                🎉 Your Portfolio QR Code
-              </h2>
-              <p className="text-white/70">Scan this QR code to share your portfolio allocation</p>
-            </div>
-            
-            {qrDataUrl && (
-              <div className="flex flex-col items-center space-y-6">
-                {/* QR Code with enhanced styling */}
-                <div className="relative p-6 glass-card">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl"></div>
-                  <div className="relative">
-                    <img 
-                      src={qrDataUrl} 
-                      alt="Portfolio QR Code" 
-                      className="rounded-xl shadow-lg" 
-                      style={{ width: '300px', height: '300px' }}
-                    />
-                  </div>
-                </div>
-                
-                {/* Portfolio Summary */}
-                <div className="glass-card p-6 max-w-2xl w-full">
-                  <h3 className="font-semibold mb-4 text-lg text-white/90">📊 Portfolio Summary</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    {Object.entries(selectedChains).map(([chain, tokens]) => (
-                      <div key={chain} className="bg-white/5 border border-white/20 p-4 rounded-lg backdrop-blur-sm">
-                        <h4 className="font-medium text-blue-400 mb-2 capitalize">
-                          {chains.find(c => c.id === chain)?.name || chain}
-                        </h4>
-                        <div className="space-y-1">
-                          {Object.entries(tokens).map(([token, allocation]) => (
-                            <div key={token} className="flex justify-between text-sm">
-                              <span className="font-medium text-white/90">{token}</span>
-                              <span className="text-white/70">{allocation}%</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex justify-between items-center pt-3 border-t border-white/20">
-                    <span className="font-semibold text-white/90">Total Allocation:</span>
-                    <span className={`font-bold text-lg ${
-                      totalAllocation === 100 ? 'text-green-400' : 'text-blue-400'
-                    }`}>
-                      {totalAllocation.toFixed(1)}%
-                    </span>
-                  </div>
-                </div>
-                
-                {/* JSON Data - Collapsible */}
-                <details className="w-full max-w-2xl">
-                  <summary className="cursor-pointer bg-white/10 hover:bg-white/20 border border-white/20 p-3 rounded-lg font-medium text-white/80 transition-colors backdrop-blur-sm">
-                    🔧 View Raw JSON Data
-                  </summary>
-                  <div className="mt-3 bg-black/50 border border-white/20 text-green-400 p-4 rounded-lg font-mono text-sm overflow-auto backdrop-blur-sm">
-                    <pre>
-                      {JSON.stringify({
-                        walletAddress: address,
-                        ...selectedChains
-                      }, null, 2)}
-                    </pre>
-                  </div>
-                </details>
-                
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-                  <button
-                    onClick={resetSelection}
-                    className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 font-medium flex items-center justify-center space-x-2"
-                  >
-                    <span>🔄</span>
-                    <span>Create New Portfolio</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      const link = document.createElement('a')
-                      link.download = `portfolio-qr-${Date.now()}.png`
-                      link.href = qrDataUrl
-                      link.click()
-                    }}
-                    className="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-all duration-200 font-medium flex items-center justify-center space-x-2"
-                  >
-                    <span>💾</span>
-                    <span>Download QR Code</span>
-                  </button>
-                </div>
-              </div>
-            )}
+
+          {/* Center Panel - Portfolio Allocation */}
+          <div className="lg:col-span-1 h-full">
+            <PortfolioChart
+              totalAllocation={totalAllocation}
+              chartData={chartData}
+              chartOptions={chartOptions}
+              generateQRCode={generateQRCode}
+              resetSelection={resetSelection}
+              selectedChains={selectedChains}
+            />
           </div>
-        )}
+
+          {/* Right Panel - Available Tokens */}
+          <div className="lg:col-span-1 h-full">
+            <TokenGrid
+              chains={chains}
+              currentChain={currentChain}
+              tokensByChain={tokensByChain}
+              selectedChains={selectedChains}
+              handleTokenClick={handleTokenClick}
+              totalAllocation={totalAllocation}
+            />
+          </div>
+        </div>
 
         </div>
       </div>
@@ -446,6 +350,17 @@ const QRPage = () => {
         setTokenAllocation={setTokenAllocation}
         totalAllocation={totalAllocation}
         addTokenToPortfolio={addTokenToPortfolio}
+      />
+      
+      <QRDisplay
+        showQRModal={showQRModal}
+        setShowQRModal={setShowQRModal}
+        qrDataUrl={qrDataUrl}
+        selectedChains={selectedChains}
+        chains={chains}
+        totalAllocation={totalAllocation}
+        address={address}
+        resetSelection={resetSelection}
       />
     </div>
   )
