@@ -46,7 +46,6 @@ contract Escrow {
      */
     function deposit(address _merchant, address _token, uint256 _amount) external payable {
         require(_merchant != address(0), "Invalid merchant address");
-        require(_merchant != msg.sender, "Payer and merchant cannot be the same");
         
         if (_token == address(0)) {
             // ETH deposit
