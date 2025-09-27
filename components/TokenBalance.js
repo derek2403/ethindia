@@ -114,7 +114,7 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
       gap: '16px',
       padding: '16px 0',
       borderBottom: '1px solid rgba(255,255,255,0.1)',
-      background: transferAmount > 0 ? 'rgba(96, 165, 250, 0.1)' : 'transparent',
+      background: transferAmount > 0 ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
       borderRadius: transferAmount > 0 ? '6px' : '0',
       paddingLeft: transferAmount > 0 ? '12px' : '0',
       paddingRight: transferAmount > 0 ? '12px' : '0'
@@ -137,7 +137,7 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
             <span style={{
               fontWeight: '600',
               fontSize: '14px',
-              color: transferAmount > 0 ? '#60a5fa' : 'white'
+              color: transferAmount > 0 ? '#ffffff' : 'white'
             }}>
               {token.symbol}
             </span>
@@ -186,10 +186,10 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
             width: '100%',
             margin: '0',
             cursor: 'pointer',
-            accentColor: '#60a5fa',
+            accentColor: '#ffffff',
             WebkitAppearance: 'none',
             appearance: 'none',
-            background: `linear-gradient(to right, #60a5fa 0%, #60a5fa ${transferPercentage}%, rgba(255,255,255,0.2) ${transferPercentage}%, rgba(255,255,255,0.2) 100%)`,
+            background: `linear-gradient(to right, #ffffff 0%, #ffffff ${transferPercentage}%, rgba(255,255,255,0.2) ${transferPercentage}%, rgba(255,255,255,0.2) 100%)`,
             height: '6px',
             borderRadius: '3px'
           }}
@@ -207,7 +207,7 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
         <div style={{
           fontWeight: '600',
           fontSize: '16px',
-          color: transferAmount > 0 ? '#60a5fa' : 'white'
+          color: transferAmount > 0 ? '#ffffff' : 'white'
         }}>
           ${(transferAmount * price).toFixed(2)}
         </div>
