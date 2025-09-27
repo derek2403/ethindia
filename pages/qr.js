@@ -659,8 +659,27 @@ const QRPage = () => {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
           <div className="glass-card max-w-sm w-full p-6">
             <div className="text-center mb-6">
-              <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
-                <Plus className="w-6 h-6 text-white/70" />
+              <div className="relative w-16 h-16 mx-auto mb-3">
+                {/* Token Icon */}
+                <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center p-3">
+                  <Image
+                    src={tokensByChain[currentChain]?.find(t => t.name === selectedToken)?.icon || '/icons/ethereum-eth-logo.svg'}
+                    alt={selectedToken}
+                    width={40}
+                    height={40}
+                    className="w-10 h-10"
+                  />
+                </div>
+                {/* Mini Chain Icon Overlay */}
+                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-black/80 rounded-full p-1 border border-white/20 shadow-lg">
+                  <Image
+                    src={chains.find(c => c.id === currentChain)?.icon || '/icons/ethereum-eth-logo.svg'}
+                    alt={chains.find(c => c.id === currentChain)?.name || currentChain}
+                    width={16}
+                    height={16}
+                    className="w-4 h-4"
+                  />
+                </div>
               </div>
               <h3 className="text-xl font-bold text-white/90 mb-2">
                 Add {selectedToken} to Portfolio
