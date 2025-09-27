@@ -284,15 +284,6 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
             tokenPrice={tokenPrices[token.symbol]}
           />
         ))}
-
-        <div style={{
-          textAlign: 'right',
-          marginTop: '16px',
-          fontSize: '12px',
-          color: '#6b7280'
-        }}>
-          Based on Chainlink Data Feeds
-        </div>
       </div>
 
       <TransferSummary transferAmounts={transferAmounts} />
