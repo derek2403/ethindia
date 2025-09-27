@@ -16,14 +16,14 @@ export const Header = ({ showNavigation = false }) => {
       href: "/transfer",
     },
     {
-      title: "QR Code",
+      title: "Merchant",
       icon: <IconWallet className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: "/qr",
+      href: "/merchant",
     },
   ];
 
   return (
-    <header className="flex items-center justify-between pt-8 pb-4 px-16">
+    <header className="relative flex items-center pt-8 pb-4 px-16">
       {/* Logo and App Name - Left */}
       <div className="flex items-center gap-4">
         <Image 
@@ -38,9 +38,9 @@ export const Header = ({ showNavigation = false }) => {
         </div>
       </div>
       
-      {/* Navigation - Center (conditional) */}
+      {/* Navigation - Absolutely centered */}
       {showNavigation && (
-        <div className="flex-1 flex justify-center">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <FloatingDock 
             items={navItems}
             desktopClassName="bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl"
@@ -48,8 +48,8 @@ export const Header = ({ showNavigation = false }) => {
         </div>
       )}
       
-      {/* Spacer when navigation is hidden */}
-      {!showNavigation && <div className="flex-1"></div>}
+      {/* Spacer to push connect button to the right */}
+      <div className="flex-1"></div>
       
       {/* Connect Button - Right */}
       <div className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-2xl p-1">
