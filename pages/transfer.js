@@ -496,7 +496,6 @@ export default function Transfer() {
               onTransfer={signAndRelay}
               transferStatus={relayStatus}
               txResults={txResults}
-              merchant={merchant}
               isConnected={isConnected}
               account={account}
             />

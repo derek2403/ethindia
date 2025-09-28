@@ -249,8 +249,6 @@ export default function TokenBalance({
   onTransfer = null,
   transferStatus = '',
   txResults = null,
-  merchant = '',
-  setMerchant = () => {},
   isConnected = false,
   account = ''
 }) {
@@ -395,38 +393,18 @@ export default function TokenBalance({
         <TransferSummary transferAmounts={transferAmounts} tokenPrices={tokenPrices} />
       </div>
 
-      {/* Merchant Address Input */}
-      {hasTokensSelected && (
-        <div className="mt-6 p-4 glass-card border border-white/10 rounded-lg">
-          <h3 className="text-lg font-semibold text-white mb-3">Merchant Address</h3>
-          <input
-            type="text"
-            placeholder="0xMerchant... (who will receive the payments)"
-            value={merchant}
-            onChange={(e) => setMerchant(e.target.value)}
-            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-white/40 focus:outline-none transition-all duration-200"
-          />
-          {account && (
-            <p className="text-sm text-white/60 mt-2">
-              Connected: {account.slice(0, 6)}…{account.slice(-4)}
-            </p>
-          )}
-        </div>
-      )}
 
       {/* Transfer Button */}
       <div className="flex justify-center mt-6">
         <button
           onClick={handleTransfer}
-          disabled={!isConnected || !hasTokensSelected || !merchant}
+          disabled={!isConnected || !hasTokensSelected}
           className="px-8 py-4 bg-white/10 hover:bg-white/20 disabled:bg-white/5 disabled:text-white/40 text-white font-medium rounded-lg border border-white/20 hover:border-white/30 transition-all duration-200 text-lg"
         >
           {!isConnected
             ? 'Connect Wallet'
             : !hasTokensSelected
             ? 'Select tokens to transfer'
-            : !merchant
-            ? 'Enter merchant address'
             : 'Sign & Send Transfer'}
         </button>
       </div>
