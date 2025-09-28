@@ -10,32 +10,45 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { command, args } = req.body;
-
-    if (!command || !args) {
-      return res.status(400).json({ error: 'Missing command or args' });
-    }
+    const { command, scriptName } = req.body;
 
     // Validate command is the expected LayerZero OFT send
     if (command !== 'lz:oft:send') {
       return res.status(400).json({ error: 'Invalid command' });
     }
 
-    // Build the hardhat command
-    const hardhatPath = path.join(process.cwd(), 'Hedera-OP', 'my-lz-oapp');
-    let hardhatCommand = `cd "${hardhatPath}" && npx hardhat ${command}`;
+    // Build the shell script command with correct environment
+    const scriptPath = path.join(process.cwd(), 'Hedera-OP', 'my-lz-oapp');
+    const shellScript = scriptName || 'hedera.sh'; // Default to hedera.sh
     
-    // Add the arguments
-    for (const [key, value] of Object.entries(args)) {
-      hardhatCommand += ` --${key} ${value}`;
+    // Read the environment file from the Hedera directory to get the correct PRIVATE_KEY
+    const fs = require('fs');
+    const envPath = path.join(scriptPath, '.env');
+    let hederaEnv = {};
+    
+    try {
+      const envContent = fs.readFileSync(envPath, 'utf8');
+      envContent.split('\n').forEach(line => {
+        const [key, value] = line.split('=');
+        if (key && value) {
+          hederaEnv[key.trim()] = value.trim();
+        }
+      });
+    } catch (error) {
+      console.log('Warning: Could not read Hedera .env file:', error.message);
     }
+    
+    const shellCommand = `cd "${scriptPath}" && ./${shellScript}`;
+    console.log('Executing shell script:', shellCommand);
 
-    console.log('Executing command:', hardhatCommand);
-
-    // Execute the command
-    const { stdout, stderr } = await execAsync(hardhatCommand, {
-      timeout: 30000, // 30 second timeout
+    // Execute the shell script with the correct environment variables
+    const { stdout, stderr } = await execAsync(shellCommand, {
+      timeout: 60000, // 60 second timeout (increased for LayerZero operations)
       maxBuffer: 1024 * 1024, // 1MB buffer
+      env: {
+        ...process.env, // Include existing environment
+        ...hederaEnv,   // Override with Hedera-specific environment
+      }
     });
 
     console.log('Command output:', stdout);
@@ -47,7 +60,7 @@ export default async function handler(req, res) {
       success: true,
       output: stdout,
       error: stderr || null,
-      command: hardhatCommand
+      command: shellCommand
     });
 
   } catch (error) {
