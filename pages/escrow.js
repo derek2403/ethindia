@@ -45,7 +45,7 @@ const ESCROW_CHAIN_CONFIGS = [
   {
     chainId: 421614,
     name: 'Arbitrum Sepolia',
-    icon: '🔶',
+    icon: '/icons/arbitrum-arb-logo.svg',
     nativeToken: {
       symbol: 'ETH',
       name: 'Ethereum',

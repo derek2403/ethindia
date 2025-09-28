@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { ethers } from 'ethers';
+import { useAccount } from 'wagmi';
 import { Header } from '../components/Header';
 import { Spotlight } from '@/components/ui/spotlight-new';
 import AtomicTransfer from '../components/AtomicTransfer';
@@ -16,13 +18,84 @@ const PYTH_PRICE_IDS = {
   'ETH': '0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace'
 };
 
+// Chain configurations for relay functionality
+const RELAY_CHAINS = {
+  sepolia: {
+    label: 'Ethereum Sepolia',
+    key: 'sepolia',
+    chainId: 11155111,
+    escrow: '0x610c598A1B4BF710a10934EA47E4992a9897fad1',
+    explorer: 'https://sepolia.etherscan.io/tx/',
+    native: { symbol: 'ETH', token: ethers.ZeroAddress, decimals: 18 },
+    erc20s: [
+      { symbol: 'PYUSD', token: '0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9', decimals: 6 },
+      { symbol: 'LINK', token: '0x779877A7B0D9E8603169DdbD7836e478b4624789', decimals: 18 },
+      { symbol: 'USDC', token: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238', decimals: 6 },
+    ],
+  },
+  arbitrum: {
+    label: 'Arbitrum Sepolia',
+    key: 'arbitrum',
+    chainId: 421614,
+    escrow: '0x845eCA8895048c24Cd24Fa658571d70123F470a2',
+    explorer: 'https://sepolia.arbiscan.io/tx/',
+    native: { symbol: 'ETH', token: ethers.ZeroAddress, decimals: 18 },
+    erc20s: [
+      { symbol: 'USDC', token: '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d', decimals: 6 },
+      { symbol: 'LINK', token: '0xb1D4538B4571d411F07960EF2838Ce337FE1E80E', decimals: 18 },
+    ],
+  },
+  flow: {
+    label: 'Flow EVM Testnet',
+    key: 'flow',
+    chainId: 545,
+    escrow: '0x81aB919673b29B07AFC0191Cb9A4c2EE1b518fe3',
+    explorer: 'https://evm-testnet.flowscan.io/tx/',
+    native: { symbol: 'FLOW', token: ethers.ZeroAddress, decimals: 18 },
+    erc20s: [],
+  },
+  hedera: {
+    label: 'Hedera Testnet',
+    key: 'hedera',
+    chainId: 296,
+    escrow: '0x0772b7b4Dce613e75fde92e2bBfe351aE06ffc6b',
+    explorer: 'https://hashscan.io/testnet/transaction/',
+    native: { symbol: 'HBAR', token: ethers.ZeroAddress, decimals: 18 },
+    erc20s: [],
+  },
+};
+
+// EIP-712 configuration
+const EIP712_DOMAIN_NAME = 'EscrowIntent';
+const EIP712_DOMAIN_VERSION = '1';
+
+const types = {
+  Leg: [
+    { name: 'chainKey', type: 'string' },
+    { name: 'escrow', type: 'address' },
+    { name: 'merchant', type: 'address' },
+    { name: 'token', type: 'address' },
+    { name: 'amount', type: 'uint256' },
+  ],
+  PaymentIntent: [
+    { name: 'from', type: 'address' },
+    { name: 'nonce', type: 'uint256' },
+    { name: 'deadline', type: 'uint256' },
+    { name: 'legs', type: 'Leg[]' },
+  ],
+};
+
 export default function Transfer() {
   const router = useRouter();
+  const { address: account, isConnected, chainId } = useAccount();
   const [transferAmounts, setTransferAmounts] = useState({});
   const [tokenPrices, setTokenPrices] = useState({});
   const [pricesLoading, setPricesLoading] = useState(true);
   const [pricesError, setPricesError] = useState(null);
   const [portfolioData, setPortfolioData] = useState(null);
+  const [merchant, setMerchant] = useState('0x9787cfF89D30bB6Ae87Aaad9B3a02E77B5caA8f1');
+  const [relayStatus, setRelayStatus] = useState('');
+  const [txResults, setTxResults] = useState(null);
   
   // Payment limit configuration
   const MAX_PAYMENT_AMOUNT = 100; // $100 limit
@@ -83,6 +156,128 @@ export default function Transfer() {
       const tokenPrice = tokenPrices[tokenSymbol]?.price || 0;
       return total + (amount * tokenPrice);
     }, 0);
+  };
+
+  // Convert transferAmounts to relay format and build legs
+  const buildLegs = () => {
+    if (!merchant || !ethers.isAddress(merchant)) {
+      throw new Error('Enter a valid merchant address');
+    }
+    
+    const legs = [];
+    
+    // Convert transfer amounts from "SYMBOL_CHAINID" to relay chain format
+    console.log('🔍 Building legs from transferAmounts:', transferAmounts);
+    Object.entries(transferAmounts).forEach(([key, amount]) => {
+      console.log(`🔍 Processing: ${key} = ${amount}`);
+      if (!amount || Number(amount) <= 0) return;
+      
+      const [tokenSymbol, chainIdStr] = key.split('_');
+      const chainId = parseInt(chainIdStr);
+      console.log(`🔍 Parsed: token=${tokenSymbol}, chainId=${chainId}`);
+      
+      // Find the relay chain configuration for this chainId
+      const relayChain = Object.values(RELAY_CHAINS).find(chain => chain.chainId === chainId);
+      if (!relayChain) {
+        console.warn(`❌ No relay chain configuration found for chainId ${chainId} (${tokenSymbol})`);
+        console.log('Available chains:', Object.values(RELAY_CHAINS).map(c => ({key: c.key, chainId: c.chainId})));
+        return;
+      }
+      console.log(`✅ Found relay chain: ${relayChain.key} for ${tokenSymbol}`);
+      
+      // Check if it's native token
+      if (tokenSymbol === relayChain.native.symbol) {
+        // Format amount to token's decimal precision to avoid "too many decimals" error
+        const formattedAmount = Number(amount).toFixed(relayChain.native.decimals);
+        console.log(`💰 Adding native token leg: ${tokenSymbol} amount=${formattedAmount} on ${relayChain.key}`);
+        legs.push({
+          chainKey: relayChain.key,
+          escrow: relayChain.escrow,
+          merchant,
+          token: relayChain.native.token,
+          amount: ethers.parseUnits(formattedAmount, relayChain.native.decimals).toString(),
+        });
+      } else {
+        // Check ERC20 tokens
+        const erc20Token = relayChain.erc20s.find(t => t.symbol === tokenSymbol);
+        if (erc20Token) {
+          // Format amount to token's decimal precision to avoid "too many decimals" error
+          const formattedAmount = Number(amount).toFixed(erc20Token.decimals);
+          console.log(`🪙 Adding ERC20 token leg: ${tokenSymbol} amount=${formattedAmount} on ${relayChain.key}`);
+          legs.push({
+            chainKey: relayChain.key,
+            escrow: relayChain.escrow,
+            merchant,
+            token: erc20Token.token,
+            amount: ethers.parseUnits(formattedAmount, erc20Token.decimals).toString(),
+          });
+        } else {
+          console.warn(`❌ ERC20 token ${tokenSymbol} not found in ${relayChain.key} configuration`);
+        }
+      }
+    });
+    
+    if (legs.length === 0) throw new Error('No amounts entered');
+    console.log('🚀 Final legs built:', legs);
+    return legs;
+  };
+
+  // Relay function (adapted from trf.js)
+  const signAndRelay = async () => {
+    try {
+      setRelayStatus('Preparing intent...');
+      setTxResults(null);
+      
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const from = await signer.getAddress();
+      const net = await provider.getNetwork();
+
+      const nonce = Date.now();
+      const deadline = Math.floor(Date.now() / 1000) + 60 * 10; // 10 minutes
+
+      const legs = buildLegs();
+
+      const domain = {
+        name: EIP712_DOMAIN_NAME,
+        version: EIP712_DOMAIN_VERSION,
+        chainId: Number(net.chainId),
+        verifyingContract: '0x0000000000000000000000000000000000000000',
+      };
+
+      const message = { from, nonce, deadline, legs };
+      setRelayStatus('Requesting signature...');
+      const signature = await signer.signTypedData(domain, types, message);
+
+      setRelayStatus('Relaying...');
+      const res = await fetch('/api/relay', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ domain, types, message, signature }),
+      });
+      
+      const out = await res.json();
+      if (!res.ok) throw new Error(out.error || 'Relay failed');
+
+      // Prepare transaction results with explorer links
+      const txData = Object.entries(out.txs || {}).map(([chainKey, txHash]) => {
+        const chain = Object.values(RELAY_CHAINS).find(c => c.key === chainKey);
+        const explorerUrl = chain ? `${chain.explorer}${txHash}` : null;
+        return {
+          chainKey,
+          chainLabel: chain?.label || chainKey,
+          txHash,
+          explorerUrl
+        };
+      });
+      
+      setTxResults(txData);
+      setRelayStatus('✅ Transactions completed successfully!');
+    } catch (e) {
+      console.error(e);
+      setRelayStatus(`Error: ${e.message}`);
+      setTxResults(null);
+    }
   };
 
   // Wrapper for setTransferAmounts that enforces the payment limit
@@ -252,7 +447,6 @@ export default function Transfer() {
       if (styleEl.parentNode) styleEl.parentNode.removeChild(styleEl);
     };
   }, []);
-  const [merchant, setMerchant] = useState(''); // Merchant address for escrow
 
   return (
     <div className="min-h-screen bg-black overflow-hidden relative">
@@ -316,6 +510,12 @@ export default function Transfer() {
               pricesError={pricesError}
               maxPaymentAmount={MAX_PAYMENT_AMOUNT}
               currentTotalUSD={calculateTotalUSDValue()}
+              onTransfer={signAndRelay}
+              transferStatus={relayStatus}
+              txResults={txResults}
+              merchant={merchant}
+              isConnected={isConnected}
+              account={account}
             />
           </div>
           <div className="w-full">

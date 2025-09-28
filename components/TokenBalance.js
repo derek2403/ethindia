@@ -238,8 +238,23 @@ const TokenRow = ({ token, chain, userAddress, transferAmounts, onTransferAmount
   );
 };
 
-export default function TokenBalance({ transferAmounts = {}, setTransferAmounts, tokenPrices = {}, pricesLoading = false, pricesError = null, maxPaymentAmount = null, currentTotalUSD = 0 }) {
-  const { address, isConnected } = useAccount();
+export default function TokenBalance({ 
+  transferAmounts = {}, 
+  setTransferAmounts, 
+  tokenPrices = {}, 
+  pricesLoading = false, 
+  pricesError = null, 
+  maxPaymentAmount = null, 
+  currentTotalUSD = 0,
+  onTransfer = null,
+  transferStatus = '',
+  txResults = null,
+  merchant = '',
+  setMerchant = () => {},
+  isConnected = false,
+  account = ''
+}) {
+  const { address } = useAccount();
   
   // Transfer functionality
   const { data: capabilities } = useCapabilities();
@@ -281,34 +296,8 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
   const hasTokensSelected = Object.keys(transfersByChain).length > 0;
 
   const handleTransfer = async () => {
-    if (!address) return;
-
-    setIsLoading(true);
-    setTxResult(null);
-    setCurrentProgress('');
-
-    try {
-      const recipientAddress = '0x3C1e5A7C1E70Dae9008C45AeAcff9C123271Cf0A';
-      
-      const results = await executeMultiChainTransfers({
-        transfersByChain,
-        recipientAddress,
-        currentChainId,
-        switchChain,
-        sendCalls,
-        capabilities,
-        setProgress: setCurrentProgress
-      });
-
-      setCurrentProgress('');
-      setTxResult({ success: true, results });
-    } catch (err) {
-      console.error('Transfer failed:', err);
-      setCurrentProgress('');
-      setTxResult({ success: false, error: err.message });
-    } finally {
-      setIsLoading(false);
-    }
+    if (!address || !onTransfer) return;
+    await onTransfer();
   };
 
   // Flatten all tokens from all chains
@@ -406,22 +395,69 @@ export default function TokenBalance({ transferAmounts = {}, setTransferAmounts,
         <TransferSummary transferAmounts={transferAmounts} tokenPrices={tokenPrices} />
       </div>
 
+      {/* Merchant Address Input */}
+      {hasTokensSelected && (
+        <div className="mt-6 p-4 glass-card border border-white/10 rounded-lg">
+          <h3 className="text-lg font-semibold text-white mb-3">Merchant Address</h3>
+          <input
+            type="text"
+            placeholder="0xMerchant... (who will receive the payments)"
+            value={merchant}
+            onChange={(e) => setMerchant(e.target.value)}
+            className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-white/50 focus:border-white/40 focus:outline-none transition-all duration-200"
+          />
+          {account && (
+            <p className="text-sm text-white/60 mt-2">
+              Connected: {account.slice(0, 6)}…{account.slice(-4)}
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Transfer Button */}
       <div className="flex justify-center mt-6">
         <button
           onClick={handleTransfer}
-          disabled={isLoading || isPending || isSwitchingChain || !hasTokensSelected}
+          disabled={!isConnected || !hasTokensSelected || !merchant}
           className="px-8 py-4 bg-white/10 hover:bg-white/20 disabled:bg-white/5 disabled:text-white/40 text-white font-medium rounded-lg border border-white/20 hover:border-white/30 transition-all duration-200 text-lg"
         >
-          {isLoading || isPending
-            ? currentProgress || 'Sending Transfer...'
-            : isSwitchingChain
-            ? 'Switching Chain...'
+          {!isConnected
+            ? 'Connect Wallet'
             : !hasTokensSelected
             ? 'Select tokens to transfer'
-            : 'Send Transfer'}
+            : !merchant
+            ? 'Enter merchant address'
+            : 'Sign & Send Transfer'}
         </button>
       </div>
+
+      {/* Transaction Results */}
+      {txResults && txResults.length > 0 && (
+        <div className="mt-6 p-4 glass-card border border-white/20 rounded-lg">
+          <h3 className="text-lg font-semibold text-white mb-3">Transaction Explorer Links:</h3>
+          <div className="space-y-3">
+            {txResults.map(({ chainKey, chainLabel, txHash, explorerUrl }) => (
+              <div key={chainKey} className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
+                <div className="text-white font-medium">{chainLabel}:</div>
+                {explorerUrl ? (
+                  <a 
+                    href={explorerUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:text-blue-300 font-mono text-sm underline transition-colors duration-200"
+                  >
+                    {txHash.slice(0, 8)}...{txHash.slice(-6)} ↗
+                  </a>
+                ) : (
+                  <span className="font-mono text-sm text-white/70">
+                    {txHash}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

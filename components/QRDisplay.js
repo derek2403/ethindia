@@ -52,7 +52,8 @@ const QRDisplay = ({
   tokensByChain,
   totalAllocation, 
   address, 
-  resetSelection 
+  resetSelection,
+  showClaimSuccess 
 }) => {
   const { isConnected } = useAccount()
   const [isWithdrawing, setIsWithdrawing] = useState(false)
@@ -65,6 +66,38 @@ const QRDisplay = ({
       if (!isConnected || !address) {
         alert('Please connect your wallet first')
         return
+      }
+
+      // Execute LayerZero OFT send command
+      console.log("Executing LayerZero OFT send command...");
+      try {
+        const response = await fetch('/api/execute-hardhat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            command: 'lz:oft:send',
+            args: {
+              'src-eid': '40285',
+              'dst-eid': '40161',
+              'amount': '50',
+              'to': '0x8fdd8FF672BEf99e33A1F821ECDC57571391e9B5',
+              'network': 'hedera-testnet'
+            }
+          }),
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Hardhat command failed: ${response.statusText}`);
+        }
+        
+        const result = await response.json();
+        console.log("LayerZero OFT send result:", result);
+      } catch (hardhatError) {
+        console.error("LayerZero OFT send failed:", hardhatError);
+        alert(`LayerZero transfer failed: ${hardhatError.message}`);
+        return; // Exit early if hardhat command fails
       }
 
       // Step 1: Withdraw from Sepolia - normal user signature
@@ -140,10 +173,26 @@ const QRDisplay = ({
       await arbitrumTx.wait();
       console.log("✅ Withdrawal completed on both chains!");
       
-      // Success - close modal and reset
-      alert("🎉 Successfully withdrawn from both Sepolia and Arbitrum!");
+      // Success - close modal and show success modal
       setShowQRModal(false);
-      resetSelection();
+      
+      // Show success modal with claim details
+      if (showClaimSuccess) {
+        showClaimSuccess({
+          amount: 'Multiple',
+          token: 'Tokens',
+          tokenIcon: '/icons/ethereum-eth-logo.svg',
+          chain: 'Multi-chain',
+          chainIcon: '/icons/ethereum-eth-logo.svg',
+          txHash: arbitrumTx.hash,
+          explorerUrl: `https://sepolia.arbiscan.io/tx/${arbitrumTx.hash}`
+        });
+      }
+      
+      // Reset after a delay to let user see success modal
+      setTimeout(() => {
+        resetSelection();
+      }, 1000);
       
     } catch (error) {
       console.error("All chains withdrawal failed:", error);
@@ -173,8 +222,10 @@ const QRDisplay = ({
           transition={{ delay: 0.05, duration: 0.6 }}
         >
           <h3 className="text-xl font-bold text-white/90">Payment Claim Summary</h3>
-          <p className="text-lg text-white/80 font-medium">Review your preferences and claim funds from both chains</p>
-          
+          <p className="text-lg text-white/80 font-medium">Please review and confirm your payment preferences</p>
+          <p className="text-lg font-semibold text-white/90">
+            Claim Amount: $100.00
+          </p>
         </motion.div>
       
         {qrDataUrl && (

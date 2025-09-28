@@ -1,26 +1,8 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Image from 'next/image';
-import { IconHome, IconCurrencyDollar, IconWallet } from "@tabler/icons-react";
-import { FloatingDock } from "@/components/ui/floating-dock";
+import Link from 'next/link';
 
 export const Header = ({ showNavigation = false }) => {
-  const navItems = [
-    {
-      title: "Home",
-      icon: <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: "/",
-    },
-    {
-      title: "Pay",
-      icon: <IconCurrencyDollar className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: "/transfer",
-    },
-    {
-      title: "Merchant",
-      icon: <IconWallet className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-      href: "/merchant",
-    },
-  ];
 
   return (
     <header className="relative flex items-center pt-8 pb-4 px-16">
@@ -40,11 +22,20 @@ export const Header = ({ showNavigation = false }) => {
       
       {/* Navigation - Absolutely centered */}
       {showNavigation && (
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <FloatingDock 
-            items={navItems}
-            desktopClassName="bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl"
-          />
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center h-full">
+          <nav className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-2xl px-6 py-2">
+            <div className="flex items-center space-x-8">
+              <Link href="/" className="text-white/80 hover:text-white transition-colors font-medium">
+                Home
+              </Link>
+              <Link href="/transfer" className="text-white/80 hover:text-white transition-colors font-medium">
+                Pay
+              </Link>
+              <Link href="/merchant" className="text-white/80 hover:text-white transition-colors font-medium">
+                Merchant
+              </Link>
+            </div>
+          </nav>
         </div>
       )}
       
