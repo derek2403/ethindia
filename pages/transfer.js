@@ -179,23 +179,27 @@ export default function Transfer() {
       
       // Check if it's native token
       if (tokenSymbol === relayChain.native.symbol) {
+        // Format amount to token's decimal precision to avoid "too many decimals" error
+        const formattedAmount = Number(amount).toFixed(relayChain.native.decimals);
         legs.push({
           chainKey: relayChain.key,
           escrow: relayChain.escrow,
           merchant,
           token: relayChain.native.token,
-          amount: ethers.parseUnits(amount.toString(), relayChain.native.decimals).toString(),
+          amount: ethers.parseUnits(formattedAmount, relayChain.native.decimals).toString(),
         });
       } else {
         // Check ERC20 tokens
         const erc20Token = relayChain.erc20s.find(t => t.symbol === tokenSymbol);
         if (erc20Token) {
+          // Format amount to token's decimal precision to avoid "too many decimals" error
+          const formattedAmount = Number(amount).toFixed(erc20Token.decimals);
           legs.push({
             chainKey: relayChain.key,
             escrow: relayChain.escrow,
             merchant,
             token: erc20Token.token,
-            amount: ethers.parseUnits(amount.toString(), erc20Token.decimals).toString(),
+            amount: ethers.parseUnits(formattedAmount, erc20Token.decimals).toString(),
           });
         }
       }
