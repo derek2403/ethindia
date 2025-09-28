@@ -98,6 +98,8 @@ npm run dev
   https://testnet.layerzeroscan.com/tx/0x83b09078fbde14f23582d8731e5aa0ce0865bf7935bff7320cd657583468745b  
 - Destination tx on Hedera Testnet:  
   https://hashscan.io/testnet/tx/0x1f3e209aee7f5ad84bd2282e94444b36e254f967b4e467acccdd285968f9c626
+- Verified Smart Contract:
+  https://hashscan.io/testnet/contract/0x0772b7b4dce613e75fde92e2bbfe351ae06ffc6b
 
 
 
