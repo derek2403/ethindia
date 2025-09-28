@@ -74,6 +74,4 @@ Accept payments in **any token on any chain** while merchants receive funds on *
 ```bash
 git clone https://github.com/derek2403/ethindia
 cd ethindia
-npm install```
-cd ethindia
-npm install 
+npm install ```
