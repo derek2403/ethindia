@@ -418,12 +418,10 @@ export default function TokenBalance({
       <div className="flex justify-center mt-6">
         <button
           onClick={handleTransfer}
-          disabled={!isConnected || !hasTokensSelected || !merchant || transferStatus.includes('Preparing') || transferStatus.includes('Requesting') || transferStatus.includes('Relaying')}
+          disabled={!isConnected || !hasTokensSelected || !merchant}
           className="px-8 py-4 bg-white/10 hover:bg-white/20 disabled:bg-white/5 disabled:text-white/40 text-white font-medium rounded-lg border border-white/20 hover:border-white/30 transition-all duration-200 text-lg"
         >
-          {transferStatus.includes('Preparing') || transferStatus.includes('Requesting') || transferStatus.includes('Relaying')
-            ? transferStatus
-            : !isConnected
+          {!isConnected
             ? 'Connect Wallet'
             : !hasTokensSelected
             ? 'Select tokens to transfer'
@@ -433,20 +431,10 @@ export default function TokenBalance({
         </button>
       </div>
 
-      {/* Status Display */}
-      {transferStatus && (
-        <div className="mt-6 p-4 glass-card border border-white/10 rounded-lg">
-          <div className="font-semibold text-white mb-2">Status:</div>
-          <div className={`text-sm ${transferStatus.includes('Error') ? 'text-red-400' : transferStatus.includes('✅') ? 'text-green-400' : 'text-white/80'}`}>
-            {transferStatus}
-          </div>
-        </div>
-      )}
-
       {/* Transaction Results */}
       {txResults && txResults.length > 0 && (
-        <div className="mt-6 p-4 glass-card border border-green-500/20 bg-green-500/5 rounded-lg">
-          <h3 className="text-lg font-semibold text-green-400 mb-3">Transaction Explorer Links:</h3>
+        <div className="mt-6 p-4 glass-card border border-white/20 rounded-lg">
+          <h3 className="text-lg font-semibold text-white mb-3">Transaction Explorer Links:</h3>
           <div className="space-y-3">
             {txResults.map(({ chainKey, chainLabel, txHash, explorerUrl }) => (
               <div key={chainKey} className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
@@ -456,7 +444,7 @@ export default function TokenBalance({
                     href={explorerUrl} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-green-400 hover:text-green-300 font-mono text-sm underline transition-colors duration-200"
+                    className="text-blue-400 hover:text-blue-300 font-mono text-sm underline transition-colors duration-200"
                   >
                     {txHash.slice(0, 8)}...{txHash.slice(-6)} ↗
                   </a>

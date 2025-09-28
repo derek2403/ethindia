@@ -69,7 +69,7 @@ const TokenWithChain = ({ tokenSrc, chainSrc, tokenAlt, chainAlt }) => (
     />
     {chainSrc && (
       <div className="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 bg-gray-900 rounded-full p-0.5 border border-white/20 shadow-lg">
-        <Image 
+        <Image
           src={chainSrc} 
           alt={chainAlt} 
           width={14} 
@@ -438,7 +438,7 @@ export default function Home() {
         {/* Footer note (non-scroll, stays within viewport) */}
         <div id="about" className="pointer-events-none mb-6 mt-auto text-center text-xs text-white/50">
           Chain‑agnostic. Developer‑friendly. Minimal UX friction.
-        </div>
+    </div>
       </AuroraBackground>
     </>
   );
