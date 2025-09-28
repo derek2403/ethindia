@@ -70,8 +70,34 @@ Accept payments in **any token on any chain** while merchants receive funds on *
 - Testnet wallets funded with test ETH/HBAR/etc.
 - RPC endpoints for all target testnets
 
-### 1) Clone & Install
+### Clone & Install
 ```bash
 git clone https://github.com/derek2403/ethindia
 cd ethindia
-npm install ```
+npm install
+npm run dev
+```
+
+---
+
+
+## 🏷️ Sponsored Track & Demo Proof
+
+**PYUSD (PayPal) Track**
+- PYUSD payment on Sepolia:  
+  https://sepolia.etherscan.io/tx/0xe4f35a5b6f34554746592e47c31a7c11cb8ee2596b8ec59f23c40c880f527483
+
+**Flow EVM Testnet**
+- Flow EVM testnet transaction:  
+  https://evm-testnet.flowscan.io/tx/0x3500b8aea018767113412e14d6c5e595007815f7973bc42fd29ff13f57557dfc
+
+**Hedera + LayerZero (USDC Sepolia → USDC Hedera)**
+- Source tx on Ethereum Sepolia:  
+  https://sepolia.etherscan.io/tx/0x83b09078fbde14f23582d8731e5aa0ce0865bf7935bff7320cd657583468745b  
+- LayerZero message tracking:  
+  https://testnet.layerzeroscan.com/tx/0x83b09078fbde14f23582d8731e5aa0ce0865bf7935bff7320cd657583468745b  
+- Destination tx on Hedera Testnet:  
+  https://hashscan.io/testnet/tx/0x1f3e209aee7f5ad84bd2282e94444b36e254f967b4e467acccdd285968f9c626
+
+
+
