@@ -1,0 +1,82 @@
+version: '3.8'
+
+# Production Docker Compose - Uses pre-built image from DockerHub
+# Usage: docker-compose -f docker-compose.production.yml up -d
+
+services:
+  ethindia-app:
+    # Replace with your actual DockerHub image
+    image: your-dockerhub-username/ethindia:latest
+    container_name: ethindia-production
+    ports:
+      - "3000:3000"
+    
+    # Use env_file to load from multiple environment files
+    env_file:
+      - .env.local                              # Main Next.js app environment
+      - ./Hedera-OP/my-lz-oapp/.env            # LayerZero/Hardhat environment
+    
+    environment:
+      # Production-specific overrides
+      - NODE_ENV=production
+      - PORT=3000
+      
+    volumes:
+      # Mount both environment files as read-only
+      - ./.env.local:/app/.env.local:ro
+      - ./Hedera-OP/my-lz-oapp/.env:/app/Hedera-OP/my-lz-oapp/.env:ro
+      
+      # Mount logs directory for debugging (optional)
+      - ./logs:/app/logs
+      
+    networks:
+      - ethindia-network
+    
+    restart: unless-stopped
+    
+    # Production resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+    
+    # Health check configuration
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add nginx reverse proxy for production
+  nginx:
+    image: nginx:alpine
+    container_name: ethindia-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.production.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - ethindia-app
+    networks:
+      - ethindia-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.2'
+
+networks:
+  ethindia-network:
+    driver: bridge
+
+volumes:
+  logs:
+    driver: local
