@@ -13,6 +13,7 @@ import PortfolioSummary from '@/components/PortfolioSummary'
 import TokenModal from '@/components/TokenModal'
 import QRDisplay from '@/components/QRDisplay'
 import SimpleQRDisplay from '@/components/SimpleQRDisplay'
+import SuccessClaimModal from '@/components/SuccessClaimModal'
 import { useEscrowView } from '../hooks/useEscrowView'
 import { useEscrowWithdraw } from '../hooks/useEscrowWithdraw'
 import {
@@ -41,8 +42,10 @@ const MerchantPage = () => {
   const [showTokenModal, setShowTokenModal] = useState(false)
   const [showQRModal, setShowQRModal] = useState(false)
   const [showSimpleQRModal, setShowSimpleQRModal] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [selectedToken, setSelectedToken] = useState('')
   const [tokenAllocation, setTokenAllocation] = useState(10)
+  const [claimDetails, setClaimDetails] = useState({})
 
   // Available chains with SVG icons
   const chains = [
@@ -249,6 +252,22 @@ const MerchantPage = () => {
     setShowTokenModal(false)
     setShowQRModal(false)
     setShowSimpleQRModal(false)
+    setShowSuccessModal(false)
+    setClaimDetails({})
+  }
+
+  // Function to trigger success modal with claim details
+  const showClaimSuccess = (details = {}) => {
+    setClaimDetails({
+      amount: details.amount || '',
+      token: details.token || '',
+      tokenIcon: details.tokenIcon || '',
+      chain: details.chain || '',
+      chainIcon: details.chainIcon || '',
+      txHash: details.txHash || '',
+      explorerUrl: details.explorerUrl || ''
+    })
+    setShowSuccessModal(true)
   }
 
   const chartOptions = {
@@ -590,6 +609,13 @@ const MerchantPage = () => {
         showSimpleQRModal={showSimpleQRModal}
         setShowSimpleQRModal={setShowSimpleQRModal}
         qrDataUrl={qrDataUrl}
+      />
+      
+      <SuccessClaimModal
+        showSuccessModal={showSuccessModal}
+        setShowSuccessModal={setShowSuccessModal}
+        claimDetails={claimDetails}
+        onClose={() => setClaimDetails({})}
       />
     </div>
   )
