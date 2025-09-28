@@ -2,13 +2,8 @@ import { useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { Header } from '../components/Header';
 
-import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
@@ -98,6 +93,7 @@ export default function LandingPage() {
     };
   }, []);
 
+
   return (
     <>
       <Head>
@@ -106,18 +102,20 @@ export default function LandingPage() {
       </Head>
 
       <AuroraBackground className="relative isolate grid h-dvh grid-rows-[auto,1fr] overflow-hidden bg-black">
-        {/* Header and Payment Cards */}
-        <div className="pointer-events-none absolute inset-0 flex items-start justify-center pt-32 md:pt-40">
-          <div className="flex flex-col items-center gap-8">
-            {/* Header */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center max-w-4xl leading-tight">
-              Pay with any combination of any token on any chain.
-            </h1>
-            
+        {/* Main Heading - Clear positioning */}
+        <div className="pointer-events-none absolute top-1/4 left-0 right-0 flex items-center justify-center z-30">
+            <h1 className="text-lg md:text-2xl lg:text-5xl font-black text-center max-w-4xl leading-tight text-white">
+            Any tokens. Any chains. Both ways.
+          </h1>
+        </div>
+
+        {/* Payment Cards */}
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 flex items-center justify-center pb-20">
+          <div className="flex flex-col items-center gap-3 max-w-4xl w-full px-4">
             {/* Payment Cards Container */}
-            <div className="flex gap-8 flex-col md:flex-row px-4 md:px-0">
+            <div className="flex gap-6 flex-col lg:flex-row w-full max-w-4xl justify-center">
               {/* Payment Breakdown Card */}
-              <div className="glass-card flex flex-col justify-start p-6 relative">
+              <div className="glass-card flex flex-col justify-start p-4 relative flex-1 max-w-xs">
                 <BorderBeam 
                   size={120}
                   duration={4}
@@ -126,12 +124,12 @@ export default function LandingPage() {
                   delay={0}
                 />
                 <div className="text-white/90">
-                  <h2 className="text-lg font-semibold text-white mb-6 text-center">$100 Payment Example</h2>
+                  <h2 className="text-base font-semibold text-white mb-3 text-center">User Pay</h2>
                   
-                  <div className="space-y-3 mb-6">
+                  <div className="space-y-2 mb-3">
                 {/* HBAR Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/10">
+                  <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/hedera-hbar-logo.svg" 
                       chainSrc="/icons/hedera-hbar-logo.svg" 
@@ -143,12 +141,15 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Hedera</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium">$10</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">46.9 HBAR</span>
+                    <span className="text-white/60 text-sm block">$10</span>
+                  </div>
                 </div>
 
                 {/* FLOW Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
+                  <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/flow-flow-logo.svg" 
                       chainSrc="/icons/flow-flow-logo.svg" 
@@ -160,12 +161,15 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Flow</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium">$20</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">66.3 FLOW</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
 
                 {/* USDC Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
+                  <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/usd-coin-usdc-logo.svg" 
                       chainSrc="/icons/arbitrum-arb-logo.svg" 
@@ -177,15 +181,38 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Arbitrum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium">$50</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">30.0 USDC</span>
+                    <span className="text-white/60 text-sm block">$30</span>
+                  </div>
+                </div>
+
+                {/* ETH Payment */}
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
+                  <div className="flex items-center gap-2">
+                    <TokenWithChain 
+                      tokenSrc="/icons/ethereum-eth-logo-colored.svg" 
+                      chainSrc="/icons/arbitrum-arb-logo.svg" 
+                      tokenAlt="ETH" 
+                      chainAlt="Arbitrum"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-white/90 text-sm font-medium">ETH</span>
+                      <span className="text-white/50 text-xs">on Arbitrum</span>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">0.005 ETH</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
 
                 {/* PayPal USD Payment */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
+                  <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/paypal-usd-pyusd-logo.svg" 
-                      chainSrc="/icons/ethereum-eth-logo.svg" 
+                      chainSrc="/icons/ethereum-eth-logo-colored.svg" 
                       tokenAlt="PYUSD" 
                       chainAlt="Ethereum Sepolia"
                     />
@@ -194,13 +221,16 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Ethereum Sepolia</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium">$20</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">20.0 PYUSD</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
               </div>
 
                   <div className="border-t border-white/20 pt-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-white font-semibold">Total Payment</span>
+                      <span className="text-white font-semibold text-base">Total Payment</span>
                       <span className="text-white font-bold text-lg">$100.00</span>
                     </div>
                   </div>
@@ -208,7 +238,7 @@ export default function LandingPage() {
               </div>
 
               {/* Animated Transition Arrow */}
-              <div className="hidden md:flex items-center justify-center">
+              <div className="hidden lg:flex items-center justify-center flex-shrink-0">
                 <div className="relative flex items-center">
                   {/* Flowing dots */}
                   <div className="flex items-center gap-2">
@@ -258,7 +288,7 @@ export default function LandingPage() {
               </div>
 
               {/* Mobile Transition (vertical) */}
-              <div className="md:hidden flex flex-col items-center justify-center">
+              <div className="lg:hidden flex flex-col items-center justify-center py-3">
                 <div className="relative flex flex-col items-center">
                   {/* Flowing dots */}
                   <div className="flex flex-col items-center gap-2 my-2">
@@ -306,7 +336,7 @@ export default function LandingPage() {
               </div>
 
               {/* Merchant Received Card */}
-              <div className="glass-card flex flex-col justify-start p-6 relative">
+              <div className="glass-card flex flex-col justify-start p-4 relative flex-1 max-w-xs">
                 <BorderBeam 
                   size={120}
                   duration={4}
@@ -315,15 +345,15 @@ export default function LandingPage() {
                   delay={2}
                 />
                 <div className="text-white/90">
-              <h2 className="text-lg font-semibold text-white mb-6 text-center">Merchant Receives</h2>
+              <h2 className="text-base font-semibold text-white mb-3 text-center">Merchant Receive</h2>
               
-              <div className="space-y-3 mb-6">
+              <div className="space-y-2 mb-3">
                 {/* ETH Received */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
+                  <div className="flex items-center gap-2">
                     <TokenWithChain 
-                      tokenSrc="/icons/ethereum-eth-logo.svg" 
-                      chainSrc="/icons/ethereum-eth-logo.svg" 
+                      tokenSrc="/icons/ethereum-eth-logo-colored.svg" 
+                      chainSrc="/icons/ethereum-eth-logo-colored.svg" 
                       tokenAlt="ETH" 
                       chainAlt="Ethereum"
                     />
@@ -332,12 +362,15 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Ethereum</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium">$70</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">0.012 ETH</span>
+                    <span className="text-white/60 text-sm block">$50</span>
+                  </div>
                 </div>
 
                 {/* SOL Received */}
-                <div className="flex items-center justify-between bg-white/5 rounded-lg p-3 border border-white/10">
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
+                  <div className="flex items-center gap-2">
                     <TokenWithChain 
                       tokenSrc="/icons/solana-sol-logo.svg" 
                       chainSrc="/icons/solana-sol-logo.svg" 
@@ -349,13 +382,36 @@ export default function LandingPage() {
                       <span className="text-white/50 text-xs">on Solana</span>
                     </div>
                   </div>
-                  <span className="text-white font-medium">$30</span>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">0.148 SOL</span>
+                    <span className="text-white/60 text-sm block">$30</span>
+                  </div>
+                </div>
+
+                {/* PYUSD Received */}
+                <div className="flex items-center justify-between bg-white/5 rounded-lg p-2 border border-white/5">
+                  <div className="flex items-center gap-2">
+                    <TokenWithChain 
+                      tokenSrc="/icons/paypal-usd-pyusd-logo.svg" 
+                      chainSrc="/icons/arbitrum-arb-logo.svg" 
+                      tokenAlt="PYUSD" 
+                      chainAlt="Arbitrum"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-white/90 text-sm font-medium">PYUSD</span>
+                      <span className="text-white/50 text-xs">on Arbitrum</span>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-white font-medium text-base">20.0 PYUSD</span>
+                    <span className="text-white/60 text-sm block">$20</span>
+                  </div>
                 </div>
               </div>
 
                   <div className="border-t border-white/20 pt-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-white font-semibold">Total Received</span>
+                      <span className="text-white font-semibold text-base">Total Received</span>
                       <span className="text-white font-bold text-lg">$100.00</span>
                     </div>
                   </div>
@@ -369,26 +425,10 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Navbar */}
-         <header className="absolute top-0 left-0 right-0 z-20 w-full">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-6 pt-6">
-             <div className="select-none text-sm font-semibold tracking-wide text-white/90">AnyChain</div>
-             <NavigationMenu viewport={false} className="rounded-xl border border-white/30 bg-white/5 px-3 py-2 backdrop-blur-md shadow-lg">
-               <NavigationMenuList className="gap-1">
-                <NavigationMenuItem>
-                   <NavigationMenuLink href="#home" className="px-3 py-1.5 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10">Home</NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                   <NavigationMenuLink href="#pay" className="px-3 py-1.5 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10">Pay</NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                   <NavigationMenuLink href="#about" className="px-3 py-1.5 text-sm text-white/80 hover:text-white transition-colors rounded-lg hover:bg-white/10">About</NavigationMenuLink>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-             <Button size="sm" className="bg-white/10 border border-white/30 text-white hover:bg-white/20 transition-colors shadow-lg">Start Payment</Button>
-          </div>
-        </header>
+        {/* Header with Logo, Navigation and Connect Button */}
+        <div className="absolute top-0 left-0 right-0 z-40">
+          <Header showNavigation={true} />
+        </div>
 
         {/* Hero */}
         <main id="home" className="relative mx-auto flex w-full max-w-6xl items-center justify-center px-6 h-full">
