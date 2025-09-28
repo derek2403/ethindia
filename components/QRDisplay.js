@@ -144,17 +144,9 @@ const QRDisplay = ({
       // Success - close modal and show success modal
       setShowQRModal(false);
       
-      // Show success modal with claim details
+      // Show general success modal
       if (showClaimSuccess) {
-        showClaimSuccess({
-          amount: 'Multiple',
-          token: 'Tokens',
-          tokenIcon: '/icons/ethereum-eth-logo.svg',
-          chain: 'Multi-chain',
-          chainIcon: '/icons/ethereum-eth-logo.svg',
-          txHash: arbitrumTx.hash,
-          explorerUrl: `https://sepolia.arbiscan.io/tx/${arbitrumTx.hash}`
-        });
+        showClaimSuccess({});
       }
       
       // Reset after a delay to let user see success modal
