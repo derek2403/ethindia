@@ -4,6 +4,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import QRCode from 'qrcode'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ethers } from 'ethers'
 import { Spotlight } from '@/components/ui/spotlight-new'
 import ChainSelector from '@/components/ChainSelector'
 import PortfolioChart from '@/components/PortfolioChart'
@@ -12,6 +13,8 @@ import PortfolioSummary from '@/components/PortfolioSummary'
 import TokenModal from '@/components/TokenModal'
 import QRDisplay from '@/components/QRDisplay'
 import SimpleQRDisplay from '@/components/SimpleQRDisplay'
+import { useEscrowView } from '../hooks/useEscrowView'
+import { useEscrowWithdraw } from '../hooks/useEscrowWithdraw'
 import {
   Chart as ChartJS,
   ArcElement,
