@@ -185,15 +185,9 @@ const MerchantPage = () => {
       return
     }
 
-    const portfolioData = {
-      walletAddress: address,
-      ...selectedChains
-    }
-
-    // Create URL that leads to transfer page with portfolio data
+    // Create URL that leads to transfer page
     const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'
-    const portfolioParam = encodeURIComponent(JSON.stringify(portfolioData))
-    const transferUrl = `${baseUrl}/transfer?portfolio=${portfolioParam}`
+    const transferUrl = `${baseUrl}/transfer`
 
     try {
       const qrCodeDataUrl = await QRCode.toDataURL(transferUrl)
