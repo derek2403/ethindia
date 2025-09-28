@@ -359,7 +359,7 @@ export default function Escrow() {
                     </div>
                     {merchantAddress === address && (
                       <p className="text-sm text-blue-600 mt-1">
-                        💡 You're depositing to yourself - you can withdraw these funds later
+                        💡 You&apos;re depositing to yourself - you can withdraw these funds later
                       </p>
                     )}
                   </div>
@@ -505,9 +505,9 @@ export default function Escrow() {
                       <strong>Multi-Chain Multi-Token Escrow Instructions:</strong> 
                       <br />1. <strong>Select Network:</strong> Choose your preferred blockchain network above
                       <br />2. <strong>Switch Wallet:</strong> Ensure your wallet is connected to the selected network
-                      <br />3. <strong>Add Tokens:</strong> Use "+ Add Token" to deposit multiple tokens at once
-                      <br />4. <strong>Approve Tokens:</strong> For ERC20 tokens, click "Approve" buttons first
-                      <br />5. <strong>Deposit:</strong> Enter amounts and click "Deposit" to send all tokens in one transaction
+                      <br />3. <strong>Add Tokens:</strong> Use &quot;+ Add Token&quot; to deposit multiple tokens at once
+                      <br />4. <strong>Approve Tokens:</strong> For ERC20 tokens, click &quot;Approve&quot; buttons first
+                      <br />5. <strong>Deposit:</strong> Enter amounts and click &quot;Deposit&quot; to send all tokens in one transaction
                       <br /><br />
                       <strong>🌐 Multi-Chain Support:</strong> Deploy across Ethereum Sepolia and Arbitrum Sepolia!
                       <br /><strong>✨ Batch Deposit Benefits:</strong> Save gas fees by depositing multiple tokens at once!
