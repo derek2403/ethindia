@@ -1,0 +1,491 @@
+{
+  "address": "0xcd6d3699d975d3EF733EadC5c57ce102fd8F74b9",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_receiveUln",
+          "type": "address"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_localEid",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "expected",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "got",
+          "type": "uint32"
+        }
+      ],
+      "name": "InvalidLocalEid",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "guid",
+          "type": "bytes32"
+        }
+      ],
+      "name": "PayloadCommitted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "guid",
+          "type": "bytes32"
+        }
+      ],
+      "name": "PayloadVerified",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "DVN_FEE",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "PACKET_VERSION",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint32",
+              "name": "dstEid",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes",
+              "name": "packetHeader",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "payloadHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint64",
+              "name": "confirmations",
+              "type": "uint64"
+            },
+            {
+              "internalType": "address",
+              "name": "sender",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct ILayerZeroDVN.AssignJobParam",
+          "name": "_param",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_options",
+          "type": "bytes"
+        }
+      ],
+      "name": "assignJob",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "fee",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "_message",
+          "type": "bytes"
+        },
+        {
+          "internalType": "uint64",
+          "name": "_nonce",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_srcEid",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_remoteOApp",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_dstEid",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "_localOApp",
+          "type": "address"
+        }
+      ],
+      "name": "commit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32",
+          "name": "_dstEid",
+          "type": "uint32"
+        },
+        {
+          "internalType": "uint64",
+          "name": "_confirmations",
+          "type": "uint64"
+        },
+        {
+          "internalType": "address",
+          "name": "_sender",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_options",
+          "type": "bytes"
+        }
+      ],
+      "name": "getFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "fee",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "localEid",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "receiveUln",
+      "outputs": [
+        {
+          "internalType": "contract IReceiveUlnE2",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes",
+          "name": "_message",
+          "type": "bytes"
+        },
+        {
+          "internalType": "uint64",
+          "name": "_nonce",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_srcEid",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_remoteOApp",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_dstEid",
+          "type": "uint32"
+        },
+        {
+          "internalType": "address",
+          "name": "_localOApp",
+          "type": "address"
+        }
+      ],
+      "name": "verify",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xdeeaa3a2c01b70e8e0907fb34d23a18074e46327b922a33fff9a1c2d84967c7e",
+  "receipt": {
+    "to": null,
+    "from": "0x8fdd8FF672BEf99e33A1F821ECDC57571391e9B5",
+    "contractAddress": "0xcd6d3699d975d3EF733EadC5c57ce102fd8F74b9",
+    "transactionIndex": 26,
+    "gasUsed": "666900",
+    "logsBloom": "0x00000000000000000000000000000000000000000400000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000001000000000000000000000000000000000000020000000004000004000800000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000010000000000000000000000000000",
+    "blockHash": "0x093f0afbb0906d161ed4d84b5c78233f3595926664b96a7012f11613953caa3c",
+    "transactionHash": "0xdeeaa3a2c01b70e8e0907fb34d23a18074e46327b922a33fff9a1c2d84967c7e",
+    "logs": [
+      {
+        "transactionIndex": 26,
+        "blockNumber": 25483440,
+        "transactionHash": "0xdeeaa3a2c01b70e8e0907fb34d23a18074e46327b922a33fff9a1c2d84967c7e",
+        "address": "0xcd6d3699d975d3EF733EadC5c57ce102fd8F74b9",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000008fdd8ff672bef99e33a1f821ecdc57571391e9b5"
+        ],
+        "data": "0x",
+        "logIndex": 0,
+        "blockHash": "0x093f0afbb0906d161ed4d84b5c78233f3595926664b96a7012f11613953caa3c"
+      }
+    ],
+    "blockNumber": 25483440,
+    "cumulativeGasUsed": "666900",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0xc0c34919A04d69415EF2637A3Db5D637a7126cd0",
+    40285
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "16953e8da7ea23a39f9c14ebce25af52",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.22+commit.4fc1097e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_receiveUln\",\"type\":\"address\"},{\"internalType\":\"uint32\",\"name\":\"_localEid\",\"type\":\"uint32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"expected\",\"type\":\"uint32\"},{\"internalType\":\"uint32\",\"name\":\"got\",\"type\":\"uint32\"}],\"name\":\"InvalidLocalEid\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"guid\",\"type\":\"bytes32\"}],\"name\":\"PayloadCommitted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"guid\",\"type\":\"bytes32\"}],\"name\":\"PayloadVerified\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"DVN_FEE\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"PACKET_VERSION\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint32\",\"name\":\"dstEid\",\"type\":\"uint32\"},{\"internalType\":\"bytes\",\"name\":\"packetHeader\",\"type\":\"bytes\"},{\"internalType\":\"bytes32\",\"name\":\"payloadHash\",\"type\":\"bytes32\"},{\"internalType\":\"uint64\",\"name\":\"confirmations\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"}],\"internalType\":\"struct ILayerZeroDVN.AssignJobParam\",\"name\":\"_param\",\"type\":\"tuple\"},{\"internalType\":\"bytes\",\"name\":\"_options\",\"type\":\"bytes\"}],\"name\":\"assignJob\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"_message\",\"type\":\"bytes\"},{\"internalType\":\"uint64\",\"name\":\"_nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint32\",\"name\":\"_srcEid\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"_remoteOApp\",\"type\":\"bytes32\"},{\"internalType\":\"uint32\",\"name\":\"_dstEid\",\"type\":\"uint32\"},{\"internalType\":\"address\",\"name\":\"_localOApp\",\"type\":\"address\"}],\"name\":\"commit\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint32\",\"name\":\"_dstEid\",\"type\":\"uint32\"},{\"internalType\":\"uint64\",\"name\":\"_confirmations\",\"type\":\"uint64\"},{\"internalType\":\"address\",\"name\":\"_sender\",\"type\":\"address\"},{\"internalType\":\"bytes\",\"name\":\"_options\",\"type\":\"bytes\"}],\"name\":\"getFee\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"fee\",\"type\":\"uint256\"}],\"stateMutability\":\"pure\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"localEid\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"receiveUln\",\"outputs\":[{\"internalType\":\"contract IReceiveUlnE2\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes\",\"name\":\"_message\",\"type\":\"bytes\"},{\"internalType\":\"uint64\",\"name\":\"_nonce\",\"type\":\"uint64\"},{\"internalType\":\"uint32\",\"name\":\"_srcEid\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"_remoteOApp\",\"type\":\"bytes32\"},{\"internalType\":\"uint32\",\"name\":\"_dstEid\",\"type\":\"uint32\"},{\"internalType\":\"address\",\"name\":\"_localOApp\",\"type\":\"address\"}],\"name\":\"verify\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"We accept sender and receiver as bytes32 to handle arbitrary remote address formats.\",\"errors\":{\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}]},\"kind\":\"dev\",\"methods\":{\"assignJob((uint32,bytes,bytes32,uint64,address),bytes)\":{\"details\":\"Returns a minimal fee and doesn't actually assign any job. You can override this function to return a different fee or to implement a fee mechanism.\"},\"commit(bytes,uint64,uint32,bytes32,uint32,address)\":{\"details\":\"Accepts all address fields as bytes32 to support non-EVM senders (e.g. Solana pubkeys).\",\"params\":{\"_dstEid\":\"Destination chain EID (should match contract's localEid)\",\"_localOApp\":\"Receiver address on this chain (standard EVM address)\",\"_message\":\"Raw message (e.g., v1 OFT send: [PT_SEND || receiver || amountSD])\",\"_nonce\":\"LayerZero channel nonce\",\"_remoteOApp\":\"Sender address on source chain as bytes32 (no casting)\",\"_srcEid\":\"Source chain EID\"}},\"constructor\":{\"params\":{\"_localEid\":\"EID of this chain (receive/destination side)\",\"_receiveUln\":\"Address of this chain's deployed ReceiveUln302\"}},\"getFee(uint32,uint64,address,bytes)\":{\"details\":\"Returns a minimal fee for testing purposes. You can override this function to return a different fee or to implement a fee mechanism.\"},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"},\"verify(bytes,uint64,uint32,bytes32,uint32,address)\":{\"details\":\"This is the first function that should be called in the message verification process.Accepts all address fields as bytes32 to support non-EVM senders (e.g. Solana pubkeys).\",\"params\":{\"_dstEid\":\"Destination chain EID (should match contract\\u2019s localEid)\",\"_localOApp\":\"Receiver address on this chain (standard EVM address)\",\"_message\":\"Raw message (e.g., v1 OFT send: [PT_SEND || receiver || amountSD])\",\"_nonce\":\"LayerZero channel nonce\",\"_remoteOApp\":\"Sender address on source chain as bytes32 (no casting)\",\"_srcEid\":\"Source chain EID\"}}},\"title\":\"SimpleDVNMock\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"assignJob((uint32,bytes,bytes32,uint64,address),bytes)\":{\"notice\":\"Assign job and return DVN fee (mock implementation)\"},\"commit(bytes,uint64,uint32,bytes32,uint32,address)\":{\"notice\":\"Manually commits a packet for execution.\"},\"getFee(uint32,uint64,address,bytes)\":{\"notice\":\"Get the DVN fee (mock implementation)\"},\"verify(bytes,uint64,uint32,bytes32,uint32,address)\":{\"notice\":\"Manually verifies a packet sent to this chain.\"}},\"notice\":\"A minimal DVN for manually verifying messages, for development use on testnets. Not for production. Deploy this on the destination chain.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/mocks/SimpleDVNMock.sol\":\"SimpleDVNMock\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/interfaces/ILayerZeroDVN.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\ninterface ILayerZeroDVN {\\n    struct AssignJobParam {\\n        uint32 dstEid;\\n        bytes packetHeader;\\n        bytes32 payloadHash;\\n        uint64 confirmations;\\n        address sender;\\n    }\\n\\n    // @notice query price and assign jobs at the same time\\n    // @param _dstEid - the destination endpoint identifier\\n    // @param _packetHeader - version + nonce + path\\n    // @param _payloadHash - hash of guid + message\\n    // @param _confirmations - block confirmation delay before relaying blocks\\n    // @param _sender - the source sending contract address\\n    // @param _options - options\\n    function assignJob(AssignJobParam calldata _param, bytes calldata _options) external payable returns (uint256 fee);\\n\\n    // @notice query the dvn fee for relaying block information to the destination chain\\n    // @param _dstEid the destination endpoint identifier\\n    // @param _confirmations - block confirmation delay before relaying blocks\\n    // @param _sender - the source sending contract address\\n    // @param _options - options\\n    function getFee(\\n        uint32 _dstEid,\\n        uint64 _confirmations,\\n        address _sender,\\n        bytes calldata _options\\n    ) external view returns (uint256 fee);\\n}\\n\",\"keccak256\":\"0x308e77078242fd5c5746ec29c12e618249134f9e4377c0028ab8f59c07a6014b\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/interfaces/IReceiveUlnE2.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\n/// @dev should be implemented by the ReceiveUln302 contract and future ReceiveUln contracts on EndpointV2\\ninterface IReceiveUlnE2 {\\n    /// @notice for each dvn to verify the payload\\n    /// @dev this function signature 0x0223536e\\n    function verify(bytes calldata _packetHeader, bytes32 _payloadHash, uint64 _confirmations) external;\\n\\n    /// @notice verify the payload at endpoint, will check if all DVNs verified\\n    function commitVerification(bytes calldata _packetHeader, bytes32 _payloadHash) external;\\n}\\n\",\"keccak256\":\"0xcdf7e690e5d5c0a3ec26a0d7b1a7fe49c7d16a3634721c3944f77d13ff5d4a91\",\"license\":\"MIT\"},\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Context} from \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The initial owner is set to the address provided by the deployer. This can\\n * later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    /**\\n     * @dev The caller account is not authorized to perform an operation.\\n     */\\n    error OwnableUnauthorizedAccount(address account);\\n\\n    /**\\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\\n     */\\n    error OwnableInvalidOwner(address owner);\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\\n     */\\n    constructor(address initialOwner) {\\n        if (initialOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        if (owner() != _msgSender()) {\\n            revert OwnableUnauthorizedAccount(_msgSender());\\n        }\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\"},\"contracts/mocks/SimpleDVNMock.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.20;\\n\\nimport { Ownable } from \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\nimport { IReceiveUlnE2 } from \\\"@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/interfaces/IReceiveUlnE2.sol\\\";\\nimport { ILayerZeroDVN } from \\\"@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/interfaces/ILayerZeroDVN.sol\\\";\\n\\n// A message on the destination chain has to go through three steps:\\n// 1. verify -> 2. commit -> 3. execute\\n\\n/**\\n * @title SimpleDVNMock\\n * @notice A minimal DVN for manually verifying messages, for development use on testnets. Not for production. Deploy this on the destination chain.\\n * @dev We accept sender and receiver as bytes32 to handle arbitrary remote address formats.\\n */\\ncontract SimpleDVNMock is Ownable, ILayerZeroDVN {\\n    error InvalidLocalEid(uint32 expected, uint32 got);\\n    event PayloadVerified(bytes32 indexed guid);\\n    event PayloadCommitted(bytes32 indexed guid);\\n\\n    // Version prefix for Packet encoding (mirrors PacketV1Codec but without assumptions about address types)\\n    uint8 public constant PACKET_VERSION = 1;\\n\\n    // Local chain EID for this ReceiveUln\\n    uint32 public immutable localEid;\\n\\n    // ULN-302 on this chain\\n    IReceiveUlnE2 public immutable receiveUln;\\n\\n    /// @param _receiveUln  Address of this chain's deployed ReceiveUln302\\n    /// @param _localEid    EID of this chain (receive/destination side)\\n    constructor(address _receiveUln, uint32 _localEid) Ownable(msg.sender) {\\n        receiveUln = IReceiveUlnE2(_receiveUln);\\n        localEid = _localEid;\\n    }\\n\\n    // hardcoded DVN fee. You can override getFee and assignJob if you want to implement a fee mechanism that is not hardcoded.\\n    uint256 public constant DVN_FEE = 0;\\n\\n    /**\\n     * @notice Get the DVN fee (mock implementation)\\n     * @dev Returns a minimal fee for testing purposes. You can override this function to return a different fee or to implement a fee mechanism.\\n     */\\n    function getFee(\\n        uint32 _dstEid,\\n        uint64 _confirmations,\\n        address _sender,\\n        bytes calldata _options\\n    ) external pure virtual override returns (uint256 fee) {\\n        // Suppress unused parameter warnings\\n        (_dstEid, _confirmations, _sender, _options);\\n        // Return 0 fee for testing\\n        return DVN_FEE;\\n    }\\n\\n    /**\\n     * @notice Assign job and return DVN fee (mock implementation)\\n     * @dev Returns a minimal fee and doesn't actually assign any job. You can override this function to return a different fee or to implement a fee mechanism.\\n     */\\n    function assignJob(\\n        AssignJobParam calldata _param,\\n        bytes calldata _options\\n    ) external payable virtual override returns (uint256 fee) {\\n        // Suppress unused parameter warnings\\n        (_param, _options);\\n        // Return 0 fee for testing\\n        return DVN_FEE;\\n    }\\n\\n    /**\\n     * @notice Manually verifies a packet sent to this chain.\\n     * @dev This is the first function that should be called in the message verification process.\\n     * @dev Accepts all address fields as bytes32 to support non-EVM senders (e.g. Solana pubkeys).\\n     * @param _message      Raw message (e.g., v1 OFT send: [PT_SEND || receiver || amountSD])\\n     * @param _nonce        LayerZero channel nonce\\n     * @param _srcEid    Source chain EID\\n     * @param _remoteOApp   Sender address on source chain as bytes32 (no casting)\\n     * @param _dstEid     Destination chain EID (should match contract\\u2019s localEid)\\n     * @param _localOApp    Receiver address on this chain (standard EVM address)\\n     */\\n    function verify(\\n        bytes calldata _message,\\n        uint64 _nonce,\\n        uint32 _srcEid,\\n        bytes32 _remoteOApp,\\n        uint32 _dstEid,\\n        address _localOApp\\n    ) external onlyOwner {\\n        // Ensure localEid matches contract's localEid\\n        if (_dstEid != localEid) {\\n            revert InvalidLocalEid(localEid, _dstEid);\\n        }\\n        // Convert local EVM address to bytes32 for GUID and header\\n        bytes32 localOAppB32 = bytes32(uint256(uint160(_localOApp)));\\n\\n        /*\\n         * 1. Rebuild ULN-302 GUID:\\n         *    keccak256(_nonce || _srcEid || _remoteOApp || _dstEid || localAppB32)\\n         * Using bytes32 for _remoteOApp means no assumption on address encoding.\\n         */\\n        bytes32 _guid = _encodeGuid(_nonce, _srcEid, _remoteOApp, _dstEid, localOAppB32);\\n\\n        /*\\n         * 2. Call ULN verify:\\n         *    - Header only includes version, nonce, EIDs, and raw bytes32 sender/receiver\\n         *    - PayloadHash = keccak256(guid || message)\\n         *    We pass confirmations=1 to finalize immediately once our DVN signs.\\n         */\\n        receiveUln.verify(\\n            _encodeHeader(_nonce, _srcEid, _remoteOApp, _dstEid, localOAppB32),\\n            _encodePayloadHash(_guid, _message),\\n            1\\n        );\\n        // Emit event for successful verification\\n        emit PayloadVerified(_guid);\\n    }\\n\\n    /**\\n     * @notice Manually commits a packet for execution.\\n     * @dev Accepts all address fields as bytes32 to support non-EVM senders (e.g. Solana pubkeys).\\n     * @param _message      Raw message (e.g., v1 OFT send: [PT_SEND || receiver || amountSD])\\n     * @param _nonce        LayerZero channel nonce\\n     * @param _srcEid    Source chain EID\\n     * @param _remoteOApp   Sender address on source chain as bytes32 (no casting)\\n     * @param _dstEid     Destination chain EID (should match contract's localEid)\\n     * @param _localOApp    Receiver address on this chain (standard EVM address)\\n     */\\n    function commit(\\n        bytes calldata _message,\\n        uint64 _nonce,\\n        uint32 _srcEid,\\n        bytes32 _remoteOApp,\\n        uint32 _dstEid,\\n        address _localOApp\\n    ) external onlyOwner {\\n        // Ensure localEid matches contract's localEid\\n        if (_dstEid != localEid) {\\n            revert InvalidLocalEid(localEid, _dstEid);\\n        }\\n        // Convert local EVM address to bytes32 for GUID and header\\n        bytes32 localOAppB32 = bytes32(uint256(uint160(_localOApp)));\\n        /*\\n         * 1. Rebuild ULN-302 GUID:\\n         *    keccak256(_nonce || _srcEid || _remoteOApp || _dstEid || localAppB32)\\n         * Using bytes32 for _remoteOApp means no assumption on address encoding.\\n         */\\n        bytes32 _guid = _encodeGuid(_nonce, _srcEid, _remoteOApp, _dstEid, localOAppB32);\\n\\n        /*\\n         * 2. Call ULN commit:\\n         *    - payloadHeader = nonce || srcEid || sender || dstEid || receiver\\n         *    - payloadHash = keccak256(guid || message)\\n         */\\n\\n        receiveUln.commitVerification(\\n            _encodeHeader(_nonce, _srcEid, _remoteOApp, _dstEid, localOAppB32),\\n            _encodePayloadHash(_guid, _message)\\n        );\\n        // Emit event for successful commit\\n        emit PayloadCommitted(_guid);\\n    }\\n    /**\\n     * @dev Encodes packet header.\\n     * Works on arbitrary bytes32 sender/receiver values.\\n     */\\n    function _encodeHeader(\\n        uint64 _nonce,\\n        uint32 _srcEid, // _srcEid\\n        bytes32 _sender,\\n        uint32 _dstEid, // _dstEid\\n        bytes32 _receiver\\n    ) internal pure returns (bytes memory) {\\n        return abi.encodePacked(PACKET_VERSION, _nonce, _srcEid, _sender, _dstEid, _receiver);\\n    }\\n\\n    /**\\n     * @dev Encodes payload portion (GUID + message) for ULN-302 into a keccak256 hash.\\n     */\\n    function _encodePayloadHash(bytes32 _guid, bytes memory _message) internal pure returns (bytes32) {\\n        return keccak256(abi.encodePacked(_guid, _message));\\n    }\\n\\n    /**\\n     * @dev Encodes ULN-302 GUID.\\n     */\\n    function _encodeGuid(\\n        uint64 _nonce,\\n        uint32 _srcEid,\\n        bytes32 _sender,\\n        uint32 _dstEid,\\n        bytes32 _receiver\\n    ) internal pure returns (bytes32) {\\n        return keccak256(abi.encodePacked(_nonce, _srcEid, _sender, _dstEid, _receiver));\\n    }\\n}\\n\",\"keccak256\":\"0x41200b2213aed7a92374c579af33aef359186a6732b54e271a44997592258c51\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60c060405234801561001057600080fd5b50604051610c08380380610c0883398101604081905261002f916100cb565b338061005557604051631e4fbdf760e01b81526000600482015260240160405180910390fd5b61005e8161007b565b506001600160a01b0390911660a05263ffffffff1660805261011a565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b600080604083850312156100de57600080fd5b82516001600160a01b03811681146100f557600080fd5b602084015190925063ffffffff8116811461010f57600080fd5b809150509250929050565b60805160a051610a9f61016960003960008181610211015281816102f9015261049901526000818161016a0152818161025d015281816102a20152818161040201526104470152610a9f6000f3fe60806040526004361061009c5760003560e01c8063726075371161006457806372607537146101585780638da5cb5b146101a15780638e69034c146101d357806395d376d7146101e8578063e49ca471146101ff578063f2fde38b1461023357600080fd5b80631584d19b146100a157806330bb3aac146100c35780635fc45b7f146100fc5780636251b6371461011c578063715018a614610143575b600080fd5b3480156100ad57600080fd5b506100c16100bc366004610805565b610253565b005b3480156100cf57600080fd5b506100e96100de366004610895565b600095945050505050565b6040519081526020015b60405180910390f35b34801561010857600080fd5b506100c1610117366004610805565b6103f8565b34801561012857600080fd5b50610131600181565b60405160ff90911681526020016100f3565b34801561014f57600080fd5b506100c161059b565b34801561016457600080fd5b5061018c7f000000000000000000000000000000000000000000000000000000000000000081565b60405163ffffffff90911681526020016100f3565b3480156101ad57600080fd5b506000546001600160a01b03165b6040516001600160a01b0390911681526020016100f3565b3480156101df57600080fd5b506100e9600081565b6100e96101f636600461090b565b60009392505050565b34801561020b57600080fd5b506101bb7f000000000000000000000000000000000000000000000000000000000000000081565b34801561023f57600080fd5b506100c161024e36600461097c565b6105af565b61025b6105ed565b7f000000000000000000000000000000000000000000000000000000000000000063ffffffff168263ffffffff16146102dc5760405163fa4f8e1960e01b815263ffffffff7f000000000000000000000000000000000000000000000000000000000000000081166004830152831660248201526044015b60405180910390fd5b6001600160a01b03811660006102f5878787878661061a565b90507f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316630894edf16103338989898988610684565b610373848d8d8080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152506106f192505050565b6040518363ffffffff1660e01b81526004016103909291906109ee565b600060405180830381600087803b1580156103aa57600080fd5b505af11580156103be573d6000803e3d6000fd5b50506040518392507fa0cdf9e984005f961ea4efe52816d8db593b6dc4fd8eebdd455e73f6fe16f35e9150600090a2505050505050505050565b6104006105ed565b7f000000000000000000000000000000000000000000000000000000000000000063ffffffff168263ffffffff161461047c5760405163fa4f8e1960e01b815263ffffffff7f000000000000000000000000000000000000000000000000000000000000000081166004830152831660248201526044016102d3565b6001600160a01b0381166000610495878787878661061a565b90507f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316630223536e6104d38989898988610684565b610513848d8d8080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152506106f192505050565b60016040518463ffffffff1660e01b815260040161053393929190610a10565b600060405180830381600087803b15801561054d57600080fd5b505af1158015610561573d6000803e3d6000fd5b50506040518392507fa16c6366b8d58043f141d627e3a04a5b360d2b9d619bfe2a9fe8026ed6996c829150600090a2505050505050505050565b6105a36105ed565b6105ad6000610724565b565b6105b76105ed565b6001600160a01b0381166105e157604051631e4fbdf760e01b8152600060048201526024016102d3565b6105ea81610724565b50565b6000546001600160a01b031633146105ad5760405163118cdaa760e01b81523360048201526024016102d3565b6040516001600160c01b031960c087901b1660208201526001600160e01b031960e086811b82166028840152602c830186905284901b16604c8201526050810182905260009060700160405160208183030381529060405280519060200120905095945050505050565b604051600160f81b60208201526001600160c01b031960c087901b1660218201526001600160e01b031960e086811b82166029840152602d830186905284901b16604d82015260518101829052606090607101604051602081830303815290604052905095945050505050565b60008282604051602001610706929190610a43565b60405160208183030381529060405280519060200120905092915050565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b60008083601f84011261078657600080fd5b50813567ffffffffffffffff81111561079e57600080fd5b6020830191508360208285010111156107b657600080fd5b9250929050565b803567ffffffffffffffff811681146107d557600080fd5b919050565b803563ffffffff811681146107d557600080fd5b80356001600160a01b03811681146107d557600080fd5b600080600080600080600060c0888a03121561082057600080fd5b873567ffffffffffffffff81111561083757600080fd5b6108438a828b01610774565b90985096506108569050602089016107bd565b9450610864604089016107da565b935060608801359250610879608089016107da565b915061088760a089016107ee565b905092959891949750929550565b6000806000806000608086880312156108ad57600080fd5b6108b6866107da565b94506108c4602087016107bd565b93506108d2604087016107ee565b9250606086013567ffffffffffffffff8111156108ee57600080fd5b6108fa88828901610774565b969995985093965092949392505050565b60008060006040848603121561092057600080fd5b833567ffffffffffffffff8082111561093857600080fd5b9085019060a0828803121561094c57600080fd5b9093506020850135908082111561096257600080fd5b5061096f86828701610774565b9497909650939450505050565b60006020828403121561098e57600080fd5b610997826107ee565b9392505050565b60005b838110156109b95781810151838201526020016109a1565b50506000910152565b600081518084526109da81602086016020860161099e565b601f01601f19169290920160200192915050565b604081526000610a0160408301856109c2565b90508260208301529392505050565b606081526000610a2360608301866109c2565b905083602083015267ffffffffffffffff83166040830152949350505050565b82815260008251610a5b81602085016020870161099e565b91909101602001939250505056fea2646970667358221220914c549dbcdca16a19e394f92b8a8992613caf7b3da809e0fc09c8589dd9ba4a64736f6c63430008160033",
+  "deployedBytecode": "0x60806040526004361061009c5760003560e01c8063726075371161006457806372607537146101585780638da5cb5b146101a15780638e69034c146101d357806395d376d7146101e8578063e49ca471146101ff578063f2fde38b1461023357600080fd5b80631584d19b146100a157806330bb3aac146100c35780635fc45b7f146100fc5780636251b6371461011c578063715018a614610143575b600080fd5b3480156100ad57600080fd5b506100c16100bc366004610805565b610253565b005b3480156100cf57600080fd5b506100e96100de366004610895565b600095945050505050565b6040519081526020015b60405180910390f35b34801561010857600080fd5b506100c1610117366004610805565b6103f8565b34801561012857600080fd5b50610131600181565b60405160ff90911681526020016100f3565b34801561014f57600080fd5b506100c161059b565b34801561016457600080fd5b5061018c7f000000000000000000000000000000000000000000000000000000000000000081565b60405163ffffffff90911681526020016100f3565b3480156101ad57600080fd5b506000546001600160a01b03165b6040516001600160a01b0390911681526020016100f3565b3480156101df57600080fd5b506100e9600081565b6100e96101f636600461090b565b60009392505050565b34801561020b57600080fd5b506101bb7f000000000000000000000000000000000000000000000000000000000000000081565b34801561023f57600080fd5b506100c161024e36600461097c565b6105af565b61025b6105ed565b7f000000000000000000000000000000000000000000000000000000000000000063ffffffff168263ffffffff16146102dc5760405163fa4f8e1960e01b815263ffffffff7f000000000000000000000000000000000000000000000000000000000000000081166004830152831660248201526044015b60405180910390fd5b6001600160a01b03811660006102f5878787878661061a565b90507f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316630894edf16103338989898988610684565b610373848d8d8080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152506106f192505050565b6040518363ffffffff1660e01b81526004016103909291906109ee565b600060405180830381600087803b1580156103aa57600080fd5b505af11580156103be573d6000803e3d6000fd5b50506040518392507fa0cdf9e984005f961ea4efe52816d8db593b6dc4fd8eebdd455e73f6fe16f35e9150600090a2505050505050505050565b6104006105ed565b7f000000000000000000000000000000000000000000000000000000000000000063ffffffff168263ffffffff161461047c5760405163fa4f8e1960e01b815263ffffffff7f000000000000000000000000000000000000000000000000000000000000000081166004830152831660248201526044016102d3565b6001600160a01b0381166000610495878787878661061a565b90507f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316630223536e6104d38989898988610684565b610513848d8d8080601f0160208091040260200160405190810160405280939291908181526020018383808284376000920191909152506106f192505050565b60016040518463ffffffff1660e01b815260040161053393929190610a10565b600060405180830381600087803b15801561054d57600080fd5b505af1158015610561573d6000803e3d6000fd5b50506040518392507fa16c6366b8d58043f141d627e3a04a5b360d2b9d619bfe2a9fe8026ed6996c829150600090a2505050505050505050565b6105a36105ed565b6105ad6000610724565b565b6105b76105ed565b6001600160a01b0381166105e157604051631e4fbdf760e01b8152600060048201526024016102d3565b6105ea81610724565b50565b6000546001600160a01b031633146105ad5760405163118cdaa760e01b81523360048201526024016102d3565b6040516001600160c01b031960c087901b1660208201526001600160e01b031960e086811b82166028840152602c830186905284901b16604c8201526050810182905260009060700160405160208183030381529060405280519060200120905095945050505050565b604051600160f81b60208201526001600160c01b031960c087901b1660218201526001600160e01b031960e086811b82166029840152602d830186905284901b16604d82015260518101829052606090607101604051602081830303815290604052905095945050505050565b60008282604051602001610706929190610a43565b60405160208183030381529060405280519060200120905092915050565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b60008083601f84011261078657600080fd5b50813567ffffffffffffffff81111561079e57600080fd5b6020830191508360208285010111156107b657600080fd5b9250929050565b803567ffffffffffffffff811681146107d557600080fd5b919050565b803563ffffffff811681146107d557600080fd5b80356001600160a01b03811681146107d557600080fd5b600080600080600080600060c0888a03121561082057600080fd5b873567ffffffffffffffff81111561083757600080fd5b6108438a828b01610774565b90985096506108569050602089016107bd565b9450610864604089016107da565b935060608801359250610879608089016107da565b915061088760a089016107ee565b905092959891949750929550565b6000806000806000608086880312156108ad57600080fd5b6108b6866107da565b94506108c4602087016107bd565b93506108d2604087016107ee565b9250606086013567ffffffffffffffff8111156108ee57600080fd5b6108fa88828901610774565b969995985093965092949392505050565b60008060006040848603121561092057600080fd5b833567ffffffffffffffff8082111561093857600080fd5b9085019060a0828803121561094c57600080fd5b9093506020850135908082111561096257600080fd5b5061096f86828701610774565b9497909650939450505050565b60006020828403121561098e57600080fd5b610997826107ee565b9392505050565b60005b838110156109b95781810151838201526020016109a1565b50506000910152565b600081518084526109da81602086016020860161099e565b601f01601f19169290920160200192915050565b604081526000610a0160408301856109c2565b90508260208301529392505050565b606081526000610a2360608301866109c2565b905083602083015267ffffffffffffffff83166040830152949350505050565b82815260008251610a5b81602085016020870161099e565b91909101602001939250505056fea2646970667358221220914c549dbcdca16a19e394f92b8a8992613caf7b3da809e0fc09c8589dd9ba4a64736f6c63430008160033",
+  "devdoc": {
+    "details": "We accept sender and receiver as bytes32 to handle arbitrary remote address formats.",
+    "errors": {
+      "OwnableInvalidOwner(address)": [
+        {
+          "details": "The owner is not a valid owner account. (eg. `address(0)`)"
+        }
+      ],
+      "OwnableUnauthorizedAccount(address)": [
+        {
+          "details": "The caller account is not authorized to perform an operation."
+        }
+      ]
+    },
+    "kind": "dev",
+    "methods": {
+      "assignJob((uint32,bytes,bytes32,uint64,address),bytes)": {
+        "details": "Returns a minimal fee and doesn't actually assign any job. You can override this function to return a different fee or to implement a fee mechanism."
+      },
+      "commit(bytes,uint64,uint32,bytes32,uint32,address)": {
+        "details": "Accepts all address fields as bytes32 to support non-EVM senders (e.g. Solana pubkeys).",
+        "params": {
+          "_dstEid": "Destination chain EID (should match contract's localEid)",
+          "_localOApp": "Receiver address on this chain (standard EVM address)",
+          "_message": "Raw message (e.g., v1 OFT send: [PT_SEND || receiver || amountSD])",
+          "_nonce": "LayerZero channel nonce",
+          "_remoteOApp": "Sender address on source chain as bytes32 (no casting)",
+          "_srcEid": "Source chain EID"
+        }
+      },
+      "constructor": {
+        "params": {
+          "_localEid": "EID of this chain (receive/destination side)",
+          "_receiveUln": "Address of this chain's deployed ReceiveUln302"
+        }
+      },
+      "getFee(uint32,uint64,address,bytes)": {
+        "details": "Returns a minimal fee for testing purposes. You can override this function to return a different fee or to implement a fee mechanism."
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      },
+      "verify(bytes,uint64,uint32,bytes32,uint32,address)": {
+        "details": "This is the first function that should be called in the message verification process.Accepts all address fields as bytes32 to support non-EVM senders (e.g. Solana pubkeys).",
+        "params": {
+          "_dstEid": "Destination chain EID (should match contract’s localEid)",
+          "_localOApp": "Receiver address on this chain (standard EVM address)",
+          "_message": "Raw message (e.g., v1 OFT send: [PT_SEND || receiver || amountSD])",
+          "_nonce": "LayerZero channel nonce",
+          "_remoteOApp": "Sender address on source chain as bytes32 (no casting)",
+          "_srcEid": "Source chain EID"
+        }
+      }
+    },
+    "title": "SimpleDVNMock",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "assignJob((uint32,bytes,bytes32,uint64,address),bytes)": {
+        "notice": "Assign job and return DVN fee (mock implementation)"
+      },
+      "commit(bytes,uint64,uint32,bytes32,uint32,address)": {
+        "notice": "Manually commits a packet for execution."
+      },
+      "getFee(uint32,uint64,address,bytes)": {
+        "notice": "Get the DVN fee (mock implementation)"
+      },
+      "verify(bytes,uint64,uint32,bytes32,uint32,address)": {
+        "notice": "Manually verifies a packet sent to this chain."
+      }
+    },
+    "notice": "A minimal DVN for manually verifying messages, for development use on testnets. Not for production. Deploy this on the destination chain.",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 5982,
+        "contract": "contracts/mocks/SimpleDVNMock.sol:SimpleDVNMock",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      }
+    }
+  }
+}

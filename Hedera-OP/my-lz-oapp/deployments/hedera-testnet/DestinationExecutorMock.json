@@ -1,0 +1,746 @@
+{
+  "address": "0xd89676FE8Fb388D608BC235FFe74413EDA703982",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_receiveUln302",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_receiveUln302View",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_endpoint",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_initialOwner",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidInitialization",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LzExecutor_Executed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LzExecutor_ReceiveLibViewNotSet",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "LzExecutor_Verifying",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotInitializing",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer_NativeFailed",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Transfer_ToAddressIsZero",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint64",
+          "name": "version",
+          "type": "uint64"
+        }
+      ],
+      "name": "Initialized",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "NativeWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_receiveLib",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_receiveLibView",
+          "type": "address"
+        }
+      ],
+      "name": "ReceiveLibViewSet",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "EMPTY_PAYLOAD_HASH",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "NIL_PAYLOAD_HASH",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_receiveLib",
+          "type": "address"
+        },
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "internalType": "uint32",
+                  "name": "srcEid",
+                  "type": "uint32"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "sender",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "nonce",
+                  "type": "uint64"
+                }
+              ],
+              "internalType": "struct Origin",
+              "name": "origin",
+              "type": "tuple"
+            },
+            {
+              "internalType": "address",
+              "name": "receiver",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "guid",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes",
+              "name": "message",
+              "type": "bytes"
+            },
+            {
+              "internalType": "bytes",
+              "name": "extraData",
+              "type": "bytes"
+            },
+            {
+              "internalType": "uint256",
+              "name": "gas",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct LzReceiveParam",
+          "name": "_lzReceiveParam",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "_receiver",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "_amount",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct NativeDropParam[]",
+          "name": "_nativeDropParams",
+          "type": "tuple[]"
+        }
+      ],
+      "name": "commitAndExecute",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "endpoint",
+      "outputs": [
+        {
+          "internalType": "contract ILayerZeroEndpointV2",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint32",
+              "name": "srcEid",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "sender",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint64",
+              "name": "nonce",
+              "type": "uint64"
+            }
+          ],
+          "internalType": "struct Origin",
+          "name": "_origin",
+          "type": "tuple"
+        },
+        {
+          "internalType": "address",
+          "name": "_receiver",
+          "type": "address"
+        }
+      ],
+      "name": "executable",
+      "outputs": [
+        {
+          "internalType": "enum ExecutionState",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint32",
+              "name": "srcEid",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "sender",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint64",
+              "name": "nonce",
+              "type": "uint64"
+            }
+          ],
+          "internalType": "struct Origin",
+          "name": "_origin",
+          "type": "tuple"
+        },
+        {
+          "internalType": "address",
+          "name": "_receiver",
+          "type": "address"
+        }
+      ],
+      "name": "initializable",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_endpoint",
+          "type": "address"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "localEid",
+      "outputs": [
+        {
+          "internalType": "uint32",
+          "name": "",
+          "type": "uint32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "receiveLib",
+          "type": "address"
+        }
+      ],
+      "name": "receiveLibToView",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "receiveLibView",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "receiveUln302",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_receiveLib",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_receiveLibView",
+          "type": "address"
+        }
+      ],
+      "name": "setReceiveLibView",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint32",
+              "name": "srcEid",
+              "type": "uint32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "sender",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint64",
+              "name": "nonce",
+              "type": "uint64"
+            }
+          ],
+          "internalType": "struct Origin",
+          "name": "_origin",
+          "type": "tuple"
+        },
+        {
+          "internalType": "address",
+          "name": "_receiver",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_receiveLib",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_payloadHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "verifiable",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdrawNative",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x02d525bd703897a9ce26783b210f1a2b6f5aa29cb95af9e8d931bc94db977000",
+  "receipt": {
+    "to": null,
+    "from": "0x8fdd8FF672BEf99e33A1F821ECDC57571391e9B5",
+    "contractAddress": "0xd89676FE8Fb388D608BC235FFe74413EDA703982",
+    "transactionIndex": 9,
+    "gasUsed": "1314656",
+    "logsBloom": "0x00000000000000000000000000000000000000000400000000820000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000001000000000000000000000000000000000000020100000000000000000800000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000010000000000000000000000000000",
+    "blockHash": "0x302c3f764ed1a07180e31db72ba4832b37929d9d709e6d1d4fa3d7580fd7ec47",
+    "transactionHash": "0x02d525bd703897a9ce26783b210f1a2b6f5aa29cb95af9e8d931bc94db977000",
+    "logs": [
+      {
+        "transactionIndex": 9,
+        "blockNumber": 25483422,
+        "transactionHash": "0x02d525bd703897a9ce26783b210f1a2b6f5aa29cb95af9e8d931bc94db977000",
+        "address": "0xd89676FE8Fb388D608BC235FFe74413EDA703982",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000008fdd8ff672bef99e33a1f821ecdc57571391e9b5"
+        ],
+        "data": "0x",
+        "logIndex": 0,
+        "blockHash": "0x302c3f764ed1a07180e31db72ba4832b37929d9d709e6d1d4fa3d7580fd7ec47"
+      }
+    ],
+    "blockNumber": 25483422,
+    "cumulativeGasUsed": "1314656",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0xc0c34919A04d69415EF2637A3Db5D637a7126cd0",
+    "0x790deF6091dD5e5e8c3F8550B37a04790e0ba492",
+    "0xbD672D1562Dd32C23B563C989d8140122483631d",
+    "0x8fdd8FF672BEf99e33A1F821ECDC57571391e9B5"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "16953e8da7ea23a39f9c14ebce25af52",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.22+commit.4fc1097e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_receiveUln302\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_receiveUln302View\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_endpoint\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_initialOwner\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"InvalidInitialization\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"LzExecutor_Executed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"LzExecutor_ReceiveLibViewNotSet\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"LzExecutor_Verifying\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NotInitializing\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"Transfer_NativeFailed\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Transfer_ToAddressIsZero\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint64\",\"name\":\"version\",\"type\":\"uint64\"}],\"name\":\"Initialized\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"NativeWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_receiveLib\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_receiveLibView\",\"type\":\"address\"}],\"name\":\"ReceiveLibViewSet\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"EMPTY_PAYLOAD_HASH\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"NIL_PAYLOAD_HASH\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_receiveLib\",\"type\":\"address\"},{\"components\":[{\"components\":[{\"internalType\":\"uint32\",\"name\":\"srcEid\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"sender\",\"type\":\"bytes32\"},{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"}],\"internalType\":\"struct Origin\",\"name\":\"origin\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"guid\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"message\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"extraData\",\"type\":\"bytes\"},{\"internalType\":\"uint256\",\"name\":\"gas\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"value\",\"type\":\"uint256\"}],\"internalType\":\"struct LzReceiveParam\",\"name\":\"_lzReceiveParam\",\"type\":\"tuple\"},{\"components\":[{\"internalType\":\"address\",\"name\":\"_receiver\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"internalType\":\"struct NativeDropParam[]\",\"name\":\"_nativeDropParams\",\"type\":\"tuple[]\"}],\"name\":\"commitAndExecute\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"endpoint\",\"outputs\":[{\"internalType\":\"contract ILayerZeroEndpointV2\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint32\",\"name\":\"srcEid\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"sender\",\"type\":\"bytes32\"},{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"}],\"internalType\":\"struct Origin\",\"name\":\"_origin\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"_receiver\",\"type\":\"address\"}],\"name\":\"executable\",\"outputs\":[{\"internalType\":\"enum ExecutionState\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint32\",\"name\":\"srcEid\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"sender\",\"type\":\"bytes32\"},{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"}],\"internalType\":\"struct Origin\",\"name\":\"_origin\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"_receiver\",\"type\":\"address\"}],\"name\":\"initializable\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_endpoint\",\"type\":\"address\"}],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"localEid\",\"outputs\":[{\"internalType\":\"uint32\",\"name\":\"\",\"type\":\"uint32\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"receiveLib\",\"type\":\"address\"}],\"name\":\"receiveLibToView\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"receiveLibView\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"receiveUln302\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_receiveLib\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_receiveLibView\",\"type\":\"address\"}],\"name\":\"setReceiveLibView\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint32\",\"name\":\"srcEid\",\"type\":\"uint32\"},{\"internalType\":\"bytes32\",\"name\":\"sender\",\"type\":\"bytes32\"},{\"internalType\":\"uint64\",\"name\":\"nonce\",\"type\":\"uint64\"}],\"internalType\":\"struct Origin\",\"name\":\"_origin\",\"type\":\"tuple\"},{\"internalType\":\"address\",\"name\":\"_receiver\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_receiveLib\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"_payloadHash\",\"type\":\"bytes32\"}],\"name\":\"verifiable\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],\"name\":\"withdrawNative\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"errors\":{\"InvalidInitialization()\":[{\"details\":\"The contract is already initialized.\"}],\"NotInitializing()\":[{\"details\":\"The contract is not initializing.\"}],\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}]},\"events\":{\"Initialized(uint64)\":{\"details\":\"Triggered when the contract has been initialized or reinitialized.\"}},\"kind\":\"dev\",\"methods\":{\"executable((uint32,bytes32,uint64),address)\":{\"details\":\"check if a message is executable.\",\"returns\":{\"_0\":\"ExecutionState of Executed, Executable, or NotExecutable\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"},\"verifiable((uint32,bytes32,uint64),address,address,bytes32)\":{\"details\":\"check if a message is verifiable.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"commitAndExecute(address,((uint32,bytes32,uint64),address,bytes32,bytes,bytes,uint256,uint256),(address,uint256)[])\":{\"notice\":\"process for commit and execute 1. check if executable, revert if executed, execute if executable 2. check if verifiable, revert if verifying, commit if verifiable 3. native drop 4. try execute, will revert if not executable\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/mocks/DestinationExecutorMock.sol\":\"DestinationExecutorMock\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/UlnBase.sol\":{\"content\":\"// SPDX-License-Identifier: LZBL-1.2\\n\\npragma solidity ^0.8.20;\\n\\nimport { Ownable } from \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\n\\n// the formal properties are documented in the setter functions\\nstruct UlnConfig {\\n    uint64 confirmations;\\n    // we store the length of required DVNs and optional DVNs instead of using DVN.length directly to save gas\\n    uint8 requiredDVNCount; // 0 indicate DEFAULT, NIL_DVN_COUNT indicate NONE (to override the value of default)\\n    uint8 optionalDVNCount; // 0 indicate DEFAULT, NIL_DVN_COUNT indicate NONE (to override the value of default)\\n    uint8 optionalDVNThreshold; // (0, optionalDVNCount]\\n    address[] requiredDVNs; // no duplicates. sorted an an ascending order. allowed overlap with optionalDVNs\\n    address[] optionalDVNs; // no duplicates. sorted an an ascending order. allowed overlap with requiredDVNs\\n}\\n\\nstruct SetDefaultUlnConfigParam {\\n    uint32 eid;\\n    UlnConfig config;\\n}\\n\\n/// @dev includes the utility functions for checking ULN states and logics\\nabstract contract UlnBase is Ownable {\\n    address private constant DEFAULT_CONFIG = address(0);\\n    // reserved values for\\n    uint8 internal constant DEFAULT = 0;\\n    uint8 internal constant NIL_DVN_COUNT = type(uint8).max;\\n    uint64 internal constant NIL_CONFIRMATIONS = type(uint64).max;\\n    // 127 to prevent total number of DVNs (127 * 2) exceeding uint8.max (255)\\n    // by limiting the total size, it would help constraint the design of DVNOptions\\n    uint8 private constant MAX_COUNT = (type(uint8).max - 1) / 2;\\n\\n    mapping(address oapp => mapping(uint32 eid => UlnConfig)) internal ulnConfigs;\\n\\n    error LZ_ULN_Unsorted();\\n    error LZ_ULN_InvalidRequiredDVNCount();\\n    error LZ_ULN_InvalidOptionalDVNCount();\\n    error LZ_ULN_AtLeastOneDVN();\\n    error LZ_ULN_InvalidOptionalDVNThreshold();\\n    error LZ_ULN_InvalidConfirmations();\\n    error LZ_ULN_UnsupportedEid(uint32 eid);\\n\\n    event DefaultUlnConfigsSet(SetDefaultUlnConfigParam[] params);\\n    event UlnConfigSet(address oapp, uint32 eid, UlnConfig config);\\n\\n    // ============================ OnlyOwner ===================================\\n\\n    /// @dev about the DEFAULT ULN config\\n    /// 1) its values are all LITERAL (e.g. 0 is 0). whereas in the oapp ULN config, 0 (default value) points to the default ULN config\\n    ///     this design enables the oapp to point to DEFAULT config without explicitly setting the config\\n    /// 2) its configuration is more restrictive than the oapp ULN config that\\n    ///     a) it must not use NIL value, where NIL is used only by oapps to indicate the LITERAL 0\\n    ///     b) it must have at least one DVN\\n    function setDefaultUlnConfigs(SetDefaultUlnConfigParam[] calldata _params) external onlyOwner {\\n        for (uint256 i = 0; i < _params.length; ++i) {\\n            SetDefaultUlnConfigParam calldata param = _params[i];\\n\\n            // 2.a must not use NIL\\n            if (param.config.requiredDVNCount == NIL_DVN_COUNT) revert LZ_ULN_InvalidRequiredDVNCount();\\n            if (param.config.optionalDVNCount == NIL_DVN_COUNT) revert LZ_ULN_InvalidOptionalDVNCount();\\n            if (param.config.confirmations == NIL_CONFIRMATIONS) revert LZ_ULN_InvalidConfirmations();\\n\\n            // 2.b must have at least one dvn\\n            _assertAtLeastOneDVN(param.config);\\n\\n            _setConfig(DEFAULT_CONFIG, param.eid, param.config);\\n        }\\n        emit DefaultUlnConfigsSet(_params);\\n    }\\n\\n    // ============================ View ===================================\\n    // @dev assuming most oapps use default, we get default as memory and custom as storage to save gas\\n    function getUlnConfig(address _oapp, uint32 _remoteEid) public view returns (UlnConfig memory rtnConfig) {\\n        UlnConfig storage defaultConfig = ulnConfigs[DEFAULT_CONFIG][_remoteEid];\\n        UlnConfig storage customConfig = ulnConfigs[_oapp][_remoteEid];\\n\\n        // if confirmations is 0, use default\\n        uint64 confirmations = customConfig.confirmations;\\n        if (confirmations == DEFAULT) {\\n            rtnConfig.confirmations = defaultConfig.confirmations;\\n        } else if (confirmations != NIL_CONFIRMATIONS) {\\n            // if confirmations is uint64.max, no block confirmations required\\n            rtnConfig.confirmations = confirmations;\\n        } // else do nothing, rtnConfig.confirmation is 0\\n\\n        if (customConfig.requiredDVNCount == DEFAULT) {\\n            if (defaultConfig.requiredDVNCount > 0) {\\n                // copy only if count > 0. save gas\\n                rtnConfig.requiredDVNs = defaultConfig.requiredDVNs;\\n                rtnConfig.requiredDVNCount = defaultConfig.requiredDVNCount;\\n            } // else, do nothing\\n        } else {\\n            if (customConfig.requiredDVNCount != NIL_DVN_COUNT) {\\n                rtnConfig.requiredDVNs = customConfig.requiredDVNs;\\n                rtnConfig.requiredDVNCount = customConfig.requiredDVNCount;\\n            } // else, do nothing\\n        }\\n\\n        if (customConfig.optionalDVNCount == DEFAULT) {\\n            if (defaultConfig.optionalDVNCount > 0) {\\n                // copy only if count > 0. save gas\\n                rtnConfig.optionalDVNs = defaultConfig.optionalDVNs;\\n                rtnConfig.optionalDVNCount = defaultConfig.optionalDVNCount;\\n                rtnConfig.optionalDVNThreshold = defaultConfig.optionalDVNThreshold;\\n            }\\n        } else {\\n            if (customConfig.optionalDVNCount != NIL_DVN_COUNT) {\\n                rtnConfig.optionalDVNs = customConfig.optionalDVNs;\\n                rtnConfig.optionalDVNCount = customConfig.optionalDVNCount;\\n                rtnConfig.optionalDVNThreshold = customConfig.optionalDVNThreshold;\\n            }\\n        }\\n\\n        // the final value must have at least one dvn\\n        // it is possible that some default config result into 0 dvns\\n        _assertAtLeastOneDVN(rtnConfig);\\n    }\\n\\n    /// @dev Get the uln config without the default config for the given remoteEid.\\n    function getAppUlnConfig(address _oapp, uint32 _remoteEid) external view returns (UlnConfig memory) {\\n        return ulnConfigs[_oapp][_remoteEid];\\n    }\\n\\n    // ============================ Internal ===================================\\n    function _setUlnConfig(uint32 _remoteEid, address _oapp, UlnConfig memory _param) internal {\\n        _setConfig(_oapp, _remoteEid, _param);\\n\\n        // get ULN config again as a catch all to ensure the config is valid\\n        getUlnConfig(_oapp, _remoteEid);\\n        emit UlnConfigSet(_oapp, _remoteEid, _param);\\n    }\\n\\n    /// @dev a supported Eid must have a valid default uln config, which has at least one dvn\\n    function _isSupportedEid(uint32 _remoteEid) internal view returns (bool) {\\n        UlnConfig storage defaultConfig = ulnConfigs[DEFAULT_CONFIG][_remoteEid];\\n        return defaultConfig.requiredDVNCount > 0 || defaultConfig.optionalDVNThreshold > 0;\\n    }\\n\\n    function _assertSupportedEid(uint32 _remoteEid) internal view {\\n        if (!_isSupportedEid(_remoteEid)) revert LZ_ULN_UnsupportedEid(_remoteEid);\\n    }\\n\\n    // ============================ Private ===================================\\n\\n    function _assertAtLeastOneDVN(UlnConfig memory _config) private pure {\\n        if (_config.requiredDVNCount == 0 && _config.optionalDVNThreshold == 0) revert LZ_ULN_AtLeastOneDVN();\\n    }\\n\\n    /// @dev this private function is used in both setDefaultUlnConfigs and setUlnConfig\\n    function _setConfig(address _oapp, uint32 _eid, UlnConfig memory _param) private {\\n        // @dev required dvns\\n        // if dvnCount == NONE, dvns list must be empty\\n        // if dvnCount == DEFAULT, dvn list must be empty\\n        // otherwise, dvnList.length == dvnCount and assert the list is valid\\n        if (_param.requiredDVNCount == NIL_DVN_COUNT || _param.requiredDVNCount == DEFAULT) {\\n            if (_param.requiredDVNs.length != 0) revert LZ_ULN_InvalidRequiredDVNCount();\\n        } else {\\n            if (_param.requiredDVNs.length != _param.requiredDVNCount || _param.requiredDVNCount > MAX_COUNT)\\n                revert LZ_ULN_InvalidRequiredDVNCount();\\n            _assertNoDuplicates(_param.requiredDVNs);\\n        }\\n\\n        // @dev optional dvns\\n        // if optionalDVNCount == NONE, optionalDVNs list must be empty and threshold must be 0\\n        // if optionalDVNCount == DEFAULT, optionalDVNs list must be empty and threshold must be 0\\n        // otherwise, optionalDVNs.length == optionalDVNCount, threshold > 0 && threshold <= optionalDVNCount and assert the list is valid\\n\\n        // example use case: an oapp uses the DEFAULT 'required' but\\n        //     a) use a custom 1/1 dvn (practically a required dvn), or\\n        //     b) use a custom 2/3 dvn\\n        if (_param.optionalDVNCount == NIL_DVN_COUNT || _param.optionalDVNCount == DEFAULT) {\\n            if (_param.optionalDVNs.length != 0) revert LZ_ULN_InvalidOptionalDVNCount();\\n            if (_param.optionalDVNThreshold != 0) revert LZ_ULN_InvalidOptionalDVNThreshold();\\n        } else {\\n            if (_param.optionalDVNs.length != _param.optionalDVNCount || _param.optionalDVNCount > MAX_COUNT)\\n                revert LZ_ULN_InvalidOptionalDVNCount();\\n            if (_param.optionalDVNThreshold == 0 || _param.optionalDVNThreshold > _param.optionalDVNCount)\\n                revert LZ_ULN_InvalidOptionalDVNThreshold();\\n            _assertNoDuplicates(_param.optionalDVNs);\\n        }\\n        // don't assert valid count here, as it needs to be validated along side default config\\n\\n        ulnConfigs[_oapp][_eid] = _param;\\n    }\\n\\n    function _assertNoDuplicates(address[] memory _dvns) private pure {\\n        address lastDVN = address(0);\\n        for (uint256 i = 0; i < _dvns.length; i++) {\\n            address dvn = _dvns[i];\\n            if (dvn <= lastDVN) revert LZ_ULN_Unsorted(); // to ensure no duplicates\\n            lastDVN = dvn;\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xfdb1d04f4996c0a9d35abfbfcf10d978da638885eb77d0a9dc35cea5993074e3\",\"license\":\"LZBL-1.2\"},\"@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/interfaces/IReceiveUlnE2.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\n/// @dev should be implemented by the ReceiveUln302 contract and future ReceiveUln contracts on EndpointV2\\ninterface IReceiveUlnE2 {\\n    /// @notice for each dvn to verify the payload\\n    /// @dev this function signature 0x0223536e\\n    function verify(bytes calldata _packetHeader, bytes32 _payloadHash, uint64 _confirmations) external;\\n\\n    /// @notice verify the payload at endpoint, will check if all DVNs verified\\n    function commitVerification(bytes calldata _packetHeader, bytes32 _payloadHash) external;\\n}\\n\",\"keccak256\":\"0xcdf7e690e5d5c0a3ec26a0d7b1a7fe49c7d16a3634721c3944f77d13ff5d4a91\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/uln302/ReceiveUln302View.sol\":{\"content\":\"// SPDX-License-Identifier: LZBL-1.2\\n\\npragma solidity ^0.8.20;\\n\\nimport { Proxied } from \\\"hardhat-deploy/solc_0.8/proxy/Proxied.sol\\\";\\nimport { PacketV1Codec } from \\\"@layerzerolabs/lz-evm-protocol-v2/contracts/messagelib/libs/PacketV1Codec.sol\\\";\\nimport { Origin } from \\\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol\\\";\\nimport { EndpointV2ViewUpgradeable } from \\\"@layerzerolabs/lz-evm-protocol-v2/contracts/EndpointV2ViewUpgradeable.sol\\\";\\nimport { UlnConfig } from \\\"../UlnBase.sol\\\";\\n\\nenum VerificationState {\\n    Verifying,\\n    Verifiable,\\n    Verified,\\n    NotInitializable\\n}\\n\\ninterface IReceiveUln302 {\\n    function assertHeader(bytes calldata _packetHeader, uint32 _localEid) external pure;\\n\\n    function verifiable(\\n        UlnConfig memory _config,\\n        bytes32 _headerHash,\\n        bytes32 _payloadHash\\n    ) external view returns (bool);\\n\\n    function getUlnConfig(address _oapp, uint32 _remoteEid) external view returns (UlnConfig memory rtnConfig);\\n}\\n\\ncontract ReceiveUln302View is EndpointV2ViewUpgradeable, Proxied {\\n    using PacketV1Codec for bytes;\\n\\n    IReceiveUln302 public receiveUln302;\\n    uint32 internal localEid;\\n\\n    function initialize(address _endpoint, address _receiveUln302) external proxied initializer {\\n        __EndpointV2View_init(_endpoint);\\n        receiveUln302 = IReceiveUln302(_receiveUln302);\\n        localEid = endpoint.eid();\\n    }\\n\\n    /// @dev a ULN verifiable requires it to be endpoint verifiable and committable\\n    function verifiable(bytes calldata _packetHeader, bytes32 _payloadHash) external view returns (VerificationState) {\\n        receiveUln302.assertHeader(_packetHeader, localEid);\\n\\n        address receiver = _packetHeader.receiverB20();\\n\\n        Origin memory origin = Origin(_packetHeader.srcEid(), _packetHeader.sender(), _packetHeader.nonce());\\n\\n        // check endpoint initializable\\n        if (!initializable(origin, receiver)) {\\n            return VerificationState.NotInitializable;\\n        }\\n\\n        // check endpoint verifiable\\n        if (!_endpointVerifiable(origin, receiver, _payloadHash)) {\\n            return VerificationState.Verified;\\n        }\\n\\n        // check uln verifiable\\n        if (\\n            receiveUln302.verifiable(\\n                receiveUln302.getUlnConfig(receiver, origin.srcEid),\\n                keccak256(_packetHeader),\\n                _payloadHash\\n            )\\n        ) {\\n            return VerificationState.Verifiable;\\n        }\\n        return VerificationState.Verifying;\\n    }\\n\\n    /// @dev checks for endpoint verifiable and endpoint has payload hash\\n    function _endpointVerifiable(\\n        Origin memory origin,\\n        address _receiver,\\n        bytes32 _payloadHash\\n    ) internal view returns (bool) {\\n        // check endpoint verifiable\\n        if (!verifiable(origin, _receiver, address(receiveUln302), _payloadHash)) return false;\\n\\n        // if endpoint.verifiable, also check if the payload hash matches\\n        // endpoint allows re-verify, check if this payload has already been verified\\n        if (endpoint.inboundPayloadHash(_receiver, origin.srcEid, origin.sender, origin.nonce) == _payloadHash)\\n            return false;\\n\\n        return true;\\n    }\\n}\\n\",\"keccak256\":\"0x97920987fbc604397a20b16153b24164642fff6fa2a4419dcac31facf0605a41\",\"license\":\"LZBL-1.2\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/EndpointV2View.sol\":{\"content\":\"// SPDX-License-Identifier: LZBL-1.2\\n\\npragma solidity ^0.8.20;\\n\\nimport { Proxied } from \\\"hardhat-deploy/solc_0.8/proxy/Proxied.sol\\\";\\nimport \\\"./EndpointV2ViewUpgradeable.sol\\\";\\n\\ncontract EndpointV2View is EndpointV2ViewUpgradeable, Proxied {\\n    function initialize(address _endpoint) external proxied initializer {\\n        __EndpointV2View_init(_endpoint);\\n    }\\n}\\n\",\"keccak256\":\"0x8ce2aa4314153a9d631a55cf9dc49d03e44eacbf244ac8f96563793149df91dc\",\"license\":\"LZBL-1.2\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/EndpointV2ViewUpgradeable.sol\":{\"content\":\"// SPDX-License-Identifier: LZBL-1.2\\n\\npragma solidity ^0.8.20;\\n\\nimport { Initializable } from \\\"@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol\\\";\\n\\nimport \\\"./interfaces/ILayerZeroEndpointV2.sol\\\";\\n\\nenum ExecutionState {\\n    NotExecutable, // executor: waits for PayloadVerified event and starts polling for executable\\n    VerifiedButNotExecutable, // executor: starts active polling for executable\\n    Executable,\\n    Executed\\n}\\n\\ncontract EndpointV2ViewUpgradeable is Initializable {\\n    bytes32 public constant EMPTY_PAYLOAD_HASH = bytes32(0);\\n    bytes32 public constant NIL_PAYLOAD_HASH = bytes32(type(uint256).max);\\n\\n    ILayerZeroEndpointV2 public endpoint;\\n\\n    function __EndpointV2View_init(address _endpoint) internal onlyInitializing {\\n        __EndpointV2View_init_unchained(_endpoint);\\n    }\\n\\n    function __EndpointV2View_init_unchained(address _endpoint) internal onlyInitializing {\\n        endpoint = ILayerZeroEndpointV2(_endpoint);\\n    }\\n\\n    function initializable(Origin memory _origin, address _receiver) public view returns (bool) {\\n        try endpoint.initializable(_origin, _receiver) returns (bool _initializable) {\\n            return _initializable;\\n        } catch {\\n            return false;\\n        }\\n    }\\n\\n    /// @dev check if a message is verifiable.\\n    function verifiable(\\n        Origin memory _origin,\\n        address _receiver,\\n        address _receiveLib,\\n        bytes32 _payloadHash\\n    ) public view returns (bool) {\\n        if (!endpoint.isValidReceiveLibrary(_receiver, _origin.srcEid, _receiveLib)) return false;\\n\\n        if (!endpoint.verifiable(_origin, _receiver)) return false;\\n\\n        // checked in _inbound for verify\\n        if (_payloadHash == EMPTY_PAYLOAD_HASH) return false;\\n\\n        return true;\\n    }\\n\\n    /// @dev check if a message is executable.\\n    /// @return ExecutionState of Executed, Executable, or NotExecutable\\n    function executable(Origin memory _origin, address _receiver) public view returns (ExecutionState) {\\n        bytes32 payloadHash = endpoint.inboundPayloadHash(_receiver, _origin.srcEid, _origin.sender, _origin.nonce);\\n\\n        // executed if the payload hash has been cleared and the nonce is less than or equal to lazyInboundNonce\\n        if (\\n            payloadHash == EMPTY_PAYLOAD_HASH &&\\n            _origin.nonce <= endpoint.lazyInboundNonce(_receiver, _origin.srcEid, _origin.sender)\\n        ) {\\n            return ExecutionState.Executed;\\n        }\\n\\n        // executable if nonce has not been executed and has not been nilified and nonce is less than or equal to inboundNonce\\n        if (\\n            payloadHash != NIL_PAYLOAD_HASH &&\\n            _origin.nonce <= endpoint.inboundNonce(_receiver, _origin.srcEid, _origin.sender)\\n        ) {\\n            return ExecutionState.Executable;\\n        }\\n\\n        // only start active executable polling if payload hash is not empty nor nil\\n        if (payloadHash != EMPTY_PAYLOAD_HASH && payloadHash != NIL_PAYLOAD_HASH) {\\n            return ExecutionState.VerifiedButNotExecutable;\\n        }\\n\\n        // return NotExecutable as a catch-all\\n        return ExecutionState.NotExecutable;\\n    }\\n\\n    /**\\n     * @dev This empty reserved space is put in place to allow future versions to add new\\n     * variables without shifting down storage in the inheritance chain.\\n     * See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps\\n     */\\n    uint256[49] private __gap;\\n}\\n\",\"keccak256\":\"0x3947d47849f0bdf5992248024869a50d4a183ec3e992dcfedfbaf64918e8b6b1\",\"license\":\"LZBL-1.2\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\nimport { IMessageLibManager } from \\\"./IMessageLibManager.sol\\\";\\nimport { IMessagingComposer } from \\\"./IMessagingComposer.sol\\\";\\nimport { IMessagingChannel } from \\\"./IMessagingChannel.sol\\\";\\nimport { IMessagingContext } from \\\"./IMessagingContext.sol\\\";\\n\\nstruct MessagingParams {\\n    uint32 dstEid;\\n    bytes32 receiver;\\n    bytes message;\\n    bytes options;\\n    bool payInLzToken;\\n}\\n\\nstruct MessagingReceipt {\\n    bytes32 guid;\\n    uint64 nonce;\\n    MessagingFee fee;\\n}\\n\\nstruct MessagingFee {\\n    uint256 nativeFee;\\n    uint256 lzTokenFee;\\n}\\n\\nstruct Origin {\\n    uint32 srcEid;\\n    bytes32 sender;\\n    uint64 nonce;\\n}\\n\\ninterface ILayerZeroEndpointV2 is IMessageLibManager, IMessagingComposer, IMessagingChannel, IMessagingContext {\\n    event PacketSent(bytes encodedPayload, bytes options, address sendLibrary);\\n\\n    event PacketVerified(Origin origin, address receiver, bytes32 payloadHash);\\n\\n    event PacketDelivered(Origin origin, address receiver);\\n\\n    event LzReceiveAlert(\\n        address indexed receiver,\\n        address indexed executor,\\n        Origin origin,\\n        bytes32 guid,\\n        uint256 gas,\\n        uint256 value,\\n        bytes message,\\n        bytes extraData,\\n        bytes reason\\n    );\\n\\n    event LzTokenSet(address token);\\n\\n    event DelegateSet(address sender, address delegate);\\n\\n    function quote(MessagingParams calldata _params, address _sender) external view returns (MessagingFee memory);\\n\\n    function send(\\n        MessagingParams calldata _params,\\n        address _refundAddress\\n    ) external payable returns (MessagingReceipt memory);\\n\\n    function verify(Origin calldata _origin, address _receiver, bytes32 _payloadHash) external;\\n\\n    function verifiable(Origin calldata _origin, address _receiver) external view returns (bool);\\n\\n    function initializable(Origin calldata _origin, address _receiver) external view returns (bool);\\n\\n    function lzReceive(\\n        Origin calldata _origin,\\n        address _receiver,\\n        bytes32 _guid,\\n        bytes calldata _message,\\n        bytes calldata _extraData\\n    ) external payable;\\n\\n    // oapp can burn messages partially by calling this function with its own business logic if messages are verified in order\\n    function clear(address _oapp, Origin calldata _origin, bytes32 _guid, bytes calldata _message) external;\\n\\n    function setLzToken(address _lzToken) external;\\n\\n    function lzToken() external view returns (address);\\n\\n    function nativeToken() external view returns (address);\\n\\n    function setDelegate(address _delegate) external;\\n}\\n\",\"keccak256\":\"0xf7f941bee89ea6369950fe54e8ac476ae6478b958b20fc0e8a83e8ff1364eac3\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessageLib.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\nimport { IERC165 } from \\\"@openzeppelin/contracts/utils/introspection/IERC165.sol\\\";\\n\\nimport { SetConfigParam } from \\\"./IMessageLibManager.sol\\\";\\n\\nenum MessageLibType {\\n    Send,\\n    Receive,\\n    SendAndReceive\\n}\\n\\ninterface IMessageLib is IERC165 {\\n    function setConfig(address _oapp, SetConfigParam[] calldata _config) external;\\n\\n    function getConfig(uint32 _eid, address _oapp, uint32 _configType) external view returns (bytes memory config);\\n\\n    function isSupportedEid(uint32 _eid) external view returns (bool);\\n\\n    // message libs of same major version are compatible\\n    function version() external view returns (uint64 major, uint8 minor, uint8 endpointVersion);\\n\\n    function messageLibType() external view returns (MessageLibType);\\n}\\n\",\"keccak256\":\"0x5cf5f24751b4e3ea1c9c5ded07cedfdfd62566b6daaffcc0144733859c9dba0c\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessageLibManager.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\nstruct SetConfigParam {\\n    uint32 eid;\\n    uint32 configType;\\n    bytes config;\\n}\\n\\ninterface IMessageLibManager {\\n    struct Timeout {\\n        address lib;\\n        uint256 expiry;\\n    }\\n\\n    event LibraryRegistered(address newLib);\\n    event DefaultSendLibrarySet(uint32 eid, address newLib);\\n    event DefaultReceiveLibrarySet(uint32 eid, address newLib);\\n    event DefaultReceiveLibraryTimeoutSet(uint32 eid, address oldLib, uint256 expiry);\\n    event SendLibrarySet(address sender, uint32 eid, address newLib);\\n    event ReceiveLibrarySet(address receiver, uint32 eid, address newLib);\\n    event ReceiveLibraryTimeoutSet(address receiver, uint32 eid, address oldLib, uint256 timeout);\\n\\n    function registerLibrary(address _lib) external;\\n\\n    function isRegisteredLibrary(address _lib) external view returns (bool);\\n\\n    function getRegisteredLibraries() external view returns (address[] memory);\\n\\n    function setDefaultSendLibrary(uint32 _eid, address _newLib) external;\\n\\n    function defaultSendLibrary(uint32 _eid) external view returns (address);\\n\\n    function setDefaultReceiveLibrary(uint32 _eid, address _newLib, uint256 _gracePeriod) external;\\n\\n    function defaultReceiveLibrary(uint32 _eid) external view returns (address);\\n\\n    function setDefaultReceiveLibraryTimeout(uint32 _eid, address _lib, uint256 _expiry) external;\\n\\n    function defaultReceiveLibraryTimeout(uint32 _eid) external view returns (address lib, uint256 expiry);\\n\\n    function isSupportedEid(uint32 _eid) external view returns (bool);\\n\\n    function isValidReceiveLibrary(address _receiver, uint32 _eid, address _lib) external view returns (bool);\\n\\n    /// ------------------- OApp interfaces -------------------\\n    function setSendLibrary(address _oapp, uint32 _eid, address _newLib) external;\\n\\n    function getSendLibrary(address _sender, uint32 _eid) external view returns (address lib);\\n\\n    function isDefaultSendLibrary(address _sender, uint32 _eid) external view returns (bool);\\n\\n    function setReceiveLibrary(address _oapp, uint32 _eid, address _newLib, uint256 _gracePeriod) external;\\n\\n    function getReceiveLibrary(address _receiver, uint32 _eid) external view returns (address lib, bool isDefault);\\n\\n    function setReceiveLibraryTimeout(address _oapp, uint32 _eid, address _lib, uint256 _expiry) external;\\n\\n    function receiveLibraryTimeout(address _receiver, uint32 _eid) external view returns (address lib, uint256 expiry);\\n\\n    function setConfig(address _oapp, address _lib, SetConfigParam[] calldata _params) external;\\n\\n    function getConfig(\\n        address _oapp,\\n        address _lib,\\n        uint32 _eid,\\n        uint32 _configType\\n    ) external view returns (bytes memory config);\\n}\\n\",\"keccak256\":\"0x919b37133adff4dc528e3061deb2789c3149971b530c61e556fb3d09ab315dfc\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessagingChannel.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\ninterface IMessagingChannel {\\n    event InboundNonceSkipped(uint32 srcEid, bytes32 sender, address receiver, uint64 nonce);\\n    event PacketNilified(uint32 srcEid, bytes32 sender, address receiver, uint64 nonce, bytes32 payloadHash);\\n    event PacketBurnt(uint32 srcEid, bytes32 sender, address receiver, uint64 nonce, bytes32 payloadHash);\\n\\n    function eid() external view returns (uint32);\\n\\n    // this is an emergency function if a message cannot be verified for some reasons\\n    // required to provide _nextNonce to avoid race condition\\n    function skip(address _oapp, uint32 _srcEid, bytes32 _sender, uint64 _nonce) external;\\n\\n    function nilify(address _oapp, uint32 _srcEid, bytes32 _sender, uint64 _nonce, bytes32 _payloadHash) external;\\n\\n    function burn(address _oapp, uint32 _srcEid, bytes32 _sender, uint64 _nonce, bytes32 _payloadHash) external;\\n\\n    function nextGuid(address _sender, uint32 _dstEid, bytes32 _receiver) external view returns (bytes32);\\n\\n    function inboundNonce(address _receiver, uint32 _srcEid, bytes32 _sender) external view returns (uint64);\\n\\n    function outboundNonce(address _sender, uint32 _dstEid, bytes32 _receiver) external view returns (uint64);\\n\\n    function inboundPayloadHash(\\n        address _receiver,\\n        uint32 _srcEid,\\n        bytes32 _sender,\\n        uint64 _nonce\\n    ) external view returns (bytes32);\\n\\n    function lazyInboundNonce(address _receiver, uint32 _srcEid, bytes32 _sender) external view returns (uint64);\\n}\\n\",\"keccak256\":\"0x0878f64dffebf58c4165569416372f40860fab546b88cd926eba0d5cb6d8d972\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessagingComposer.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\ninterface IMessagingComposer {\\n    event ComposeSent(address from, address to, bytes32 guid, uint16 index, bytes message);\\n    event ComposeDelivered(address from, address to, bytes32 guid, uint16 index);\\n    event LzComposeAlert(\\n        address indexed from,\\n        address indexed to,\\n        address indexed executor,\\n        bytes32 guid,\\n        uint16 index,\\n        uint256 gas,\\n        uint256 value,\\n        bytes message,\\n        bytes extraData,\\n        bytes reason\\n    );\\n\\n    function composeQueue(\\n        address _from,\\n        address _to,\\n        bytes32 _guid,\\n        uint16 _index\\n    ) external view returns (bytes32 messageHash);\\n\\n    function sendCompose(address _to, bytes32 _guid, uint16 _index, bytes calldata _message) external;\\n\\n    function lzCompose(\\n        address _from,\\n        address _to,\\n        bytes32 _guid,\\n        uint16 _index,\\n        bytes calldata _message,\\n        bytes calldata _extraData\\n    ) external payable;\\n}\\n\",\"keccak256\":\"0x85bc7090134529ec474866dc4bb1c48692d518c756eb0a961c82574829c51901\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/IMessagingContext.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\ninterface IMessagingContext {\\n    function isSendingMessage() external view returns (bool);\\n\\n    function getSendContext() external view returns (uint32 dstEid, address sender);\\n}\\n\",\"keccak256\":\"0xff0c546c2813dae3e440882f46b377375f7461b0714efd80bd3f0c6e5cb8da4e\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ISendLib.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity >=0.8.0;\\n\\nimport { MessagingFee } from \\\"./ILayerZeroEndpointV2.sol\\\";\\nimport { IMessageLib } from \\\"./IMessageLib.sol\\\";\\n\\nstruct Packet {\\n    uint64 nonce;\\n    uint32 srcEid;\\n    address sender;\\n    uint32 dstEid;\\n    bytes32 receiver;\\n    bytes32 guid;\\n    bytes message;\\n}\\n\\ninterface ISendLib is IMessageLib {\\n    function send(\\n        Packet calldata _packet,\\n        bytes calldata _options,\\n        bool _payInLzToken\\n    ) external returns (MessagingFee memory, bytes memory encodedPacket);\\n\\n    function quote(\\n        Packet calldata _packet,\\n        bytes calldata _options,\\n        bool _payInLzToken\\n    ) external view returns (MessagingFee memory);\\n\\n    function setTreasury(address _treasury) external;\\n\\n    function withdrawFee(address _to, uint256 _amount) external;\\n\\n    function withdrawLzTokenFee(address _lzToken, address _to, uint256 _amount) external;\\n}\\n\",\"keccak256\":\"0xf1c07bc61e7b1dce195ed12d50f87980fbf2d63cac1326fd28287f55fe0ba625\",\"license\":\"MIT\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/libs/AddressCast.sol\":{\"content\":\"// SPDX-License-Identifier: LZBL-1.2\\n\\npragma solidity ^0.8.20;\\n\\nlibrary AddressCast {\\n    error AddressCast_InvalidSizeForAddress();\\n    error AddressCast_InvalidAddress();\\n\\n    function toBytes32(bytes calldata _addressBytes) internal pure returns (bytes32 result) {\\n        if (_addressBytes.length > 32) revert AddressCast_InvalidAddress();\\n        result = bytes32(_addressBytes);\\n        unchecked {\\n            uint256 offset = 32 - _addressBytes.length;\\n            result = result >> (offset * 8);\\n        }\\n    }\\n\\n    function toBytes32(address _address) internal pure returns (bytes32 result) {\\n        result = bytes32(uint256(uint160(_address)));\\n    }\\n\\n    function toBytes(bytes32 _addressBytes32, uint256 _size) internal pure returns (bytes memory result) {\\n        if (_size == 0 || _size > 32) revert AddressCast_InvalidSizeForAddress();\\n        result = new bytes(_size);\\n        unchecked {\\n            uint256 offset = 256 - _size * 8;\\n            assembly {\\n                mstore(add(result, 32), shl(offset, _addressBytes32))\\n            }\\n        }\\n    }\\n\\n    function toAddress(bytes32 _addressBytes32) internal pure returns (address result) {\\n        result = address(uint160(uint256(_addressBytes32)));\\n    }\\n\\n    function toAddress(bytes calldata _addressBytes) internal pure returns (address result) {\\n        if (_addressBytes.length != 20) revert AddressCast_InvalidAddress();\\n        result = address(bytes20(_addressBytes));\\n    }\\n}\\n\",\"keccak256\":\"0x2ebbcaaab3554edcd41b581f1a72ac1806afbfb8047d0d47ff098f9af30d6deb\",\"license\":\"LZBL-1.2\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/libs/Transfer.sol\":{\"content\":\"// SPDX-License-Identifier: LZBL-1.2\\n\\npragma solidity ^0.8.20;\\n\\nimport { SafeERC20 } from \\\"@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol\\\";\\nimport { IERC20 } from \\\"@openzeppelin/contracts/token/ERC20/IERC20.sol\\\";\\n\\nlibrary Transfer {\\n    using SafeERC20 for IERC20;\\n\\n    address internal constant ADDRESS_ZERO = address(0);\\n\\n    error Transfer_NativeFailed(address _to, uint256 _value);\\n    error Transfer_ToAddressIsZero();\\n\\n    function native(address _to, uint256 _value) internal {\\n        if (_to == ADDRESS_ZERO) revert Transfer_ToAddressIsZero();\\n        (bool success, ) = _to.call{ value: _value }(\\\"\\\");\\n        if (!success) revert Transfer_NativeFailed(_to, _value);\\n    }\\n\\n    function token(address _token, address _to, uint256 _value) internal {\\n        if (_to == ADDRESS_ZERO) revert Transfer_ToAddressIsZero();\\n        IERC20(_token).safeTransfer(_to, _value);\\n    }\\n\\n    function nativeOrToken(address _token, address _to, uint256 _value) internal {\\n        if (_token == ADDRESS_ZERO) {\\n            native(_to, _value);\\n        } else {\\n            token(_token, _to, _value);\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x621d6dd5b8b7e827351459fff4ac87c16ba4656757592cf67de8b199aea4cf9a\",\"license\":\"LZBL-1.2\"},\"@layerzerolabs/lz-evm-protocol-v2/contracts/messagelib/libs/PacketV1Codec.sol\":{\"content\":\"// SPDX-License-Identifier: LZBL-1.2\\n\\npragma solidity ^0.8.20;\\n\\nimport { Packet } from \\\"../../interfaces/ISendLib.sol\\\";\\nimport { AddressCast } from \\\"../../libs/AddressCast.sol\\\";\\n\\nlibrary PacketV1Codec {\\n    using AddressCast for address;\\n    using AddressCast for bytes32;\\n\\n    uint8 internal constant PACKET_VERSION = 1;\\n\\n    // header (version + nonce + path)\\n    // version\\n    uint256 private constant PACKET_VERSION_OFFSET = 0;\\n    //    nonce\\n    uint256 private constant NONCE_OFFSET = 1;\\n    //    path\\n    uint256 private constant SRC_EID_OFFSET = 9;\\n    uint256 private constant SENDER_OFFSET = 13;\\n    uint256 private constant DST_EID_OFFSET = 45;\\n    uint256 private constant RECEIVER_OFFSET = 49;\\n    // payload (guid + message)\\n    uint256 private constant GUID_OFFSET = 81; // keccak256(nonce + path)\\n    uint256 private constant MESSAGE_OFFSET = 113;\\n\\n    function encode(Packet memory _packet) internal pure returns (bytes memory encodedPacket) {\\n        encodedPacket = abi.encodePacked(\\n            PACKET_VERSION,\\n            _packet.nonce,\\n            _packet.srcEid,\\n            _packet.sender.toBytes32(),\\n            _packet.dstEid,\\n            _packet.receiver,\\n            _packet.guid,\\n            _packet.message\\n        );\\n    }\\n\\n    function encodePacketHeader(Packet memory _packet) internal pure returns (bytes memory) {\\n        return\\n            abi.encodePacked(\\n                PACKET_VERSION,\\n                _packet.nonce,\\n                _packet.srcEid,\\n                _packet.sender.toBytes32(),\\n                _packet.dstEid,\\n                _packet.receiver\\n            );\\n    }\\n\\n    function encodePayload(Packet memory _packet) internal pure returns (bytes memory) {\\n        return abi.encodePacked(_packet.guid, _packet.message);\\n    }\\n\\n    function header(bytes calldata _packet) internal pure returns (bytes calldata) {\\n        return _packet[0:GUID_OFFSET];\\n    }\\n\\n    function version(bytes calldata _packet) internal pure returns (uint8) {\\n        return uint8(bytes1(_packet[PACKET_VERSION_OFFSET:NONCE_OFFSET]));\\n    }\\n\\n    function nonce(bytes calldata _packet) internal pure returns (uint64) {\\n        return uint64(bytes8(_packet[NONCE_OFFSET:SRC_EID_OFFSET]));\\n    }\\n\\n    function srcEid(bytes calldata _packet) internal pure returns (uint32) {\\n        return uint32(bytes4(_packet[SRC_EID_OFFSET:SENDER_OFFSET]));\\n    }\\n\\n    function sender(bytes calldata _packet) internal pure returns (bytes32) {\\n        return bytes32(_packet[SENDER_OFFSET:DST_EID_OFFSET]);\\n    }\\n\\n    function senderAddressB20(bytes calldata _packet) internal pure returns (address) {\\n        return sender(_packet).toAddress();\\n    }\\n\\n    function dstEid(bytes calldata _packet) internal pure returns (uint32) {\\n        return uint32(bytes4(_packet[DST_EID_OFFSET:RECEIVER_OFFSET]));\\n    }\\n\\n    function receiver(bytes calldata _packet) internal pure returns (bytes32) {\\n        return bytes32(_packet[RECEIVER_OFFSET:GUID_OFFSET]);\\n    }\\n\\n    function receiverB20(bytes calldata _packet) internal pure returns (address) {\\n        return receiver(_packet).toAddress();\\n    }\\n\\n    function guid(bytes calldata _packet) internal pure returns (bytes32) {\\n        return bytes32(_packet[GUID_OFFSET:MESSAGE_OFFSET]);\\n    }\\n\\n    function message(bytes calldata _packet) internal pure returns (bytes calldata) {\\n        return bytes(_packet[MESSAGE_OFFSET:]);\\n    }\\n\\n    function payload(bytes calldata _packet) internal pure returns (bytes calldata) {\\n        return bytes(_packet[GUID_OFFSET:]);\\n    }\\n\\n    function payloadHash(bytes calldata _packet) internal pure returns (bytes32) {\\n        return keccak256(payload(_packet));\\n    }\\n}\\n\",\"keccak256\":\"0xc84cf1bf785977fe1fbe7566eef902c2db68d0e163813ebe6c34921754802680\",\"license\":\"LZBL-1.2\"},\"@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.3.0) (proxy/utils/Initializable.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev This is a base contract to aid in writing upgradeable contracts, or any kind of contract that will be deployed\\n * behind a proxy. Since proxied contracts do not make use of a constructor, it's common to move constructor logic to an\\n * external initializer function, usually called `initialize`. It then becomes necessary to protect this initializer\\n * function so it can only be called once. The {initializer} modifier provided by this contract will have this effect.\\n *\\n * The initialization functions use a version number. Once a version number is used, it is consumed and cannot be\\n * reused. This mechanism prevents re-execution of each \\\"step\\\" but allows the creation of new initialization steps in\\n * case an upgrade adds a module that needs to be initialized.\\n *\\n * For example:\\n *\\n * [.hljs-theme-light.nopadding]\\n * ```solidity\\n * contract MyToken is ERC20Upgradeable {\\n *     function initialize() initializer public {\\n *         __ERC20_init(\\\"MyToken\\\", \\\"MTK\\\");\\n *     }\\n * }\\n *\\n * contract MyTokenV2 is MyToken, ERC20PermitUpgradeable {\\n *     function initializeV2() reinitializer(2) public {\\n *         __ERC20Permit_init(\\\"MyToken\\\");\\n *     }\\n * }\\n * ```\\n *\\n * TIP: To avoid leaving the proxy in an uninitialized state, the initializer function should be called as early as\\n * possible by providing the encoded function call as the `_data` argument to {ERC1967Proxy-constructor}.\\n *\\n * CAUTION: When used with inheritance, manual care must be taken to not invoke a parent initializer twice, or to ensure\\n * that all initializers are idempotent. This is not verified automatically as constructors are by Solidity.\\n *\\n * [CAUTION]\\n * ====\\n * Avoid leaving a contract uninitialized.\\n *\\n * An uninitialized contract can be taken over by an attacker. This applies to both a proxy and its implementation\\n * contract, which may impact the proxy. To prevent the implementation contract from being used, you should invoke\\n * the {_disableInitializers} function in the constructor to automatically lock it when it is deployed:\\n *\\n * [.hljs-theme-light.nopadding]\\n * ```\\n * /// @custom:oz-upgrades-unsafe-allow constructor\\n * constructor() {\\n *     _disableInitializers();\\n * }\\n * ```\\n * ====\\n */\\nabstract contract Initializable {\\n    /**\\n     * @dev Storage of the initializable contract.\\n     *\\n     * It's implemented on a custom ERC-7201 namespace to reduce the risk of storage collisions\\n     * when using with upgradeable contracts.\\n     *\\n     * @custom:storage-location erc7201:openzeppelin.storage.Initializable\\n     */\\n    struct InitializableStorage {\\n        /**\\n         * @dev Indicates that the contract has been initialized.\\n         */\\n        uint64 _initialized;\\n        /**\\n         * @dev Indicates that the contract is in the process of being initialized.\\n         */\\n        bool _initializing;\\n    }\\n\\n    // keccak256(abi.encode(uint256(keccak256(\\\"openzeppelin.storage.Initializable\\\")) - 1)) & ~bytes32(uint256(0xff))\\n    bytes32 private constant INITIALIZABLE_STORAGE = 0xf0c57e16840df040f15088dc2f81fe391c3923bec73e23a9662efc9c229c6a00;\\n\\n    /**\\n     * @dev The contract is already initialized.\\n     */\\n    error InvalidInitialization();\\n\\n    /**\\n     * @dev The contract is not initializing.\\n     */\\n    error NotInitializing();\\n\\n    /**\\n     * @dev Triggered when the contract has been initialized or reinitialized.\\n     */\\n    event Initialized(uint64 version);\\n\\n    /**\\n     * @dev A modifier that defines a protected initializer function that can be invoked at most once. In its scope,\\n     * `onlyInitializing` functions can be used to initialize parent contracts.\\n     *\\n     * Similar to `reinitializer(1)`, except that in the context of a constructor an `initializer` may be invoked any\\n     * number of times. This behavior in the constructor can be useful during testing and is not expected to be used in\\n     * production.\\n     *\\n     * Emits an {Initialized} event.\\n     */\\n    modifier initializer() {\\n        // solhint-disable-next-line var-name-mixedcase\\n        InitializableStorage storage $ = _getInitializableStorage();\\n\\n        // Cache values to avoid duplicated sloads\\n        bool isTopLevelCall = !$._initializing;\\n        uint64 initialized = $._initialized;\\n\\n        // Allowed calls:\\n        // - initialSetup: the contract is not in the initializing state and no previous version was\\n        //                 initialized\\n        // - construction: the contract is initialized at version 1 (no reinitialization) and the\\n        //                 current contract is just being deployed\\n        bool initialSetup = initialized == 0 && isTopLevelCall;\\n        bool construction = initialized == 1 && address(this).code.length == 0;\\n\\n        if (!initialSetup && !construction) {\\n            revert InvalidInitialization();\\n        }\\n        $._initialized = 1;\\n        if (isTopLevelCall) {\\n            $._initializing = true;\\n        }\\n        _;\\n        if (isTopLevelCall) {\\n            $._initializing = false;\\n            emit Initialized(1);\\n        }\\n    }\\n\\n    /**\\n     * @dev A modifier that defines a protected reinitializer function that can be invoked at most once, and only if the\\n     * contract hasn't been initialized to a greater version before. In its scope, `onlyInitializing` functions can be\\n     * used to initialize parent contracts.\\n     *\\n     * A reinitializer may be used after the original initialization step. This is essential to configure modules that\\n     * are added through upgrades and that require initialization.\\n     *\\n     * When `version` is 1, this modifier is similar to `initializer`, except that functions marked with `reinitializer`\\n     * cannot be nested. If one is invoked in the context of another, execution will revert.\\n     *\\n     * Note that versions can jump in increments greater than 1; this implies that if multiple reinitializers coexist in\\n     * a contract, executing them in the right order is up to the developer or operator.\\n     *\\n     * WARNING: Setting the version to 2**64 - 1 will prevent any future reinitialization.\\n     *\\n     * Emits an {Initialized} event.\\n     */\\n    modifier reinitializer(uint64 version) {\\n        // solhint-disable-next-line var-name-mixedcase\\n        InitializableStorage storage $ = _getInitializableStorage();\\n\\n        if ($._initializing || $._initialized >= version) {\\n            revert InvalidInitialization();\\n        }\\n        $._initialized = version;\\n        $._initializing = true;\\n        _;\\n        $._initializing = false;\\n        emit Initialized(version);\\n    }\\n\\n    /**\\n     * @dev Modifier to protect an initialization function so that it can only be invoked by functions with the\\n     * {initializer} and {reinitializer} modifiers, directly or indirectly.\\n     */\\n    modifier onlyInitializing() {\\n        _checkInitializing();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Reverts if the contract is not in an initializing state. See {onlyInitializing}.\\n     */\\n    function _checkInitializing() internal view virtual {\\n        if (!_isInitializing()) {\\n            revert NotInitializing();\\n        }\\n    }\\n\\n    /**\\n     * @dev Locks the contract, preventing any future reinitialization. This cannot be part of an initializer call.\\n     * Calling this in the constructor of a contract will prevent that contract from being initialized or reinitialized\\n     * to any version. It is recommended to use this to lock implementation contracts that are designed to be called\\n     * through proxies.\\n     *\\n     * Emits an {Initialized} event the first time it is successfully executed.\\n     */\\n    function _disableInitializers() internal virtual {\\n        // solhint-disable-next-line var-name-mixedcase\\n        InitializableStorage storage $ = _getInitializableStorage();\\n\\n        if ($._initializing) {\\n            revert InvalidInitialization();\\n        }\\n        if ($._initialized != type(uint64).max) {\\n            $._initialized = type(uint64).max;\\n            emit Initialized(type(uint64).max);\\n        }\\n    }\\n\\n    /**\\n     * @dev Returns the highest version that has been initialized. See {reinitializer}.\\n     */\\n    function _getInitializedVersion() internal view returns (uint64) {\\n        return _getInitializableStorage()._initialized;\\n    }\\n\\n    /**\\n     * @dev Returns `true` if the contract is currently initializing. See {onlyInitializing}.\\n     */\\n    function _isInitializing() internal view returns (bool) {\\n        return _getInitializableStorage()._initializing;\\n    }\\n\\n    /**\\n     * @dev Pointer to storage slot. Allows integrators to override it with a custom storage location.\\n     *\\n     * NOTE: Consider following the ERC-7201 formula to derive storage locations.\\n     */\\n    function _initializableStorageSlot() internal pure virtual returns (bytes32) {\\n        return INITIALIZABLE_STORAGE;\\n    }\\n\\n    /**\\n     * @dev Returns a pointer to the storage namespace.\\n     */\\n    // solhint-disable-next-line var-name-mixedcase\\n    function _getInitializableStorage() private pure returns (InitializableStorage storage $) {\\n        bytes32 slot = _initializableStorageSlot();\\n        assembly {\\n            $.slot := slot\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xdb4d24ee2c087c391d587cd17adfe5b3f9d93b3110b1388c2ab6c7c0ad1dcd05\",\"license\":\"MIT\"},\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Context} from \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The initial owner is set to the address provided by the deployer. This can\\n * later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    /**\\n     * @dev The caller account is not authorized to perform an operation.\\n     */\\n    error OwnableUnauthorizedAccount(address account);\\n\\n    /**\\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\\n     */\\n    error OwnableInvalidOwner(address owner);\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\\n     */\\n    constructor(address initialOwner) {\\n        if (initialOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        if (owner() != _msgSender()) {\\n            revert OwnableUnauthorizedAccount(_msgSender());\\n        }\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\"},\"@openzeppelin/contracts/interfaces/IERC1363.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.4.0) (interfaces/IERC1363.sol)\\n\\npragma solidity >=0.6.2;\\n\\nimport {IERC20} from \\\"./IERC20.sol\\\";\\nimport {IERC165} from \\\"./IERC165.sol\\\";\\n\\n/**\\n * @title IERC1363\\n * @dev Interface of the ERC-1363 standard as defined in the https://eips.ethereum.org/EIPS/eip-1363[ERC-1363].\\n *\\n * Defines an extension interface for ERC-20 tokens that supports executing code on a recipient contract\\n * after `transfer` or `transferFrom`, or code on a spender contract after `approve`, in a single transaction.\\n */\\ninterface IERC1363 is IERC20, IERC165 {\\n    /*\\n     * Note: the ERC-165 identifier for this interface is 0xb0202a11.\\n     * 0xb0202a11 ===\\n     *   bytes4(keccak256('transferAndCall(address,uint256)')) ^\\n     *   bytes4(keccak256('transferAndCall(address,uint256,bytes)')) ^\\n     *   bytes4(keccak256('transferFromAndCall(address,address,uint256)')) ^\\n     *   bytes4(keccak256('transferFromAndCall(address,address,uint256,bytes)')) ^\\n     *   bytes4(keccak256('approveAndCall(address,uint256)')) ^\\n     *   bytes4(keccak256('approveAndCall(address,uint256,bytes)'))\\n     */\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from the caller's account to `to`\\n     * and then calls {IERC1363Receiver-onTransferReceived} on `to`.\\n     * @param to The address which you want to transfer to.\\n     * @param value The amount of tokens to be transferred.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function transferAndCall(address to, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from the caller's account to `to`\\n     * and then calls {IERC1363Receiver-onTransferReceived} on `to`.\\n     * @param to The address which you want to transfer to.\\n     * @param value The amount of tokens to be transferred.\\n     * @param data Additional data with no specified format, sent in call to `to`.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function transferAndCall(address to, uint256 value, bytes calldata data) external returns (bool);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism\\n     * and then calls {IERC1363Receiver-onTransferReceived} on `to`.\\n     * @param from The address which you want to send tokens from.\\n     * @param to The address which you want to transfer to.\\n     * @param value The amount of tokens to be transferred.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function transferFromAndCall(address from, address to, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from `from` to `to` using the allowance mechanism\\n     * and then calls {IERC1363Receiver-onTransferReceived} on `to`.\\n     * @param from The address which you want to send tokens from.\\n     * @param to The address which you want to transfer to.\\n     * @param value The amount of tokens to be transferred.\\n     * @param data Additional data with no specified format, sent in call to `to`.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function transferFromAndCall(address from, address to, uint256 value, bytes calldata data) external returns (bool);\\n\\n    /**\\n     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the\\n     * caller's tokens and then calls {IERC1363Spender-onApprovalReceived} on `spender`.\\n     * @param spender The address which will spend the funds.\\n     * @param value The amount of tokens to be spent.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function approveAndCall(address spender, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the\\n     * caller's tokens and then calls {IERC1363Spender-onApprovalReceived} on `spender`.\\n     * @param spender The address which will spend the funds.\\n     * @param value The amount of tokens to be spent.\\n     * @param data Additional data with no specified format, sent in call to `spender`.\\n     * @return A boolean value indicating whether the operation succeeded unless throwing.\\n     */\\n    function approveAndCall(address spender, uint256 value, bytes calldata data) external returns (bool);\\n}\\n\",\"keccak256\":\"0xd5ea07362ab630a6a3dee4285a74cf2377044ca2e4be472755ad64d7c5d4b69d\",\"license\":\"MIT\"},\"@openzeppelin/contracts/interfaces/IERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.4.0) (interfaces/IERC165.sol)\\n\\npragma solidity >=0.4.16;\\n\\nimport {IERC165} from \\\"../utils/introspection/IERC165.sol\\\";\\n\",\"keccak256\":\"0x0afcb7e740d1537b252cb2676f600465ce6938398569f09ba1b9ca240dde2dfc\",\"license\":\"MIT\"},\"@openzeppelin/contracts/interfaces/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.4.0) (interfaces/IERC20.sol)\\n\\npragma solidity >=0.4.16;\\n\\nimport {IERC20} from \\\"../token/ERC20/IERC20.sol\\\";\\n\",\"keccak256\":\"0x1a6221315ce0307746c2c4827c125d821ee796c74a676787762f4778671d4f44\",\"license\":\"MIT\"},\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.4.0) (token/ERC20/IERC20.sol)\\n\\npragma solidity >=0.4.16;\\n\\n/**\\n * @dev Interface of the ERC-20 standard as defined in the ERC.\\n */\\ninterface IERC20 {\\n    /**\\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\\n     * another (`to`).\\n     *\\n     * Note that `value` may be zero.\\n     */\\n    event Transfer(address indexed from, address indexed to, uint256 value);\\n\\n    /**\\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\\n     * a call to {approve}. `value` is the new allowance.\\n     */\\n    event Approval(address indexed owner, address indexed spender, uint256 value);\\n\\n    /**\\n     * @dev Returns the value of tokens in existence.\\n     */\\n    function totalSupply() external view returns (uint256);\\n\\n    /**\\n     * @dev Returns the value of tokens owned by `account`.\\n     */\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from the caller's account to `to`.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transfer(address to, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Returns the remaining number of tokens that `spender` will be\\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\\n     * zero by default.\\n     *\\n     * This value changes when {approve} or {transferFrom} are called.\\n     */\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    /**\\n     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the\\n     * caller's tokens.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\\n     * that someone may use both the old and the new allowance by unfortunate\\n     * transaction ordering. One possible solution to mitigate this race\\n     * condition is to first reduce the spender's allowance to 0 and set the\\n     * desired value afterwards:\\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\\n     *\\n     * Emits an {Approval} event.\\n     */\\n    function approve(address spender, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from `from` to `to` using the\\n     * allowance mechanism. `value` is then deducted from the caller's\\n     * allowance.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transferFrom(address from, address to, uint256 value) external returns (bool);\\n}\\n\",\"keccak256\":\"0x74ed01eb66b923d0d0cfe3be84604ac04b76482a55f9dd655e1ef4d367f95bc2\",\"license\":\"MIT\"},\"@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.3.0) (token/ERC20/utils/SafeERC20.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {IERC20} from \\\"../IERC20.sol\\\";\\nimport {IERC1363} from \\\"../../../interfaces/IERC1363.sol\\\";\\n\\n/**\\n * @title SafeERC20\\n * @dev Wrappers around ERC-20 operations that throw on failure (when the token\\n * contract returns false). Tokens that return no value (and instead revert or\\n * throw on failure) are also supported, non-reverting calls are assumed to be\\n * successful.\\n * To use this library you can add a `using SafeERC20 for IERC20;` statement to your contract,\\n * which allows you to call the safe operations as `token.safeTransfer(...)`, etc.\\n */\\nlibrary SafeERC20 {\\n    /**\\n     * @dev An operation with an ERC-20 token failed.\\n     */\\n    error SafeERC20FailedOperation(address token);\\n\\n    /**\\n     * @dev Indicates a failed `decreaseAllowance` request.\\n     */\\n    error SafeERC20FailedDecreaseAllowance(address spender, uint256 currentAllowance, uint256 requestedDecrease);\\n\\n    /**\\n     * @dev Transfer `value` amount of `token` from the calling contract to `to`. If `token` returns no value,\\n     * non-reverting calls are assumed to be successful.\\n     */\\n    function safeTransfer(IERC20 token, address to, uint256 value) internal {\\n        _callOptionalReturn(token, abi.encodeCall(token.transfer, (to, value)));\\n    }\\n\\n    /**\\n     * @dev Transfer `value` amount of `token` from `from` to `to`, spending the approval given by `from` to the\\n     * calling contract. If `token` returns no value, non-reverting calls are assumed to be successful.\\n     */\\n    function safeTransferFrom(IERC20 token, address from, address to, uint256 value) internal {\\n        _callOptionalReturn(token, abi.encodeCall(token.transferFrom, (from, to, value)));\\n    }\\n\\n    /**\\n     * @dev Variant of {safeTransfer} that returns a bool instead of reverting if the operation is not successful.\\n     */\\n    function trySafeTransfer(IERC20 token, address to, uint256 value) internal returns (bool) {\\n        return _callOptionalReturnBool(token, abi.encodeCall(token.transfer, (to, value)));\\n    }\\n\\n    /**\\n     * @dev Variant of {safeTransferFrom} that returns a bool instead of reverting if the operation is not successful.\\n     */\\n    function trySafeTransferFrom(IERC20 token, address from, address to, uint256 value) internal returns (bool) {\\n        return _callOptionalReturnBool(token, abi.encodeCall(token.transferFrom, (from, to, value)));\\n    }\\n\\n    /**\\n     * @dev Increase the calling contract's allowance toward `spender` by `value`. If `token` returns no value,\\n     * non-reverting calls are assumed to be successful.\\n     *\\n     * IMPORTANT: If the token implements ERC-7674 (ERC-20 with temporary allowance), and if the \\\"client\\\"\\n     * smart contract uses ERC-7674 to set temporary allowances, then the \\\"client\\\" smart contract should avoid using\\n     * this function. Performing a {safeIncreaseAllowance} or {safeDecreaseAllowance} operation on a token contract\\n     * that has a non-zero temporary allowance (for that particular owner-spender) will result in unexpected behavior.\\n     */\\n    function safeIncreaseAllowance(IERC20 token, address spender, uint256 value) internal {\\n        uint256 oldAllowance = token.allowance(address(this), spender);\\n        forceApprove(token, spender, oldAllowance + value);\\n    }\\n\\n    /**\\n     * @dev Decrease the calling contract's allowance toward `spender` by `requestedDecrease`. If `token` returns no\\n     * value, non-reverting calls are assumed to be successful.\\n     *\\n     * IMPORTANT: If the token implements ERC-7674 (ERC-20 with temporary allowance), and if the \\\"client\\\"\\n     * smart contract uses ERC-7674 to set temporary allowances, then the \\\"client\\\" smart contract should avoid using\\n     * this function. Performing a {safeIncreaseAllowance} or {safeDecreaseAllowance} operation on a token contract\\n     * that has a non-zero temporary allowance (for that particular owner-spender) will result in unexpected behavior.\\n     */\\n    function safeDecreaseAllowance(IERC20 token, address spender, uint256 requestedDecrease) internal {\\n        unchecked {\\n            uint256 currentAllowance = token.allowance(address(this), spender);\\n            if (currentAllowance < requestedDecrease) {\\n                revert SafeERC20FailedDecreaseAllowance(spender, currentAllowance, requestedDecrease);\\n            }\\n            forceApprove(token, spender, currentAllowance - requestedDecrease);\\n        }\\n    }\\n\\n    /**\\n     * @dev Set the calling contract's allowance toward `spender` to `value`. If `token` returns no value,\\n     * non-reverting calls are assumed to be successful. Meant to be used with tokens that require the approval\\n     * to be set to zero before setting it to a non-zero value, such as USDT.\\n     *\\n     * NOTE: If the token implements ERC-7674, this function will not modify any temporary allowance. This function\\n     * only sets the \\\"standard\\\" allowance. Any temporary allowance will remain active, in addition to the value being\\n     * set here.\\n     */\\n    function forceApprove(IERC20 token, address spender, uint256 value) internal {\\n        bytes memory approvalCall = abi.encodeCall(token.approve, (spender, value));\\n\\n        if (!_callOptionalReturnBool(token, approvalCall)) {\\n            _callOptionalReturn(token, abi.encodeCall(token.approve, (spender, 0)));\\n            _callOptionalReturn(token, approvalCall);\\n        }\\n    }\\n\\n    /**\\n     * @dev Performs an {ERC1363} transferAndCall, with a fallback to the simple {ERC20} transfer if the target has no\\n     * code. This can be used to implement an {ERC721}-like safe transfer that rely on {ERC1363} checks when\\n     * targeting contracts.\\n     *\\n     * Reverts if the returned value is other than `true`.\\n     */\\n    function transferAndCallRelaxed(IERC1363 token, address to, uint256 value, bytes memory data) internal {\\n        if (to.code.length == 0) {\\n            safeTransfer(token, to, value);\\n        } else if (!token.transferAndCall(to, value, data)) {\\n            revert SafeERC20FailedOperation(address(token));\\n        }\\n    }\\n\\n    /**\\n     * @dev Performs an {ERC1363} transferFromAndCall, with a fallback to the simple {ERC20} transferFrom if the target\\n     * has no code. This can be used to implement an {ERC721}-like safe transfer that rely on {ERC1363} checks when\\n     * targeting contracts.\\n     *\\n     * Reverts if the returned value is other than `true`.\\n     */\\n    function transferFromAndCallRelaxed(\\n        IERC1363 token,\\n        address from,\\n        address to,\\n        uint256 value,\\n        bytes memory data\\n    ) internal {\\n        if (to.code.length == 0) {\\n            safeTransferFrom(token, from, to, value);\\n        } else if (!token.transferFromAndCall(from, to, value, data)) {\\n            revert SafeERC20FailedOperation(address(token));\\n        }\\n    }\\n\\n    /**\\n     * @dev Performs an {ERC1363} approveAndCall, with a fallback to the simple {ERC20} approve if the target has no\\n     * code. This can be used to implement an {ERC721}-like safe transfer that rely on {ERC1363} checks when\\n     * targeting contracts.\\n     *\\n     * NOTE: When the recipient address (`to`) has no code (i.e. is an EOA), this function behaves as {forceApprove}.\\n     * Opposedly, when the recipient address (`to`) has code, this function only attempts to call {ERC1363-approveAndCall}\\n     * once without retrying, and relies on the returned value to be true.\\n     *\\n     * Reverts if the returned value is other than `true`.\\n     */\\n    function approveAndCallRelaxed(IERC1363 token, address to, uint256 value, bytes memory data) internal {\\n        if (to.code.length == 0) {\\n            forceApprove(token, to, value);\\n        } else if (!token.approveAndCall(to, value, data)) {\\n            revert SafeERC20FailedOperation(address(token));\\n        }\\n    }\\n\\n    /**\\n     * @dev Imitates a Solidity high-level call (i.e. a regular function call to a contract), relaxing the requirement\\n     * on the return value: the return value is optional (but if data is returned, it must not be false).\\n     * @param token The token targeted by the call.\\n     * @param data The call data (encoded using abi.encode or one of its variants).\\n     *\\n     * This is a variant of {_callOptionalReturnBool} that reverts if call fails to meet the requirements.\\n     */\\n    function _callOptionalReturn(IERC20 token, bytes memory data) private {\\n        uint256 returnSize;\\n        uint256 returnValue;\\n        assembly (\\\"memory-safe\\\") {\\n            let success := call(gas(), token, 0, add(data, 0x20), mload(data), 0, 0x20)\\n            // bubble errors\\n            if iszero(success) {\\n                let ptr := mload(0x40)\\n                returndatacopy(ptr, 0, returndatasize())\\n                revert(ptr, returndatasize())\\n            }\\n            returnSize := returndatasize()\\n            returnValue := mload(0)\\n        }\\n\\n        if (returnSize == 0 ? address(token).code.length == 0 : returnValue != 1) {\\n            revert SafeERC20FailedOperation(address(token));\\n        }\\n    }\\n\\n    /**\\n     * @dev Imitates a Solidity high-level call (i.e. a regular function call to a contract), relaxing the requirement\\n     * on the return value: the return value is optional (but if data is returned, it must not be false).\\n     * @param token The token targeted by the call.\\n     * @param data The call data (encoded using abi.encode or one of its variants).\\n     *\\n     * This is a variant of {_callOptionalReturn} that silently catches all reverts and returns a bool instead.\\n     */\\n    function _callOptionalReturnBool(IERC20 token, bytes memory data) private returns (bool) {\\n        bool success;\\n        uint256 returnSize;\\n        uint256 returnValue;\\n        assembly (\\\"memory-safe\\\") {\\n            success := call(gas(), token, 0, add(data, 0x20), mload(data), 0, 0x20)\\n            returnSize := returndatasize()\\n            returnValue := mload(0)\\n        }\\n        return success && (returnSize == 0 ? address(token).code.length > 0 : returnValue == 1);\\n    }\\n}\\n\",\"keccak256\":\"0x982c5cb790ab941d1e04f807120a71709d4c313ba0bfc16006447ffbd27fbbd5\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.4.0) (utils/introspection/IERC165.sol)\\n\\npragma solidity >=0.4.16;\\n\\n/**\\n * @dev Interface of the ERC-165 standard, as defined in the\\n * https://eips.ethereum.org/EIPS/eip-165[ERC].\\n *\\n * Implementers can declare support of contract interfaces, which can then be\\n * queried by others ({ERC165Checker}).\\n *\\n * For an implementation, see {ERC165}.\\n */\\ninterface IERC165 {\\n    /**\\n     * @dev Returns true if this contract implements the interface defined by\\n     * `interfaceId`. See the corresponding\\n     * https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[ERC section]\\n     * to learn more about how these ids are created.\\n     *\\n     * This function call must use less than 30 000 gas.\\n     */\\n    function supportsInterface(bytes4 interfaceId) external view returns (bool);\\n}\\n\",\"keccak256\":\"0x8891738ffe910f0cf2da09566928589bf5d63f4524dd734fd9cedbac3274dd5c\",\"license\":\"MIT\"},\"contracts/mocks/DestinationExecutorMock.sol\":{\"content\":\"// SPDX-License-Identifier: LZBL-1.2\\n\\npragma solidity ^0.8.20;\\n\\nimport { Ownable } from \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\n\\nimport { IReceiveUlnE2 } from \\\"@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/interfaces/IReceiveUlnE2.sol\\\";\\nimport { ILayerZeroEndpointV2, Origin } from \\\"@layerzerolabs/lz-evm-protocol-v2/contracts/interfaces/ILayerZeroEndpointV2.sol\\\";\\nimport { Transfer } from \\\"@layerzerolabs/lz-evm-protocol-v2/contracts/libs/Transfer.sol\\\";\\n\\nimport { ExecutionState, EndpointV2View } from \\\"@layerzerolabs/lz-evm-protocol-v2/contracts/EndpointV2View.sol\\\";\\n\\nimport { VerificationState } from \\\"@layerzerolabs/lz-evm-messagelib-v2/contracts/uln/uln302/ReceiveUln302View.sol\\\";\\n\\nstruct LzReceiveParam {\\n    Origin origin;\\n    address receiver;\\n    bytes32 guid;\\n    bytes message;\\n    bytes extraData;\\n    uint256 gas;\\n    uint256 value;\\n}\\n\\nstruct NativeDropParam {\\n    address _receiver;\\n    uint256 _amount;\\n}\\n\\ninterface IReceiveUlnView {\\n    function verifiable(bytes calldata _packetHeader, bytes32 _payloadHash) external view returns (VerificationState);\\n}\\n\\ncontract DestinationExecutorMock is Ownable, EndpointV2View {\\n    error LzExecutor_Executed();\\n    error LzExecutor_Verifying();\\n    error LzExecutor_ReceiveLibViewNotSet();\\n\\n    event NativeWithdrawn(address _to, uint256 _amount);\\n    event ReceiveLibViewSet(address _receiveLib, address _receiveLibView);\\n\\n    address public receiveUln302;\\n    uint32 public localEid;\\n\\n    mapping(address receiveLib => address receiveLibView) public receiveLibToView;\\n\\n    constructor(\\n        address _receiveUln302,\\n        address _receiveUln302View,\\n        address _endpoint,\\n        address _initialOwner\\n    ) Ownable(_initialOwner) {\\n        // Initialize EndpointV2View\\n        endpoint = ILayerZeroEndpointV2(_endpoint);\\n\\n        receiveUln302 = _receiveUln302;\\n        localEid = endpoint.eid();\\n        receiveLibToView[_receiveUln302] = _receiveUln302View;\\n    }\\n\\n    // ============================ OnlyOwner ===================================\\n\\n    function withdrawNative(address _to, uint256 _amount) external onlyOwner {\\n        Transfer.native(_to, _amount);\\n        emit NativeWithdrawn(_to, _amount);\\n    }\\n\\n    function setReceiveLibView(address _receiveLib, address _receiveLibView) external onlyOwner {\\n        receiveLibToView[_receiveLib] = _receiveLibView;\\n        emit ReceiveLibViewSet(_receiveLib, _receiveLibView);\\n    }\\n\\n    // ============================ External ===================================\\n\\n    /// @notice process for commit and execute\\n    /// 1. check if executable, revert if executed, execute if executable\\n    /// 2. check if verifiable, revert if verifying, commit if verifiable\\n    /// 3. native drop\\n    /// 4. try execute, will revert if not executable\\n    function commitAndExecute(\\n        address _receiveLib,\\n        LzReceiveParam calldata _lzReceiveParam,\\n        NativeDropParam[] calldata _nativeDropParams\\n    ) external payable {\\n        /// 1. check if executable, revert if executed\\n        ExecutionState executionState = executable(_lzReceiveParam.origin, _lzReceiveParam.receiver);\\n        if (executionState == ExecutionState.Executed) revert LzExecutor_Executed();\\n\\n        /// 2. if not executable, check if verifiable, revert if verifying, commit if verifiable\\n        if (executionState != ExecutionState.Executable) {\\n            address receiveLib = receiveUln302 == address(0x0) ? _receiveLib : address(receiveUln302);\\n            bytes memory packetHeader = abi.encodePacked(\\n                uint8(1), // packet version 1\\n                _lzReceiveParam.origin.nonce,\\n                _lzReceiveParam.origin.srcEid,\\n                _lzReceiveParam.origin.sender,\\n                localEid,\\n                bytes32(uint256(uint160(_lzReceiveParam.receiver)))\\n            );\\n            bytes32 payloadHash = keccak256(abi.encodePacked(_lzReceiveParam.guid, _lzReceiveParam.message));\\n\\n            address receiveLibView = receiveLibToView[receiveLib];\\n            if (receiveLibView == address(0x0)) revert LzExecutor_ReceiveLibViewNotSet();\\n\\n            VerificationState verificationState = IReceiveUlnView(receiveLibView).verifiable(packetHeader, payloadHash);\\n            if (verificationState == VerificationState.Verifiable) {\\n                // verification required\\n                IReceiveUlnE2(receiveLib).commitVerification(packetHeader, payloadHash);\\n            } else if (verificationState == VerificationState.Verifying) {\\n                revert LzExecutor_Verifying();\\n            }\\n        }\\n\\n        /// 3. native drop\\n        for (uint256 i = 0; i < _nativeDropParams.length; i++) {\\n            NativeDropParam calldata param = _nativeDropParams[i];\\n            Transfer.native(param._receiver, param._amount);\\n        }\\n\\n        /// 4. try execute, will revert if not executable\\n        endpoint.lzReceive{ gas: _lzReceiveParam.gas, value: _lzReceiveParam.value }(\\n            _lzReceiveParam.origin,\\n            _lzReceiveParam.receiver,\\n            _lzReceiveParam.guid,\\n            _lzReceiveParam.message,\\n            _lzReceiveParam.extraData\\n        );\\n    }\\n}\\n\",\"keccak256\":\"0x998703f554023d27d9a4db8298a95c5e63911b590d6e53e8f0ed1da43585008b\",\"license\":\"LZBL-1.2\"},\"hardhat-deploy/solc_0.8/proxy/Proxied.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\nabstract contract Proxied {\\n    /// @notice to be used by initialisation / postUpgrade function so that only the proxy's admin can execute them\\n    /// It also allows these functions to be called inside a contructor\\n    /// even if the contract is meant to be used without proxy\\n    modifier proxied() {\\n        address proxyAdminAddress = _proxyAdmin();\\n        // With hardhat-deploy proxies\\n        // the proxyAdminAddress is zero only for the implementation contract\\n        // if the implementation contract want to be used as a standalone/immutable contract\\n        // it simply has to execute the `proxied` function\\n        // This ensure the proxyAdminAddress is never zero post deployment\\n        // And allow you to keep the same code for both proxied contract and immutable contract\\n        if (proxyAdminAddress == address(0)) {\\n            // ensure can not be called twice when used outside of proxy : no admin\\n            // solhint-disable-next-line security/no-inline-assembly\\n            assembly {\\n                sstore(\\n                    0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103,\\n                    0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\\n                )\\n            }\\n        } else {\\n            require(msg.sender == proxyAdminAddress);\\n        }\\n        _;\\n    }\\n\\n    modifier onlyProxyAdmin() {\\n        require(msg.sender == _proxyAdmin(), \\\"NOT_AUTHORIZED\\\");\\n        _;\\n    }\\n\\n    function _proxyAdmin() internal view returns (address ownerAddress) {\\n        // solhint-disable-next-line security/no-inline-assembly\\n        assembly {\\n            ownerAddress := sload(0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103)\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xaaceeafeeaf0d200ca3942d8bf14c1c4f787a77f79cc87c08bb668e65acdee29\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60806040523480156200001157600080fd5b5060405162001751380380620017518339810160408190526200003491620001c7565b806001600160a01b0381166200006457604051631e4fbdf760e01b81526000600482015260240160405180910390fd5b6200006f816200015a565b50600180546001600160a01b038085166001600160a01b0319928316811790935560338054918816919092161790556040805163416ecebf60e01b8152905163416ecebf916004808201926020929091908290030181865afa158015620000da573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019062000100919062000224565b6033805463ffffffff60a01b1916600160a01b63ffffffff939093169290920291909117905550506001600160a01b03918216600090815260346020526040902080546001600160a01b0319169190921617905562000253565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b80516001600160a01b0381168114620001c257600080fd5b919050565b60008060008060808587031215620001de57600080fd5b620001e985620001aa565b9350620001f960208601620001aa565b92506200020960408601620001aa565b91506200021960608601620001aa565b905092959194509250565b6000602082840312156200023757600080fd5b815163ffffffff811681146200024c57600080fd5b9392505050565b6114ee80620002636000396000f3fe6080604052600436106100f35760003560e01c8063861e1ca51161008a578063d73d37c611610059578063d73d37c6146102cf578063dcfdeb60146102ef578063e1e3a7df14610302578063f2fde38b1461032257600080fd5b8063861e1ca51461024c5780638da5cb5b1461027c578063c4d66de81461029a578063cb5026b9146102ba57600080fd5b80636f178835116100c65780636f178835146101a8578063715018a6146101de57806372607537146101f3578063843c7b0e1461022c57600080fd5b806307b18bde146100f85780632baf0be71461011a5780634b4b2efb146101435780635e280f1114610170575b600080fd5b34801561010457600080fd5b50610118610113366004610faa565b610342565b005b34801561012657600080fd5b5061013060001981565b6040519081526020015b60405180910390f35b34801561014f57600080fd5b5061016361015e366004611075565b61039b565b60405161013a91906110bf565b34801561017c57600080fd5b50600154610190906001600160a01b031681565b6040516001600160a01b03909116815260200161013a565b3480156101b457600080fd5b506101906101c33660046110e7565b6034602052600090815260409020546001600160a01b031681565b3480156101ea57600080fd5b506101186105e3565b3480156101ff57600080fd5b5060335461021790600160a01b900463ffffffff1681565b60405163ffffffff909116815260200161013a565b34801561023857600080fd5b50603354610190906001600160a01b031681565b34801561025857600080fd5b5061026c610267366004611075565b6105f7565b604051901515815260200161013a565b34801561028857600080fd5b506000546001600160a01b0316610190565b3480156102a657600080fd5b506101186102b53660046110e7565b610676565b3480156102c657600080fd5b50610130600081565b3480156102db57600080fd5b506101186102ea366004611109565b6107ef565b6101186102fd366004611133565b61085b565b34801561030e57600080fd5b5061026c61031d3660046111e0565b610c4c565b34801561032e57600080fd5b5061011861033d3660046110e7565b610d79565b61034a610dbc565b6103548282610de9565b604080516001600160a01b0384168152602081018390527fc303ca808382409472acbbf899c316cf439f409f6584aae22df86dfa3c9ed50491015b60405180910390a15050565b60015482516020840151604080860151905163c9fc7bcd60e01b81526001600160a01b03868116600483015263ffffffff909416602482015260448101929092526001600160401b031660648201526000928392169063c9fc7bcd90608401602060405180830381865afa158015610417573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061043b919061122c565b9050801580156104e95750600154845160208601516040516305b17bb760e41b81526001600160a01b03878116600483015263ffffffff90931660248201526044810191909152911690635b17bb7090606401602060405180830381865afa1580156104ab573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104cf9190611245565b6001600160401b031684604001516001600160401b031611155b156104f85760039150506105dd565b60001981148015906105a857506001548451602086015160405163283750ff60e21b81526001600160a01b03878116600483015263ffffffff9093166024820152604481019190915291169063a0dd43fc90606401602060405180830381865afa15801561056a573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061058e9190611245565b6001600160401b031684604001516001600160401b031611155b156105b75760029150506105dd565b80158015906105c857506000198114155b156105d75760019150506105dd565b60009150505b92915050565b6105eb610dbc565b6105f56000610e9b565b565b60015460405163861e1ca560e01b81526000916001600160a01b03169063861e1ca59061062a9086908690600401611262565b602060405180830381865afa925050508015610663575060408051601f3d908101601f19168201909252610660918101906112a0565b60015b61066f575060006105dd565b90506105dd565b60006106a07fb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d61035490565b90506001600160a01b0381166106df576001600160a01b037fb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103556106f4565b336001600160a01b038216146106f457600080fd5b60006106fe610eeb565b805490915060ff600160401b82041615906001600160401b03166000811580156107255750825b90506000826001600160401b031660011480156107415750303b155b90508115801561074f575080155b1561076d5760405163f92ee8a960e01b815260040160405180910390fd5b845467ffffffffffffffff19166001178555831561079757845460ff60401b1916600160401b1785555b6107a087610f14565b83156107e657845460ff60401b19168555604051600181527fc7f505b2f371ae2175ee4913f4499e1f2633a7b5936321eed1cdaeb6115181d29060200160405180910390a15b50505050505050565b6107f7610dbc565b6001600160a01b0382811660008181526034602090815260409182902080546001600160a01b031916948616948517905581519283528201929092527f142c46535a86ac791981f3f16bdfd58291f3f03fc3fd111646f3f0e4eb326b63910161038f565b600061087f61086f368690038601866112c2565b61015e60808701606088016110e7565b90506003816003811115610895576108956110a9565b036108b357604051631fe9c3ef60e11b815260040160405180910390fd5b60028160038111156108c7576108c76110a9565b14610b57576033546000906001600160a01b0316156108f1576033546001600160a01b03166108f3565b855b90506000600161090960608801604089016112de565b61091660208901896112fb565b60335460208a013590600160a01b900463ffffffff1661093c60808c0160608d016110e7565b60405160f89690961b6001600160f81b031916602087015260c09490941b6001600160c01b031916602186015260e092831b6001600160e01b03199081166029870152602d86019290925290911b16604d8301526001600160a01b0316605182015260710160408051601f198184030181529190529050600060808701356109c760a0890189611316565b6040516020016109d993929190611363565b60408051601f1981840301815291815281516020928301206001600160a01b038087166000908152603490945291909220549192501680610a2d576040516303776d1560e31b815260040160405180910390fd5b6040516327d12cd960e01b81526000906001600160a01b038316906327d12cd990610a5e908790879060040161137d565b602060405180830381865afa158015610a7b573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610a9f91906113d2565b90506001816003811115610ab557610ab56110a9565b03610b1f57604051630894edf160e01b81526001600160a01b03861690630894edf190610ae8908790879060040161137d565b600060405180830381600087803b158015610b0257600080fd5b505af1158015610b16573d6000803e3d6000fd5b50505050610b51565b6000816003811115610b3357610b336110a9565b03610b51576040516306f5423360e11b815260040160405180910390fd5b50505050505b60005b82811015610ba35736848483818110610b7557610b756113f3565b604002919091019150610b9a9050610b9060208301836110e7565b8260200135610de9565b50600101610b5a565b506001546001600160a01b0316630c0c389e60e086013561010087013587610bd160808201606083016110e7565b60808a0135610be360a08c018c611316565b610bf060c08e018e611316565b6040518a63ffffffff1660e01b8152600401610c129796959493929190611432565b6000604051808303818589803b158015610c2b57600080fd5b5088f1158015610c3f573d6000803e3d6000fd5b5050505050505050505050565b6001548451604051639d7f977560e01b81526001600160a01b03868116600483015263ffffffff909216602482015284821660448201526000929190911690639d7f977590606401602060405180830381865afa158015610cb1573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610cd591906112a0565b610ce157506000610d71565b60015460405163c9a54a9960e01b81526001600160a01b039091169063c9a54a9990610d139088908890600401611262565b602060405180830381865afa158015610d30573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610d5491906112a0565b610d6057506000610d71565b81610d6d57506000610d71565b5060015b949350505050565b610d81610dbc565b6001600160a01b038116610db057604051631e4fbdf760e01b8152600060048201526024015b60405180910390fd5b610db981610e9b565b50565b6000546001600160a01b031633146105f55760405163118cdaa760e01b8152336004820152602401610da7565b6001600160a01b038216610e10576040516306b7a93160e41b815260040160405180910390fd5b6000826001600160a01b03168260405160006040518083038185875af1925050503d8060008114610e5d576040519150601f19603f3d011682016040523d82523d6000602084013e610e62565b606091505b5050905080610e9657604051631196f20d60e21b81526001600160a01b038416600482015260248101839052604401610da7565b505050565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6000807ff0c57e16840df040f15088dc2f81fe391c3923bec73e23a9662efc9c229c6a006105dd565b610f1c610f25565b610db981610f4a565b610f2d610f74565b6105f557604051631afcd79f60e31b815260040160405180910390fd5b610f52610f25565b600180546001600160a01b0319166001600160a01b0392909216919091179055565b6000610f7e610eeb565b54600160401b900460ff16919050565b80356001600160a01b0381168114610fa557600080fd5b919050565b60008060408385031215610fbd57600080fd5b610fc683610f8e565b946020939093013593505050565b803563ffffffff81168114610fa557600080fd5b6001600160401b0381168114610db957600080fd5b60006060828403121561100f57600080fd5b604051606081018181106001600160401b038211171561103f57634e487b7160e01b600052604160045260246000fd5b60405290508061104e83610fd4565b815260208301356020820152604083013561106881610fe8565b6040919091015292915050565b6000806080838503121561108857600080fd5b6110928484610ffd565b91506110a060608401610f8e565b90509250929050565b634e487b7160e01b600052602160045260246000fd5b60208101600483106110e157634e487b7160e01b600052602160045260246000fd5b91905290565b6000602082840312156110f957600080fd5b61110282610f8e565b9392505050565b6000806040838503121561111c57600080fd5b61112583610f8e565b91506110a060208401610f8e565b6000806000806060858703121561114957600080fd5b61115285610f8e565b935060208501356001600160401b038082111561116e57600080fd5b90860190610120828903121561118357600080fd5b9093506040860135908082111561119957600080fd5b818701915087601f8301126111ad57600080fd5b8135818111156111bc57600080fd5b8860208260061b85010111156111d157600080fd5b95989497505060200194505050565b60008060008060c085870312156111f657600080fd5b6112008686610ffd565b935061120e60608601610f8e565b925061121c60808601610f8e565b9396929550929360a00135925050565b60006020828403121561123e57600080fd5b5051919050565b60006020828403121561125757600080fd5b815161110281610fe8565b825163ffffffff168152602080840151908201526040928301516001600160401b0316928101929092526001600160a01b0316606082015260800190565b6000602082840312156112b257600080fd5b8151801515811461110257600080fd5b6000606082840312156112d457600080fd5b6111028383610ffd565b6000602082840312156112f057600080fd5b813561110281610fe8565b60006020828403121561130d57600080fd5b61110282610fd4565b6000808335601e1984360301811261132d57600080fd5b8301803591506001600160401b0382111561134757600080fd5b60200191503681900382131561135c57600080fd5b9250929050565b838152818360208301376000910160200190815292915050565b604081526000835180604084015260005b818110156113ab576020818701810151606086840101520161138e565b506000606082850101526060601f19601f8301168401019150508260208301529392505050565b6000602082840312156113e457600080fd5b81516004811061110257600080fd5b634e487b7160e01b600052603260045260246000fd5b81835281816020850137506000828201602090810191909152601f909101601f19169091010190565b63ffffffff61144089610fd4565b168152602088013560208201526000604089013561145d81610fe8565b6001600160401b031660408301526001600160a01b03881660608301526080820187905260e060a083018190526114979083018688611409565b82810360c08401526114aa818587611409565b9a995050505050505050505056fea2646970667358221220336cf03e51bdb055cbaf96e27a56cd785e0454d14d9faba8ad08a2b87696a12464736f6c63430008160033",
+  "deployedBytecode": "0x6080604052600436106100f35760003560e01c8063861e1ca51161008a578063d73d37c611610059578063d73d37c6146102cf578063dcfdeb60146102ef578063e1e3a7df14610302578063f2fde38b1461032257600080fd5b8063861e1ca51461024c5780638da5cb5b1461027c578063c4d66de81461029a578063cb5026b9146102ba57600080fd5b80636f178835116100c65780636f178835146101a8578063715018a6146101de57806372607537146101f3578063843c7b0e1461022c57600080fd5b806307b18bde146100f85780632baf0be71461011a5780634b4b2efb146101435780635e280f1114610170575b600080fd5b34801561010457600080fd5b50610118610113366004610faa565b610342565b005b34801561012657600080fd5b5061013060001981565b6040519081526020015b60405180910390f35b34801561014f57600080fd5b5061016361015e366004611075565b61039b565b60405161013a91906110bf565b34801561017c57600080fd5b50600154610190906001600160a01b031681565b6040516001600160a01b03909116815260200161013a565b3480156101b457600080fd5b506101906101c33660046110e7565b6034602052600090815260409020546001600160a01b031681565b3480156101ea57600080fd5b506101186105e3565b3480156101ff57600080fd5b5060335461021790600160a01b900463ffffffff1681565b60405163ffffffff909116815260200161013a565b34801561023857600080fd5b50603354610190906001600160a01b031681565b34801561025857600080fd5b5061026c610267366004611075565b6105f7565b604051901515815260200161013a565b34801561028857600080fd5b506000546001600160a01b0316610190565b3480156102a657600080fd5b506101186102b53660046110e7565b610676565b3480156102c657600080fd5b50610130600081565b3480156102db57600080fd5b506101186102ea366004611109565b6107ef565b6101186102fd366004611133565b61085b565b34801561030e57600080fd5b5061026c61031d3660046111e0565b610c4c565b34801561032e57600080fd5b5061011861033d3660046110e7565b610d79565b61034a610dbc565b6103548282610de9565b604080516001600160a01b0384168152602081018390527fc303ca808382409472acbbf899c316cf439f409f6584aae22df86dfa3c9ed50491015b60405180910390a15050565b60015482516020840151604080860151905163c9fc7bcd60e01b81526001600160a01b03868116600483015263ffffffff909416602482015260448101929092526001600160401b031660648201526000928392169063c9fc7bcd90608401602060405180830381865afa158015610417573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061043b919061122c565b9050801580156104e95750600154845160208601516040516305b17bb760e41b81526001600160a01b03878116600483015263ffffffff90931660248201526044810191909152911690635b17bb7090606401602060405180830381865afa1580156104ab573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104cf9190611245565b6001600160401b031684604001516001600160401b031611155b156104f85760039150506105dd565b60001981148015906105a857506001548451602086015160405163283750ff60e21b81526001600160a01b03878116600483015263ffffffff9093166024820152604481019190915291169063a0dd43fc90606401602060405180830381865afa15801561056a573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061058e9190611245565b6001600160401b031684604001516001600160401b031611155b156105b75760029150506105dd565b80158015906105c857506000198114155b156105d75760019150506105dd565b60009150505b92915050565b6105eb610dbc565b6105f56000610e9b565b565b60015460405163861e1ca560e01b81526000916001600160a01b03169063861e1ca59061062a9086908690600401611262565b602060405180830381865afa925050508015610663575060408051601f3d908101601f19168201909252610660918101906112a0565b60015b61066f575060006105dd565b90506105dd565b60006106a07fb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d61035490565b90506001600160a01b0381166106df576001600160a01b037fb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103556106f4565b336001600160a01b038216146106f457600080fd5b60006106fe610eeb565b805490915060ff600160401b82041615906001600160401b03166000811580156107255750825b90506000826001600160401b031660011480156107415750303b155b90508115801561074f575080155b1561076d5760405163f92ee8a960e01b815260040160405180910390fd5b845467ffffffffffffffff19166001178555831561079757845460ff60401b1916600160401b1785555b6107a087610f14565b83156107e657845460ff60401b19168555604051600181527fc7f505b2f371ae2175ee4913f4499e1f2633a7b5936321eed1cdaeb6115181d29060200160405180910390a15b50505050505050565b6107f7610dbc565b6001600160a01b0382811660008181526034602090815260409182902080546001600160a01b031916948616948517905581519283528201929092527f142c46535a86ac791981f3f16bdfd58291f3f03fc3fd111646f3f0e4eb326b63910161038f565b600061087f61086f368690038601866112c2565b61015e60808701606088016110e7565b90506003816003811115610895576108956110a9565b036108b357604051631fe9c3ef60e11b815260040160405180910390fd5b60028160038111156108c7576108c76110a9565b14610b57576033546000906001600160a01b0316156108f1576033546001600160a01b03166108f3565b855b90506000600161090960608801604089016112de565b61091660208901896112fb565b60335460208a013590600160a01b900463ffffffff1661093c60808c0160608d016110e7565b60405160f89690961b6001600160f81b031916602087015260c09490941b6001600160c01b031916602186015260e092831b6001600160e01b03199081166029870152602d86019290925290911b16604d8301526001600160a01b0316605182015260710160408051601f198184030181529190529050600060808701356109c760a0890189611316565b6040516020016109d993929190611363565b60408051601f1981840301815291815281516020928301206001600160a01b038087166000908152603490945291909220549192501680610a2d576040516303776d1560e31b815260040160405180910390fd5b6040516327d12cd960e01b81526000906001600160a01b038316906327d12cd990610a5e908790879060040161137d565b602060405180830381865afa158015610a7b573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610a9f91906113d2565b90506001816003811115610ab557610ab56110a9565b03610b1f57604051630894edf160e01b81526001600160a01b03861690630894edf190610ae8908790879060040161137d565b600060405180830381600087803b158015610b0257600080fd5b505af1158015610b16573d6000803e3d6000fd5b50505050610b51565b6000816003811115610b3357610b336110a9565b03610b51576040516306f5423360e11b815260040160405180910390fd5b50505050505b60005b82811015610ba35736848483818110610b7557610b756113f3565b604002919091019150610b9a9050610b9060208301836110e7565b8260200135610de9565b50600101610b5a565b506001546001600160a01b0316630c0c389e60e086013561010087013587610bd160808201606083016110e7565b60808a0135610be360a08c018c611316565b610bf060c08e018e611316565b6040518a63ffffffff1660e01b8152600401610c129796959493929190611432565b6000604051808303818589803b158015610c2b57600080fd5b5088f1158015610c3f573d6000803e3d6000fd5b5050505050505050505050565b6001548451604051639d7f977560e01b81526001600160a01b03868116600483015263ffffffff909216602482015284821660448201526000929190911690639d7f977590606401602060405180830381865afa158015610cb1573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610cd591906112a0565b610ce157506000610d71565b60015460405163c9a54a9960e01b81526001600160a01b039091169063c9a54a9990610d139088908890600401611262565b602060405180830381865afa158015610d30573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610d5491906112a0565b610d6057506000610d71565b81610d6d57506000610d71565b5060015b949350505050565b610d81610dbc565b6001600160a01b038116610db057604051631e4fbdf760e01b8152600060048201526024015b60405180910390fd5b610db981610e9b565b50565b6000546001600160a01b031633146105f55760405163118cdaa760e01b8152336004820152602401610da7565b6001600160a01b038216610e10576040516306b7a93160e41b815260040160405180910390fd5b6000826001600160a01b03168260405160006040518083038185875af1925050503d8060008114610e5d576040519150601f19603f3d011682016040523d82523d6000602084013e610e62565b606091505b5050905080610e9657604051631196f20d60e21b81526001600160a01b038416600482015260248101839052604401610da7565b505050565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6000807ff0c57e16840df040f15088dc2f81fe391c3923bec73e23a9662efc9c229c6a006105dd565b610f1c610f25565b610db981610f4a565b610f2d610f74565b6105f557604051631afcd79f60e31b815260040160405180910390fd5b610f52610f25565b600180546001600160a01b0319166001600160a01b0392909216919091179055565b6000610f7e610eeb565b54600160401b900460ff16919050565b80356001600160a01b0381168114610fa557600080fd5b919050565b60008060408385031215610fbd57600080fd5b610fc683610f8e565b946020939093013593505050565b803563ffffffff81168114610fa557600080fd5b6001600160401b0381168114610db957600080fd5b60006060828403121561100f57600080fd5b604051606081018181106001600160401b038211171561103f57634e487b7160e01b600052604160045260246000fd5b60405290508061104e83610fd4565b815260208301356020820152604083013561106881610fe8565b6040919091015292915050565b6000806080838503121561108857600080fd5b6110928484610ffd565b91506110a060608401610f8e565b90509250929050565b634e487b7160e01b600052602160045260246000fd5b60208101600483106110e157634e487b7160e01b600052602160045260246000fd5b91905290565b6000602082840312156110f957600080fd5b61110282610f8e565b9392505050565b6000806040838503121561111c57600080fd5b61112583610f8e565b91506110a060208401610f8e565b6000806000806060858703121561114957600080fd5b61115285610f8e565b935060208501356001600160401b038082111561116e57600080fd5b90860190610120828903121561118357600080fd5b9093506040860135908082111561119957600080fd5b818701915087601f8301126111ad57600080fd5b8135818111156111bc57600080fd5b8860208260061b85010111156111d157600080fd5b95989497505060200194505050565b60008060008060c085870312156111f657600080fd5b6112008686610ffd565b935061120e60608601610f8e565b925061121c60808601610f8e565b9396929550929360a00135925050565b60006020828403121561123e57600080fd5b5051919050565b60006020828403121561125757600080fd5b815161110281610fe8565b825163ffffffff168152602080840151908201526040928301516001600160401b0316928101929092526001600160a01b0316606082015260800190565b6000602082840312156112b257600080fd5b8151801515811461110257600080fd5b6000606082840312156112d457600080fd5b6111028383610ffd565b6000602082840312156112f057600080fd5b813561110281610fe8565b60006020828403121561130d57600080fd5b61110282610fd4565b6000808335601e1984360301811261132d57600080fd5b8301803591506001600160401b0382111561134757600080fd5b60200191503681900382131561135c57600080fd5b9250929050565b838152818360208301376000910160200190815292915050565b604081526000835180604084015260005b818110156113ab576020818701810151606086840101520161138e565b506000606082850101526060601f19601f8301168401019150508260208301529392505050565b6000602082840312156113e457600080fd5b81516004811061110257600080fd5b634e487b7160e01b600052603260045260246000fd5b81835281816020850137506000828201602090810191909152601f909101601f19169091010190565b63ffffffff61144089610fd4565b168152602088013560208201526000604089013561145d81610fe8565b6001600160401b031660408301526001600160a01b03881660608301526080820187905260e060a083018190526114979083018688611409565b82810360c08401526114aa818587611409565b9a995050505050505050505056fea2646970667358221220336cf03e51bdb055cbaf96e27a56cd785e0454d14d9faba8ad08a2b87696a12464736f6c63430008160033",
+  "devdoc": {
+    "errors": {
+      "InvalidInitialization()": [
+        {
+          "details": "The contract is already initialized."
+        }
+      ],
+      "NotInitializing()": [
+        {
+          "details": "The contract is not initializing."
+        }
+      ],
+      "OwnableInvalidOwner(address)": [
+        {
+          "details": "The owner is not a valid owner account. (eg. `address(0)`)"
+        }
+      ],
+      "OwnableUnauthorizedAccount(address)": [
+        {
+          "details": "The caller account is not authorized to perform an operation."
+        }
+      ]
+    },
+    "events": {
+      "Initialized(uint64)": {
+        "details": "Triggered when the contract has been initialized or reinitialized."
+      }
+    },
+    "kind": "dev",
+    "methods": {
+      "executable((uint32,bytes32,uint64),address)": {
+        "details": "check if a message is executable.",
+        "returns": {
+          "_0": "ExecutionState of Executed, Executable, or NotExecutable"
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      },
+      "verifiable((uint32,bytes32,uint64),address,address,bytes32)": {
+        "details": "check if a message is verifiable."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "commitAndExecute(address,((uint32,bytes32,uint64),address,bytes32,bytes,bytes,uint256,uint256),(address,uint256)[])": {
+        "notice": "process for commit and execute 1. check if executable, revert if executed, execute if executable 2. check if verifiable, revert if verifying, commit if verifiable 3. native drop 4. try execute, will revert if not executable"
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 5982,
+        "contract": "contracts/mocks/DestinationExecutorMock.sol:DestinationExecutorMock",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 1178,
+        "contract": "contracts/mocks/DestinationExecutorMock.sol:DestinationExecutorMock",
+        "label": "endpoint",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_contract(ILayerZeroEndpointV2)1566"
+      },
+      {
+        "astId": 1362,
+        "contract": "contracts/mocks/DestinationExecutorMock.sol:DestinationExecutorMock",
+        "label": "__gap",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_array(t_uint256)49_storage"
+      },
+      {
+        "astId": 7684,
+        "contract": "contracts/mocks/DestinationExecutorMock.sol:DestinationExecutorMock",
+        "label": "receiveUln302",
+        "offset": 0,
+        "slot": "51",
+        "type": "t_address"
+      },
+      {
+        "astId": 7686,
+        "contract": "contracts/mocks/DestinationExecutorMock.sol:DestinationExecutorMock",
+        "label": "localEid",
+        "offset": 20,
+        "slot": "51",
+        "type": "t_uint32"
+      },
+      {
+        "astId": 7690,
+        "contract": "contracts/mocks/DestinationExecutorMock.sol:DestinationExecutorMock",
+        "label": "receiveLibToView",
+        "offset": 0,
+        "slot": "52",
+        "type": "t_mapping(t_address,t_address)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_uint256)49_storage": {
+        "base": "t_uint256",
+        "encoding": "inplace",
+        "label": "uint256[49]",
+        "numberOfBytes": "1568"
+      },
+      "t_contract(ILayerZeroEndpointV2)1566": {
+        "encoding": "inplace",
+        "label": "contract ILayerZeroEndpointV2",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_address,t_address)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => address)",
+        "numberOfBytes": "32",
+        "value": "t_address"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint32": {
+        "encoding": "inplace",
+        "label": "uint32",
+        "numberOfBytes": "4"
+      }
+    }
+  }
+}
