@@ -173,8 +173,10 @@ const QRDisplay = ({
           transition={{ delay: 0.05, duration: 0.6 }}
         >
           <h3 className="text-xl font-bold text-white/90">Payment Claim Summary</h3>
-          <p className="text-lg text-white/80 font-medium">Review your preferences and claim funds from both chains</p>
-          
+          <p className="text-lg text-white/80 font-medium">Please review and confirm your payment preferences</p>
+          <p className="text-lg font-semibold text-white/90">
+            Claim Amount: $100.00
+          </p>
         </motion.div>
       
         {qrDataUrl && (

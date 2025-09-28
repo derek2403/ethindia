@@ -93,7 +93,7 @@ export default function Transfer() {
   const [pricesLoading, setPricesLoading] = useState(true);
   const [pricesError, setPricesError] = useState(null);
   const [portfolioData, setPortfolioData] = useState(null);
-  const [merchant, setMerchant] = useState('');
+  const [merchant, setMerchant] = useState('0x9787cfF89D30bB6Ae87Aaad9B3a02E77B5caA8f1');
   const [relayStatus, setRelayStatus] = useState('');
   const [txResults, setTxResults] = useState(null);
   
@@ -514,7 +514,6 @@ export default function Transfer() {
               transferStatus={relayStatus}
               txResults={txResults}
               merchant={merchant}
-              setMerchant={setMerchant}
               isConnected={isConnected}
               account={account}
             />
