@@ -603,6 +603,7 @@ const MerchantPage = () => {
         totalAllocation={totalAllocation}
         address={address}
         resetSelection={resetSelection}
+        showClaimSuccess={showClaimSuccess}
       />
       
       <SimpleQRDisplay

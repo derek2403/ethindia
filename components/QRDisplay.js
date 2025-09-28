@@ -52,7 +52,8 @@ const QRDisplay = ({
   tokensByChain,
   totalAllocation, 
   address, 
-  resetSelection 
+  resetSelection,
+  showClaimSuccess 
 }) => {
   const { isConnected } = useAccount()
   const [isWithdrawing, setIsWithdrawing] = useState(false)
@@ -140,10 +141,26 @@ const QRDisplay = ({
       await arbitrumTx.wait();
       console.log("✅ Withdrawal completed on both chains!");
       
-      // Success - close modal and reset
-      alert("🎉 Successfully withdrawn from both Sepolia and Arbitrum!");
+      // Success - close modal and show success modal
       setShowQRModal(false);
-      resetSelection();
+      
+      // Show success modal with claim details
+      if (showClaimSuccess) {
+        showClaimSuccess({
+          amount: 'Multiple',
+          token: 'Tokens',
+          tokenIcon: '/icons/ethereum-eth-logo.svg',
+          chain: 'Multi-chain',
+          chainIcon: '/icons/ethereum-eth-logo.svg',
+          txHash: arbitrumTx.hash,
+          explorerUrl: `https://sepolia.arbiscan.io/tx/${arbitrumTx.hash}`
+        });
+      }
+      
+      // Reset after a delay to let user see success modal
+      setTimeout(() => {
+        resetSelection();
+      }, 1000);
       
     } catch (error) {
       console.error("All chains withdrawal failed:", error);
