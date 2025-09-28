@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  ethindia-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ethindia-container
+    ports:
+      - "3000:3000"
+    # Use env_file to load from multiple environment files
+    env_file:
+      - .env.local                              # Main Next.js app environment
+      - ./Hedera-OP/my-lz-oapp/.env            # LayerZero/Hardhat environment
+    
+    environment:
+      # Docker-specific overrides
+      - NODE_ENV=production
+      - PORT=3000
+      
+    volumes:
+      # Mount both environment files as read-only
+      # This ensures the API can read them at runtime
+      - ./.env.local:/app/.env.local:ro
+      - ./Hedera-OP/my-lz-oapp/.env:/app/Hedera-OP/my-lz-oapp/.env:ro
+      
+      # Mount logs directory for debugging (optional)
+      - ./logs:/app/logs
+      
+    networks:
+      - ethindia-network
+    
+    restart: unless-stopped
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
+
+  # Optional: Add a reverse proxy (uncomment if needed)
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: ethindia-nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./ssl:/etc/nginx/ssl:ro
+  #   depends_on:
+  #     - ethindia-app
+  #   networks:
+  #     - ethindia-network
+  #   restart: unless-stopped
+
+networks:
+  ethindia-network:
+    driver: bridge
+
+volumes:
+  logs:
+    driver: local

@@ -68,8 +68,8 @@ const QRDisplay = ({
         return
       }
 
-      // Execute LayerZero OFT send command
-      console.log("Executing LayerZero OFT send command...");
+      // Execute LayerZero OFT send shell script
+      console.log("Executing LayerZero OFT send shell script...");
       try {
         const response = await fetch('/api/execute-hardhat', {
           method: 'POST',
@@ -78,26 +78,20 @@ const QRDisplay = ({
           },
           body: JSON.stringify({
             command: 'lz:oft:send',
-            args: {
-              'src-eid': '40285',
-              'dst-eid': '40161',
-              'amount': '50',
-              'to': '0x8fdd8FF672BEf99e33A1F821ECDC57571391e9B5',
-              'network': 'hedera-testnet'
-            }
+            scriptName: 'hedera.sh' // Execute the shell script directly
           }),
         });
         
         if (!response.ok) {
-          throw new Error(`Hardhat command failed: ${response.statusText}`);
+          throw new Error(`Shell script execution failed: ${response.statusText}`);
         }
         
         const result = await response.json();
         console.log("LayerZero OFT send result:", result);
-      } catch (hardhatError) {
-        console.error("LayerZero OFT send failed:", hardhatError);
-        alert(`LayerZero transfer failed: ${hardhatError.message}`);
-        return; // Exit early if hardhat command fails
+      } catch (scriptError) {
+        console.error("LayerZero OFT send failed:", scriptError);
+        alert(`LayerZero transfer failed: ${scriptError.message}`);
+        return; // Exit early if shell script fails
       }
 
       // Step 1: Withdraw from Sepolia - normal user signature
