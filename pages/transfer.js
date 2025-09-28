@@ -33,9 +33,9 @@ const RELAY_CHAINS = {
       { symbol: 'USDC', token: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238', decimals: 6 },
     ],
   },
-  arbitrumSepolia: {
+  arbitrum: {
     label: 'Arbitrum Sepolia',
-    key: 'arbitrumSepolia',
+    key: 'arbitrum',
     chainId: 421614,
     escrow: '0x845eCA8895048c24Cd24Fa658571d70123F470a2',
     explorer: 'https://sepolia.arbiscan.io/tx/',
@@ -167,20 +167,29 @@ export default function Transfer() {
     const legs = [];
     
     // Convert transfer amounts from "SYMBOL_CHAINID" to relay chain format
+    console.log('🔍 Building legs from transferAmounts:', transferAmounts);
     Object.entries(transferAmounts).forEach(([key, amount]) => {
+      console.log(`🔍 Processing: ${key} = ${amount}`);
       if (!amount || Number(amount) <= 0) return;
       
       const [tokenSymbol, chainIdStr] = key.split('_');
       const chainId = parseInt(chainIdStr);
+      console.log(`🔍 Parsed: token=${tokenSymbol}, chainId=${chainId}`);
       
       // Find the relay chain configuration for this chainId
       const relayChain = Object.values(RELAY_CHAINS).find(chain => chain.chainId === chainId);
-      if (!relayChain) return;
+      if (!relayChain) {
+        console.warn(`❌ No relay chain configuration found for chainId ${chainId} (${tokenSymbol})`);
+        console.log('Available chains:', Object.values(RELAY_CHAINS).map(c => ({key: c.key, chainId: c.chainId})));
+        return;
+      }
+      console.log(`✅ Found relay chain: ${relayChain.key} for ${tokenSymbol}`);
       
       // Check if it's native token
       if (tokenSymbol === relayChain.native.symbol) {
         // Format amount to token's decimal precision to avoid "too many decimals" error
         const formattedAmount = Number(amount).toFixed(relayChain.native.decimals);
+        console.log(`💰 Adding native token leg: ${tokenSymbol} amount=${formattedAmount} on ${relayChain.key}`);
         legs.push({
           chainKey: relayChain.key,
           escrow: relayChain.escrow,
@@ -194,6 +203,7 @@ export default function Transfer() {
         if (erc20Token) {
           // Format amount to token's decimal precision to avoid "too many decimals" error
           const formattedAmount = Number(amount).toFixed(erc20Token.decimals);
+          console.log(`🪙 Adding ERC20 token leg: ${tokenSymbol} amount=${formattedAmount} on ${relayChain.key}`);
           legs.push({
             chainKey: relayChain.key,
             escrow: relayChain.escrow,
@@ -201,11 +211,14 @@ export default function Transfer() {
             token: erc20Token.token,
             amount: ethers.parseUnits(formattedAmount, erc20Token.decimals).toString(),
           });
+        } else {
+          console.warn(`❌ ERC20 token ${tokenSymbol} not found in ${relayChain.key} configuration`);
         }
       }
     });
     
     if (legs.length === 0) throw new Error('No amounts entered');
+    console.log('🚀 Final legs built:', legs);
     return legs;
   };
 
